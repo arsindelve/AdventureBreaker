@@ -1,0 +1,155 @@
+{
+  "generated": "2026-06-21T23:54:22Z",
+  "issues": [
+    {
+      "number": 223,
+      "title": "Floyd tell-a-story WALK line",
+      "areas": [
+        "MECH:floyd-scenes"
+      ]
+    },
+    {
+      "number": 222,
+      "title": "Floyd lower-elevator-card odds",
+      "areas": [
+        "MECH:access-cards",
+        "MECH:elevators",
+        "Lower Elevator"
+      ]
+    },
+    {
+      "number": 220,
+      "title": "can't oil Floyd",
+      "areas": [
+        "MECH:floyd-scenes"
+      ]
+    },
+    {
+      "number": 219,
+      "title": "survival kit EMPTY/SHAKE",
+      "areas": [
+        "MECH:survival-hunger-thirst"
+      ]
+    },
+    {
+      "number": 213,
+      "title": "Blather arrest mechanic",
+      "areas": [
+        "Brig"
+      ]
+    },
+    {
+      "number": 212,
+      "title": "auto-close/elevator timings",
+      "areas": [
+        "MECH:elevators"
+      ]
+    },
+    {
+      "number": 211,
+      "title": "magnet doesn't scramble cards",
+      "areas": [
+        "MECH:access-cards"
+      ]
+    },
+    {
+      "number": 204,
+      "title": "escape pod safety web penalty",
+      "areas": [
+        "Escape Pod"
+      ]
+    },
+    {
+      "number": 203,
+      "title": "Floyd SHOW reactions",
+      "areas": [
+        "MECH:floyd-scenes"
+      ]
+    },
+    {
+      "number": 120,
+      "title": "finish floyd prompts",
+      "areas": [
+        "MECH:floyd-conversation"
+      ]
+    },
+    {
+      "number": 116,
+      "title": "sickness/diminishing health",
+      "areas": [
+        "MECH:survival-hunger-thirst"
+      ]
+    },
+    {
+      "number": 113,
+      "title": "miniaturization monster",
+      "areas": [
+        "MECH:miniaturization"
+      ]
+    },
+    {
+      "number": 210,
+      "title": "Stream View / In-Stream rooms missing",
+      "areas": [
+        "Reservoir"
+      ]
+    },
+    {
+      "number": 198,
+      "title": "exorcism requires lit candles",
+      "areas": [
+        "Land of the Dead"
+      ]
+    },
+    {
+      "number": 197,
+      "title": "combat simplified",
+      "areas": [
+        "MECH:combat-troll-thief",
+        "The Troll Room"
+      ]
+    },
+    {
+      "number": 196,
+      "title": "thief loot/egg fidelity",
+      "areas": [
+        "MECH:combat-troll-thief"
+      ]
+    },
+    {
+      "number": 195,
+      "title": "thief doesn't wander",
+      "areas": [
+        "MECH:combat-troll-thief"
+      ]
+    },
+    {
+      "number": 191,
+      "title": "White Cliffs paths in boat",
+      "areas": [
+        "White Cliffs Beach"
+      ]
+    },
+    {
+      "number": 87,
+      "title": "Reservoir North drowning",
+      "areas": [
+        "Reservoir North"
+      ]
+    },
+    {
+      "number": 36,
+      "title": "maze skeleton",
+      "areas": [
+        "MECH:maze"
+      ]
+    },
+    {
+      "number": 17,
+      "title": "altar death differs",
+      "areas": [
+        "Altar"
+      ]
+    }
+  ]
+}
