@@ -34,11 +34,43 @@
    ```bash
    cd <repo>
    export AB_RUNS_DIR=runs
+   export AB_TARGET_SHA=$(cd ../ZorkAI && git rev-parse --short origin/main)  # for staleness tracking
    python3 -m adventurebreaker.harness new --game zork --target prod --name resume
    python3 -m adventurebreaker.harness spine-run --count 6        # narrator OFF, cheap
    ```
    Expect: West Of House → … → Kitchen (score 10). Stdlib-only, no install needed.
-3. **Pick up probing** where the last run left off (next ideas in "Backlog").
+3. **Ask the coverage ledger what to test next** (see "Coverage ledger" below) —
+   `frontier` tells you the untested avenues so you never re-walk old ground:
+   ```bash
+   python3 -m adventurebreaker.harness frontier --game planetfall --top 25
+   ```
+4. **Probe those avenues.** Coverage accrues automatically as you `play`/`quiet`/
+   `spine-run`. When done, `roll-up`, then commit `coverage/` so it persists.
+
+## Coverage ledger (persistent across runs)
+
+`runs/` is gitignored and the container is ephemeral, so coverage lives in the
+**committed** `coverage/` dir and the harness computes the untested frontier:
+
+- `coverage/journal.jsonl` — append-only event log (auto-written by every probe).
+- `coverage/areas.json` — the universe of areas (locations + `MECH:*` mechanics).
+- `coverage/state.json`, `MAP.md` — rolled-up status (regenerate with `roll-up`).
+- `coverage/findings.jsonl` / `FINDINGS.md` — **durable** findings (stable `AB-NNN`
+  ids + status: open / filed#NNN / fixed#NNN). These survive container death.
+- `coverage/known_issues.json` — snapshot of open GH issues, area-tagged, so the
+  frontier de-prioritizes known areas and you never re-file. Refresh each session
+  with `import-issues --file <json>` (build the JSON from the GitHub MCP issue list).
+
+Commands: `frontier [--game] [--top N]`, `cover --category C [--area A] [--result]`
+(for categories a command verb can't reveal — narrator-hallucination, character-break…),
+`roll-up`, `import-issues`, and `finding … [--area A] [--issue N]` (now also writes
+the durable ledger). **Staleness:** every event records `AB_TARGET_SHA`; once `main`
+advances, a previously-clean cell re-opens in the frontier, so fixes/new code get
+re-tested and prod-lag never banks a stale "clean".
+
+**CRITICAL (prod lags `main`):** prod can be ~dozens of PRs behind `main`. Always
+confirm a prod-observed bug against current `origin/main` source before filing —
+it may already be fixed-but-undeployed (e.g. #230 was fixed by #232 same day).
 
 ## Repo layout
 

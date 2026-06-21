@@ -23,7 +23,7 @@ import sys
 from dataclasses import asdict
 from pathlib import Path
 
-from . import config, oracles
+from . import config, coverage, oracles
 from .client import ApiClient
 from .ledger import Run, RUNS_DIR
 from .models import GameResponse
@@ -112,6 +112,18 @@ def _record_and_judge(run: Run, command: str, narrator: bool, result, *,
     if g is not None:
         run.last_response = g.raw
     run.save()
+
+    # Passive auto-cover: every probe accrues coverage durably (committed), so
+    # the next run's `frontier` knows what's already been walked.
+    worst = "clean"
+    for h in hits:
+        if oracles.SEVERITIES.index(h.severity) > (
+                oracles.SEVERITIES.index(worst) if worst in oracles.SEVERITIES else -1):
+            worst = h.severity
+    coverage.log_event(
+        game=run.game, target=run.target, run_id=run.name,
+        session_id=run.session_id, area=(g.location_name if g else None),
+        command=command, result=("hit" if hits else "clean"), severity=worst)
     return g, hits
 
 
@@ -267,8 +279,71 @@ def cmd_finding(args):
         "repro": args.repro or "",
     }
     run.add_finding(finding)
-    print(f"recorded [{args.severity}] {args.title}")
-    print(f"ledger: {run.dir / 'findings.md'}")
+
+    # Persist durably (coverage/ is committed, runs/ is ephemeral) and mark the
+    # coverage cell so `frontier` stops surfacing an area we've already broken.
+    fid = coverage.record_finding({
+        "game": run.game, "target": run.target,
+        "area": args.area or (g.location_name if g else None),
+        "category": args.category, "severity": args.severity,
+        "title": args.title, "detail": args.detail or "", "command": args.command,
+        "status": (f"filed#{args.issue}" if args.issue else "open"),
+    })
+    coverage.log_event(
+        game=run.game, target=run.target, run_id=run.name, session_id=run.session_id,
+        area=args.area or (g.location_name if g else None), command=args.command or "",
+        result="hit", severity=args.severity, category=args.category, finding_id=fid)
+    print(f"recorded [{args.severity}] {args.title}  ({fid})")
+    print(f"per-run ledger: {run.dir / 'findings.md'}")
+    print(f"durable ledger: {coverage.COVERAGE_DIR / 'FINDINGS.md'}")
+
+
+def cmd_cover(args):
+    """Explicitly record a coverage event with a precise category (categories the
+    command verb can't reveal: narrator-hallucination, character-break, etc.)."""
+    run = _load_run(args.run)
+    g = GameResponse.from_json(run.last_response) if run.last_response else None
+    coverage.log_event(
+        game=run.game, target=run.target, run_id=run.name, session_id=run.session_id,
+        area=args.area or (g.location_name if g else None),
+        command=args.command or "", result=args.result, severity=args.severity,
+        category=args.category)
+    print(f"covered: {run.game} / {args.area or (g.location_name if g else '?')} "
+          f"/ {args.category} -> {args.result}")
+
+
+def cmd_frontier(args):
+    game = args.game or _load_run(args.run).game
+    rows = coverage.frontier(game, top=args.top)
+    if not rows:
+        print(f"frontier[{game}]: nothing untested (or no areas seeded). "
+              "Run `roll-up` or seed coverage/areas.json.")
+        return
+    print(f"frontier[{game}] — next {len(rows)} avenue(s) to test "
+          f"(target_sha {coverage._target_sha()}):")
+    for r in rows:
+        flag = " (known-issue area)" if r.get("known_issue") else ""
+        print(f"  [{r['priority']}] {r['area']:<26} {r['category']:<24} "
+              f"{r['reason']}{flag}")
+
+
+def cmd_rollup(args):
+    state = coverage.rollup()
+    cells = state["cells"]
+    print(f"rolled up {len(coverage.load_journal())} event(s) -> {len(cells)} cell(s)")
+    print(f"map:      {coverage.COVERAGE_DIR / 'MAP.md'}")
+    print(f"state:    {coverage.COVERAGE_DIR / 'state.json'}")
+
+
+def cmd_import_issues(args):
+    """Read a JSON array of open issues from stdin (or --file) and snapshot it so
+    the frontier de-prioritizes already-known areas. Items: {number,title,areas}."""
+    raw = Path(args.file).read_text() if args.file else sys.stdin.read()
+    issues = json.loads(raw)
+    if isinstance(issues, dict):
+        issues = issues.get("issues", [])
+    n = coverage.import_issues(issues)
+    print(f"imported {n} known issue(s) -> {coverage.COVERAGE_DIR / 'known_issues.json'}")
 
 
 def cmd_report(args):
@@ -329,8 +404,28 @@ def build_parser():
     sp.add_argument("--evidence", default="")
     sp.add_argument("--command", default=None)
     sp.add_argument("--repro", default="")
+    sp.add_argument("--area", default=None, help="coverage area (defaults to current location)")
+    sp.add_argument("--issue", default=None, help="GitHub issue number once filed")
 
     sub.add_parser("report").set_defaults(func=cmd_report)
+
+    # -- coverage (persistent, cross-run) -----------------------------------
+    sp = sub.add_parser("cover"); sp.set_defaults(func=cmd_cover)
+    sp.add_argument("--category", required=True, choices=coverage.CATEGORIES)
+    sp.add_argument("--result", default="clean", choices=["clean", "hit", "na"])
+    sp.add_argument("--severity", default="clean")
+    sp.add_argument("--area", default=None)
+    sp.add_argument("--command", default=None)
+
+    sp = sub.add_parser("frontier"); sp.set_defaults(func=cmd_frontier)
+    sp.add_argument("--game", default=None, choices=list(config.GAME_BACKENDS))
+    sp.add_argument("--top", type=int, default=25)
+
+    sub.add_parser("roll-up").set_defaults(func=cmd_rollup)
+
+    sp = sub.add_parser("import-issues"); sp.set_defaults(func=cmd_import_issues)
+    sp.add_argument("--file", default=None, help="JSON file (default: stdin)")
+
     return p
 
 
