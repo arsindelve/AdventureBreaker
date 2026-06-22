@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T17:31:24Z · 13 finding(s)_
+_Generated 2026-06-22T18:02:25Z · 15 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -8,6 +8,13 @@ _Generated 2026-06-22T17:31:24Z · 13 finding(s)_
 - command: `god mode take cardboard box -> empty box`
 
 Repository.LoadAllItems and LoadAllLocations do '_allItems = new Dictionary<...>()' then create each instance via Activator.CreateInstance WITHOUT calling Init(). god mode Take/Go call these, so: (1) items come back missing their Init() state - 'god mode take cardboard box' yields an EMPTY box on a fresh prod run, though CardboardBox.Init StartWithItemInside GoodBedistor + K/BSeriesMegafuse + CrackedFromitzBoard; (2) replacing the dict discards the restored state of all other items/locations, scrambling an in-progress session. This also caused the false-alarm 'bedistor noun collision' (god mode's Repository.GetItem lacks the precise-matching/disambiguation the real SimpleInteractionEngine parser uses, so it grabbed the fused bedistor). Blocks god-mode-based testing of any Init-dependent item/container. Fix: call Init() on created instances and/or only add missing types instead of replacing the dict (mirror GetLocation<T> which Init()s on creation). Verified in origin/main c31e9ec.
+
+## AB-015 [HIGH] Production HTTP 500 on multi-clause input 'look examine bulkhead open bulkhead'  · _open_
+
+- game `planetfall` · area `Deck Nine / multi-clause command parsing (production)` · category `other` · target_sha `unknown`
+- command: `look examine bulkhead open bulkhead`
+
+Black-box: against Planetfall prod (6kvs9n5pj4...), the single input 'look examine bulkhead open bulkhead' returns HTTP 500 (no body) from a FRESH session at move 0, reproducibly. The server should return a graceful parse failure, not a 500. Near-variants all return 200: 'examine bulkhead open bulkhead', 'look open bulkhead', 'look examine bulkhead open', 'x bulkhead open bulkhead', 'look examine examine examine' -> all 200. Trigger is the specific 3-clause shape look + examine<noun> + open<noun>.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
@@ -43,6 +50,13 @@ MultiNounEngine.IsItemHere uses raw context/location.HasMatchingNoun (containmen
 - command: `take all; drop them -> 'What item are you referring to?'`
 
 context.LastNoun is a single noun string; 'them' only honored for a single IPluralNoun (no collection). MoveEngine/MultiNounEngine clear LastNoun unconditionally, so 'take lantern; east; drop it' fails though still carried. Deterministic @8175684. Filed zork#248.
+
+## AB-014 [MEDIUM] Bio-lock: 'Floyd is dead' message repeats every turn after he dies trapped in the lab  · _open_
+
+- game `planetfall` · area `Bio Lock East / Floyd lab sacrifice (non-solution: never reopen door)` · category `puzzle-step` · target_sha `unknown`
+- command: `wait (x3) in BioLockEast with LabSequenceState=NeedToReopenDoor`
+
+If the player never reopens the bio-lock door after Floyd knocks (NeedToReopenDoor state), Floyd dies. But the state stays NeedToReopenDoor and BioLockEast remains a registered actor, so the death announcement 'You hear a final metallic scream... Floyd is dead.' re-fires on EVERY subsequent turn forever. Player-death non-solution paths are clean (DeathProcessor resets); only this Floyd-dies path leaks.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
