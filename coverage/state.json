@@ -1,6 +1,6 @@
 {
-  "generated": "2026-06-22T16:51:18Z",
-  "target_sha": "8175684",
+  "generated": "2026-06-22T17:25:07Z",
+  "target_sha": "unknown",
   "cells": {
     "planetfall|Course Control|other": {
       "game": "planetfall",
@@ -891,6 +891,109 @@
       "finding_ids": [
         "AB-010"
       ]
+    },
+    "zork|West Of House|container": {
+      "game": "zork",
+      "area": "West Of House",
+      "category": "container",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T17:04:19Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "zork|South of House|movement": {
+      "game": "zork",
+      "area": "South of House",
+      "category": "movement",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T17:04:20Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "zork|South of House|other": {
+      "game": "zork",
+      "area": "South of House",
+      "category": "other",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T17:04:21Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "zork|MECH:get-post-parity|get-post-parity": {
+      "game": "zork",
+      "area": "MECH:get-post-parity",
+      "category": "get-post-parity",
+      "count": 1,
+      "best_severity": "low",
+      "last_ts": "2026-06-22T17:06:04Z",
+      "last_target_sha": "8175684",
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-011"
+      ]
+    },
+    "planetfall|Library|other": {
+      "game": "planetfall",
+      "area": "Library",
+      "category": "other",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T17:10:06Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Library|examine-scenery": {
+      "game": "planetfall",
+      "area": "Library",
+      "category": "examine-scenery",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T17:10:25Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Library|container": {
+      "game": "planetfall",
+      "area": "Library",
+      "category": "container",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T17:10:18Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|MECH:computer-terminal|puzzle-step": {
+      "game": "planetfall",
+      "area": "MECH:computer-terminal",
+      "category": "puzzle-step",
+      "count": 1,
+      "best_severity": "low",
+      "last_ts": "2026-06-22T17:16:24Z",
+      "last_target_sha": "8175684",
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-012"
+      ]
+    },
+    "planetfall|RecArea / Conference Room (dial combination lock)|puzzle-step": {
+      "game": "planetfall",
+      "area": "RecArea / Conference Room (dial combination lock)",
+      "category": "puzzle-step",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T17:24:37Z",
+      "last_target_sha": "unknown",
+      "last_result": "clean",
+      "finding_ids": []
     }
   }
 }

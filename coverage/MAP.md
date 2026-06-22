@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-22T16:51:18Z · target_sha `8175684`_
+_Generated 2026-06-22T17:25:07Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -38,7 +38,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Kalamontee Platform | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kitchen | 3/16 | clean | `8175684` | - |
 | Lawanda Platform | 0/16 | clean | `-` | - |  ⬅ untouched
-| Library | 0/16 | clean | `-` | - |  ⬅ untouched
+| Library | 3/16 | clean | `8175684` | - |
 | Library Lobby | 0/16 | clean | `-` | - |  ⬅ untouched
 | Lower Elevator | 0/16 | clean | `-` | - |  ⬅ untouched
 | Machine Shop | 1/16 | clean | `c31e9ec` | - |
@@ -138,14 +138,14 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Sandy Beach | 0/16 | clean | `-` | - |  ⬅ untouched
 | Sandy Cave | 0/16 | clean | `-` | - |  ⬅ untouched
 | Shore | 0/16 | clean | `-` | - |  ⬅ untouched
-| South of House | 0/16 | clean | `-` | - |  ⬅ untouched
+| South of House | 2/16 | clean | `8175684` | - |
 | Studio | 0/16 | clean | `-` | - |  ⬅ untouched
 | Temple | 0/16 | clean | `-` | - |  ⬅ untouched
 | The Troll Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Torch Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | Up A Tree | 0/16 | clean | `-` | - |  ⬅ untouched
-| West Of House | 0/16 | clean | `-` | - |  ⬅ untouched
+| West Of House | 1/16 | clean | `8175684` | - |
 | White Cliffs Beach | 0/16 | clean | `-` | - |  ⬅ untouched
 | Winding Stair | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -153,7 +153,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | MECH:light-darkness | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:combat-troll-thief | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:treasure-trophy-scoring | 0/16 | clean | `-` | - |  ⬅ untouched
-| MECH:get-post-parity | 0/16 | clean | `-` | - |  ⬅ untouched
+| MECH:get-post-parity | 1/16 | low | `8175684` | AB-011 |
 | MECH:maze | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:multi-sentence | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:pronoun-it | 0/16 | clean | `-` | - |  ⬅ untouched

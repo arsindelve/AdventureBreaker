@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T17:16:24Z · 12 finding(s)_
+_Generated 2026-06-22T17:31:24Z · 13 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -85,3 +85,10 @@ PreviousLocationName is a GameEngine field (private set, set during a turn at Ga
 - command: `terminal off; type 1 -> MenuState MainMenu->HistoryMenu (IsOn still false)`
 
 ProcessKeyPress + both RespondTo* entry points have no IsOn guard, unlike Examination/ReadDescription. Verified by object inspection. Diary (15-page read/advance/rewind) and spool reader (insert/read green&red/already-a-spool/doesn't-fit) are clean. Deployed main 8175684. Filed zork#252.
+
+## AB-013 [LOW] Floyd activation points re-awarded each turn during wake-up countdown  · _filed#254_
+
+- game `planetfall` · area `RobotShop / Floyd (power activation scoring)` · category `puzzle-step` · target_sha `unknown`
+- command: `activate floyd; activate floyd; activate floyd (at RobotShop)`
+
+Turning Floyd on is worth 2 points once, but the award was guarded on HasEverBeenOn, which only flips when Floyd finishes his 3-turn wake-up countdown. Each repeated 'activate floyd' during the countdown re-awarded +2 (score 2->4->6), letting a player farm +4. Fixed with a dedicated one-shot HasAwardedActivationPoints flag.
