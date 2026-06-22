@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T17:06:04Z · 11 finding(s)_
+_Generated 2026-06-22T17:16:24Z · 12 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -78,3 +78,10 @@ ShuttleControl.Act: 'if (Speed != 0 || SpeedChanged) Move()'. On the turn decele
 - command: `POST move E -> prev='Behind House'; GET -> prev=null`
 
 PreviousLocationName is a GameEngine field (private set, set during a turn at GameEngine.cs:257), not on Context, so RestoreGame doesn't restore it and the no-turn GET path returns null. lastMovementDirection (=>Context) is fine. Same family as #230/#238. Confirmed prod 8175684. Filed zork#250.
+
+## AB-012 [LOW] Library computer terminal processes keypresses while turned off (menu navigates with screen dark)  · _filed#252_
+
+- game `planetfall` · area `MECH:computer-terminal` · category `puzzle-step` · target_sha `8175684`
+- command: `terminal off; type 1 -> MenuState MainMenu->HistoryMenu (IsOn still false)`
+
+ProcessKeyPress + both RespondTo* entry points have no IsOn guard, unlike Examination/ReadDescription. Verified by object inspection. Diary (15-page read/advance/rewind) and spool reader (insert/read green&red/already-a-spool/doesn't-fit) are clean. Deployed main 8175684. Filed zork#252.

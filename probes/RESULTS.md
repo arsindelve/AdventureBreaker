@@ -39,3 +39,12 @@ Running record of what each probe found. Target = ZorkAI `origin/main` (deployed
 | exits / actions in dark | hidden | leaked | #238 (open) |
 | previousLocationName | "Behind House" | **null** | **#250 (open)** |
 | lastMovementDirection / moves / score / locationName | — | match | OK |
+
+## Data subsystem: diary / terminal / spool reader (`data_subsystem_planetfall.cs`)
+
+| Item | Case | Result | Issue |
+|---|---|---|---|
+| computer terminal | `type N` while **off** | **BUG** — menu navigates, screen "dark" | **#252 (open)** |
+| computer terminal | key>count / leaf / 0=up / multi-noun "type N on keyboard" | OK | — |
+| diary | read / press-advance / press-before-read / rewind at end | OK | — |
+| spool reader | insert / read green+red / "already a spool" / "doesn't fit" (non-spool) | OK | — |
