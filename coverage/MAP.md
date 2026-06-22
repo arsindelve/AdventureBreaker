@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-22T00:18:48Z · target_sha `c31e9ec`_
+_Generated 2026-06-22T00:52:04Z · target_sha `c31e9ec`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -21,11 +21,11 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Computer Room | 4/16 | clean | `c31e9ec` | - |
 | Conference Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Corridor Junction | 1/16 | clean | `c31e9ec` | - |
-| Course Control | 3/16 | clean | `c31e9ec` | - |
+| Course Control | 5/16 | clean | `c31e9ec` | - |
 | Courtyard | 1/16 | clean | `c31e9ec` | - |
 | Crag | 1/16 | clean | `c31e9ec` | - |
 | Deck Eight | 0/16 | clean | `-` | - |  ⬅ untouched
-| Deck Nine | 2/16 | medium | `c31e9ec` | - |
+| Deck Nine | 3/16 | medium | `c31e9ec` | - |
 | Dorm Corridor | 1/16 | clean | `c31e9ec` | - |
 | Elevator Lobby | 0/16 | clean | `-` | - |  ⬅ untouched
 | Escalator | 0/16 | clean | `-` | - |  ⬅ untouched

@@ -1,14 +1,14 @@
 {
-  "generated": "2026-06-22T00:18:48Z",
+  "generated": "2026-06-22T00:52:04Z",
   "target_sha": "c31e9ec",
   "cells": {
     "planetfall|Course Control|other": {
       "game": "planetfall",
       "area": "Course Control",
       "category": "other",
-      "count": 3,
+      "count": 6,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:03:01Z",
+      "last_ts": "2026-06-22T00:24:42Z",
       "last_target_sha": "c31e9ec",
       "last_result": "clean",
       "finding_ids": []
@@ -17,9 +17,9 @@
       "game": "planetfall",
       "area": "Course Control",
       "category": "movement",
-      "count": 2,
+      "count": 3,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:03:18Z",
+      "last_ts": "2026-06-22T00:24:31Z",
       "last_target_sha": "c31e9ec",
       "last_result": "clean",
       "finding_ids": []
@@ -28,9 +28,9 @@
       "game": "planetfall",
       "area": "Course Control",
       "category": "container",
-      "count": 3,
+      "count": 5,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:03:21Z",
+      "last_ts": "2026-06-22T00:23:15Z",
       "last_target_sha": "c31e9ec",
       "last_result": "clean",
       "finding_ids": []
@@ -723,11 +723,11 @@
       "game": "planetfall",
       "area": "Deck Nine",
       "category": "other",
-      "count": 2,
+      "count": 3,
       "best_severity": "low",
-      "last_ts": "2026-06-22T00:16:24Z",
+      "last_ts": "2026-06-22T00:25:04Z",
       "last_target_sha": "c31e9ec",
-      "last_result": "hit",
+      "last_result": "clean",
       "finding_ids": []
     },
     "planetfall|Escape Pod|other": {
@@ -745,12 +745,58 @@
       "game": "planetfall",
       "area": "MECH:planetary-defense-bedistor",
       "category": "puzzle-step",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:52:04Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Course Control|examine-scenery": {
+      "game": "planetfall",
+      "area": "Course Control",
+      "category": "examine-scenery",
+      "count": 4,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:24:39Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Course Control|take-drop-scope": {
+      "game": "planetfall",
+      "area": "Course Control",
+      "category": "take-drop-scope",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:23:34Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Deck Nine|examine-scenery": {
+      "game": "planetfall",
+      "area": "Deck Nine",
+      "category": "examine-scenery",
       "count": 1,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:18:48Z",
+      "last_ts": "2026-06-22T00:25:07Z",
       "last_target_sha": "c31e9ec",
-      "last_result": "na",
+      "last_result": "clean",
       "finding_ids": []
+    },
+    "planetfall|MECH:god-mode|puzzle-step": {
+      "game": "planetfall",
+      "area": "MECH:god-mode",
+      "category": "puzzle-step",
+      "count": 1,
+      "best_severity": "high",
+      "last_ts": "2026-06-22T00:51:16Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-007"
+      ]
     }
   }
 }
