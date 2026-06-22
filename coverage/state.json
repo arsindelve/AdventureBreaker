@@ -1,5 +1,272 @@
 {
-  "generated": "2026-06-21T23:54:41Z",
+  "generated": "2026-06-22T00:10:18Z",
   "target_sha": "c31e9ec",
-  "cells": {}
+  "cells": {
+    "planetfall|Course Control|other": {
+      "game": "planetfall",
+      "area": "Course Control",
+      "category": "other",
+      "count": 3,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:03:01Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Course Control|movement": {
+      "game": "planetfall",
+      "area": "Course Control",
+      "category": "movement",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:03:18Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Course Control|container": {
+      "game": "planetfall",
+      "area": "Course Control",
+      "category": "container",
+      "count": 3,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:03:21Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Miniaturization Booth|other": {
+      "game": "planetfall",
+      "area": "Miniaturization Booth",
+      "category": "other",
+      "count": 3,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:19Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Miniaturization Booth|examine-scenery": {
+      "game": "planetfall",
+      "area": "Miniaturization Booth",
+      "category": "examine-scenery",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:15Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Miniaturization Booth|movement": {
+      "game": "planetfall",
+      "area": "Miniaturization Booth",
+      "category": "movement",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:22Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Computer Room|other": {
+      "game": "planetfall",
+      "area": "Computer Room",
+      "category": "other",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:28Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Computer Room|examine-scenery": {
+      "game": "planetfall",
+      "area": "Computer Room",
+      "category": "examine-scenery",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:33Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Computer Room|light-dark": {
+      "game": "planetfall",
+      "area": "Computer Room",
+      "category": "light-dark",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:36Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Computer Room|container": {
+      "game": "planetfall",
+      "area": "Computer Room",
+      "category": "container",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:39Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Reactor Lobby|other": {
+      "game": "planetfall",
+      "area": "Reactor Lobby",
+      "category": "other",
+      "count": 3,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:54Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Reactor Lobby|examine-scenery": {
+      "game": "planetfall",
+      "area": "Reactor Lobby",
+      "category": "examine-scenery",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:47Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Reactor Lobby|container": {
+      "game": "planetfall",
+      "area": "Reactor Lobby",
+      "category": "container",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:50Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Mess Hall|other": {
+      "game": "planetfall",
+      "area": "Mess Hall",
+      "category": "other",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:04:58Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Mess Hall|examine-scenery": {
+      "game": "planetfall",
+      "area": "Mess Hall",
+      "category": "examine-scenery",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:05:00Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Mess Hall|container": {
+      "game": "planetfall",
+      "area": "Mess Hall",
+      "category": "container",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:05:03Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Mess Hall|take-drop-scope": {
+      "game": "planetfall",
+      "area": "Mess Hall",
+      "category": "take-drop-scope",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:05:06Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Brig|other": {
+      "game": "planetfall",
+      "area": "Brig",
+      "category": "other",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:05:10Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Brig|examine-scenery": {
+      "game": "planetfall",
+      "area": "Brig",
+      "category": "examine-scenery",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:05:13Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Brig|container": {
+      "game": "planetfall",
+      "area": "Brig",
+      "category": "container",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:05:21Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Sanfac F|other": {
+      "game": "planetfall",
+      "area": "Sanfac F",
+      "category": "other",
+      "count": 3,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:05:30Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Sanfac F|examine-scenery": {
+      "game": "planetfall",
+      "area": "Sanfac F",
+      "category": "examine-scenery",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:05:27Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Sanfac F|container": {
+      "game": "planetfall",
+      "area": "Sanfac F",
+      "category": "container",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T00:05:33Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|MECH:shuttle-alfie-betty|puzzle-step": {
+      "game": "planetfall",
+      "area": "MECH:shuttle-alfie-betty",
+      "category": "puzzle-step",
+      "count": 2,
+      "best_severity": "low",
+      "last_ts": "2026-06-22T00:07:59Z",
+      "last_target_sha": "c31e9ec",
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-006"
+      ]
+    }
+  }
 }
