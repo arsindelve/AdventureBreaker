@@ -48,3 +48,28 @@ Running record of what each probe found. Target = ZorkAI `origin/main` (deployed
 | computer terminal | key>count / leaf / 0=up / multi-noun "type N on keyboard" | OK | — |
 | diary | read / press-advance / press-before-read / rewind at end | OK | — |
 | spool reader | insert / read green+red / "already a spool" / "doesn't fit" (non-spool) | OK | — |
+
+## Conference-room dial/door (`conference_dial_planetfall.cs`)
+
+Combination lock, random `UnlockCode = RollDice(999)` (discoverable via PieceOfPaper),
+set with "set/turn dial to N" while in RecArea. **CLEAN — robust, no crashes.**
+
+| Case | Result | Issue |
+|---|---|---|
+| `set dial to 1000` | "does not go that high" | OK |
+| `set dial to 999` / `0` | set | OK |
+| `set dial to -5` | "do not go below zero" | OK |
+| `set dial to abc` / `1,000` | "can only be set to numbers" | OK |
+| `set dial to 2147483648` / `99999999999999999999` (overflow) | "can only be set to numbers" (TryParse → null, no crash) | OK |
+| `set dial to` (no number) | "You must specify a number" | OK |
+| `set dial to twelve` / `five hundred` / `462.5` | 12 / 500 / 462 (word + truncate) | OK |
+| correct code | "door swings open, dial resets to 0", IsOpen=true, Code="0" | OK |
+| `examine dial` | "The dial is set to {Code}." (only in RecArea) | OK |
+| `open door` (RecArea) | proper locked message | OK |
+| dial commands from ConferenceRoom side | fall through (not RecArea) | OK (correct) |
+| `set door to N` / `set lock to N` | empty → narrator | soft-spot (not filed) |
+| `HasEverBeenOpened` after dial-open | stays false (dial bypasses open verb) | harmless, unread |
+
+Soft-spots not filed: number-as-nounTwo never forms a MultiNounIntent so the door/lock
+synonyms in the multi-noun handler are unreachable numerically (general parser limitation,
+canonical `set dial to N` works); `HasEverBeenOpened` dead for this door.
