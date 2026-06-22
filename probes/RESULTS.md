@@ -73,3 +73,22 @@ set with "set/turn dial to N" while in RecArea. **CLEAN — robust, no crashes.*
 Soft-spots not filed: number-as-nounTwo never forms a MultiNounIntent so the door/lock
 synonyms in the multi-noun handler are unreachable numerically (general parser limitation,
 canonical `set dial to N` works); `HasEverBeenOpened` dead for this door.
+
+## Floyd companion — power/scoring/take/give/search (`floyd_planetfall.cs`)
+
+Deterministic seams only (AI chatter + random card-offer out of scope).
+
+| Case | Result | Issue |
+|---|---|---|
+| `activate floyd` ×3 during 3-turn countdown | **score 2 → 4 → 6** (re-awards +2 each turn) | **#254 ✅ fixed** |
+| normal single activation | +2 once | OK |
+| deactivate → reactivate after waking | +0 (no re-award) | OK |
+| `take floyd` (ON) | "too heavy … drops him", not pocketed | OK |
+| `take floyd` (OFF) | narrator, not pocketed | OK (null CannotBeTaken, base never takes) |
+| `give the diary/key to floyd` | held; 2nd item → "shrugs, drops it" | OK (existing tests) |
+| `search floyd` OFF / ON | finds card / "giggles" | OK |
+| `give card to floyd` | no-op (bare "card" unresolved) | artifact (#246 family, not filed) |
+
+#254 root cause: activation +2 guarded on `HasEverBeenOn`, which only flips when the wake-up
+countdown completes — so repeats during the countdown re-award. Fixed with a dedicated one-shot
+`HasAwardedActivationPoints` flag (leaves `HasEverBeenOn` wake-timing/flavor untouched).
