@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-22T16:45:54Z",
+  "generated": "2026-06-22T16:51:18Z",
   "target_sha": "8175684",
   "cells": {
     "planetfall|Course Control|other": {
@@ -877,6 +877,19 @@
       "last_result": "clean",
       "finding_ids": [
         "AB-009"
+      ]
+    },
+    "planetfall|MECH:pronouns|parser-pronoun": {
+      "game": "planetfall",
+      "area": "MECH:pronouns",
+      "category": "parser-pronoun",
+      "count": 2,
+      "best_severity": "medium",
+      "last_ts": "2026-06-22T16:51:17Z",
+      "last_target_sha": "8175684",
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-010"
       ]
     }
   }

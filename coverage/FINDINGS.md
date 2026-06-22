@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T16:45:54Z · 9 finding(s)_
+_Generated 2026-06-22T16:51:17Z · 10 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -36,6 +36,13 @@ GetItemInScope->HasMatchingNoun uses containment fallback + location-first + no 
 - command: `context.HasMatchingNoun('kitchen card') with [shuttle,kitchen] -> Shuttle`
 
 MultiNounEngine.IsItemHere uses raw context/location.HasMatchingNoun (containment, no precise), not the fixed GetItemInScope. #244 patched only single-noun. Confirmed deterministic @8175684. Filed zork#246.
+
+## AB-010 [MEDIUM] Pronoun antecedent too limited: 'them' never resolves to a collection; movement clears 'it' for carried items  · _filed#248_
+
+- game `planetfall` · area `MECH:pronouns` · category `parser-pronoun` · target_sha `8175684`
+- command: `take all; drop them -> 'What item are you referring to?'`
+
+context.LastNoun is a single noun string; 'them' only honored for a single IPluralNoun (no collection). MoveEngine/MultiNounEngine clear LastNoun unconditionally, so 'take lantern; east; drop it' fails though still carried. Deterministic @8175684. Filed zork#248.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
