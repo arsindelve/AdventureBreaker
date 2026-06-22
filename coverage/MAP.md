@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-22T00:10:18Z · target_sha `c31e9ec`_
+_Generated 2026-06-22T00:18:48Z · target_sha `c31e9ec`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -11,25 +11,25 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Alfie Control East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Alfie Control West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Auxiliary Booth | 0/16 | clean | `-` | - |  ⬅ untouched
-| Balcony | 0/16 | clean | `-` | - |  ⬅ untouched
+| Balcony | 1/16 | clean | `c31e9ec` | - |
 | Betty Control East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Betty Control West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Booth 1 | 0/16 | clean | `-` | - |  ⬅ untouched
 | Booth 2 | 0/16 | clean | `-` | - |  ⬅ untouched
 | Booth 3 | 0/16 | clean | `-` | - |  ⬅ untouched
-| Brig | 3/16 | clean | `c31e9ec` | - |
+| Brig | 4/16 | low | `c31e9ec` | - |
 | Computer Room | 4/16 | clean | `c31e9ec` | - |
 | Conference Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Corridor Junction | 0/16 | clean | `-` | - |  ⬅ untouched
+| Corridor Junction | 1/16 | clean | `c31e9ec` | - |
 | Course Control | 3/16 | clean | `c31e9ec` | - |
-| Courtyard | 0/16 | clean | `-` | - |  ⬅ untouched
-| Crag | 0/16 | clean | `-` | - |  ⬅ untouched
+| Courtyard | 1/16 | clean | `c31e9ec` | - |
+| Crag | 1/16 | clean | `c31e9ec` | - |
 | Deck Eight | 0/16 | clean | `-` | - |  ⬅ untouched
-| Deck Nine | 0/16 | clean | `-` | - |  ⬅ untouched
-| Dorm Corridor | 0/16 | clean | `-` | - |  ⬅ untouched
+| Deck Nine | 2/16 | medium | `c31e9ec` | - |
+| Dorm Corridor | 1/16 | clean | `c31e9ec` | - |
 | Elevator Lobby | 0/16 | clean | `-` | - |  ⬅ untouched
 | Escalator | 0/16 | clean | `-` | - |  ⬅ untouched
-| Escape Pod | 0/16 | clean | `-` | - |  ⬅ untouched
+| Escape Pod | 4/16 | low | `c31e9ec` | - |
 | Fork | 0/16 | clean | `-` | - |  ⬅ untouched
 | Gangway | 0/16 | clean | `-` | - |  ⬅ untouched
 | In Bed | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -41,38 +41,38 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Library | 0/16 | clean | `-` | - |  ⬅ untouched
 | Library Lobby | 0/16 | clean | `-` | - |  ⬅ untouched
 | Lower Elevator | 0/16 | clean | `-` | - |  ⬅ untouched
-| Machine Shop | 0/16 | clean | `-` | - |  ⬅ untouched
-| Mess Corridor | 0/16 | clean | `-` | - |  ⬅ untouched
-| Mess Hall | 4/16 | clean | `c31e9ec` | - |
+| Machine Shop | 1/16 | clean | `c31e9ec` | - |
+| Mess Corridor | 3/16 | low | `c31e9ec` | - |
+| Mess Hall | 5/16 | low | `c31e9ec` | - |
 | Middle of Strip | 0/16 | clean | `-` | - |  ⬅ untouched
 | Miniaturization Booth | 3/16 | clean | `c31e9ec` | - |
 | Physical Plant | 0/16 | clean | `-` | - |  ⬅ untouched
-| Plain Hall | 0/16 | clean | `-` | - |  ⬅ untouched
+| Plain Hall | 1/16 | clean | `c31e9ec` | - |
 | Planetary Defense | 0/16 | clean | `-` | - |  ⬅ untouched
 | ProjCon Office | 0/16 | clean | `-` | - |  ⬅ untouched
 | Project Corridor | 0/16 | clean | `-` | - |  ⬅ untouched
 | Project Corridor East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Project Corridor West | 0/16 | clean | `-` | - |  ⬅ untouched
-| Reactor Lobby | 3/16 | clean | `c31e9ec` | - |
+| Reactor Lobby | 4/16 | low | `c31e9ec` | - |
 | Rec Area | 0/16 | clean | `-` | - |  ⬅ untouched
-| Rec Corridor | 0/16 | clean | `-` | - |  ⬅ untouched
+| Rec Corridor | 1/16 | clean | `c31e9ec` | - |
 | Repair Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Robot Shop | 0/16 | clean | `-` | - |  ⬅ untouched
+| Robot Shop | 2/16 | clean | `c31e9ec` | - |
 | Sanfac F | 3/16 | clean | `c31e9ec` | - |
 | Shuttle Car Alfie | 0/16 | clean | `-` | - |  ⬅ untouched
 | Shuttle Car Betty | 0/16 | clean | `-` | - |  ⬅ untouched
 | Station 384 | 0/16 | clean | `-` | - |  ⬅ untouched
-| Storage West | 0/16 | clean | `-` | - |  ⬅ untouched
+| Storage West | 2/16 | low | `c31e9ec` | - |
 | Strip Near Relay | 0/16 | clean | `-` | - |  ⬅ untouched
 | Strip Near Station | 0/16 | clean | `-` | - |  ⬅ untouched
 | Systems Corridor | 0/16 | clean | `-` | - |  ⬅ untouched
 | Systems Corridor East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Systems Corridor West | 0/16 | clean | `-` | - |  ⬅ untouched
-| Underwater | 0/16 | clean | `-` | - |  ⬅ untouched
+| Underwater | 1/16 | clean | `c31e9ec` | - |
 | Upper Elevator | 0/16 | clean | `-` | - |  ⬅ untouched
 | Waiting Area | 0/16 | clean | `-` | - |  ⬅ untouched
 | West Wing | 0/16 | clean | `-` | - |  ⬅ untouched
-| Winding Stair | 0/16 | clean | `-` | - |  ⬅ untouched
+| Winding Stair | 1/16 | clean | `c31e9ec` | - |
 | MECH:floyd-conversation | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-follow-wander | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-scenes | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -80,7 +80,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | MECH:elevators | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:shuttle-alfie-betty | 1/16 | low | `c31e9ec` | AB-006 |
 | MECH:reactor-fromitz | 0/16 | clean | `-` | - |  ⬅ untouched
-| MECH:planetary-defense-bedistor | 0/16 | clean | `-` | - |  ⬅ untouched
+| MECH:planetary-defense-bedistor | 1/16 | clean | `c31e9ec` | - |
 | MECH:bio-lock | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:miniaturization | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:survival-hunger-thirst | 0/16 | clean | `-` | - |  ⬅ untouched
