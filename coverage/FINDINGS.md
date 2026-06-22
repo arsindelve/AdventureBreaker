@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T22:53:06Z · 20 finding(s)_
+_Generated 2026-06-22T23:56:22Z · 21 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -134,6 +134,13 @@ Turning Floyd on is worth 2 points once, but the award was guarded on HasEverBee
 - command: `enter pod (Reactor Lobby); press red button (Brig)`
 
 The AI narrator (product promise: 'never breaks character') produces anachronistic, fourth-wall/meta responses for failed actions instead of the terse 1983 Infocom register. 'enter pod' at Reactor Lobby (no pod present) yields: 'trying to teleport are we? your sci-fi wizardry is malfunctioning', and on repeats invents a capitalized fictional object 'the mysterious and elusive Podthat' / 'the mythical Podthat'. 'press red button' in the Brig yields 'as much effect as a space heater on a sun'. A period-correct engine would say e.g. 'I do not see any pod here.'
+
+## AB-021 [LOW] 'show printout to floyd' should set Floyd's computer concern (gates bio-lab foray) - missing in C#  · _open_
+
+- game `planetfall` · area `Lawanda / Floyd computer concern (bio-lab foray gate)` · category `puzzle-step` · target_sha `unknown`
+- command: `show printout to floyd`
+
+ZIL gates Floyd's offer to fetch the mini-card (the bio-lab sacrifice) on COMPUTER-FLAG (comptwo.zil:1751-1758). COMPUTER-FLAG is set by COMPUTER-ACTION (comptwo.zil:1514, Floyd's 'Uh oh. Computer is broken' line) from TWO triggers: (1) Floyd present in the Computer Room (compone.zil:2291-2293) and (2) 'show printout to floyd' (compone.zil:2024-2026, SHOW verb on PRINT-OUT). The C# only implements trigger (1) - FloydHasExpressedConcern is set solely in ComputerRoom.cs:64. The printout IS modeled (ComputerOutput, nouns output/computer output/printout), but showing it to Floyd does nothing, so a player using the original's show-printout path can't unlock the foray. Primary room-visit gate is faithful.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
