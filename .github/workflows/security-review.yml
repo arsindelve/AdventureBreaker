@@ -19,16 +19,34 @@ jobs:
   security-review:
     name: Agentic security review
     runs-on: ubuntu-latest
-    # Skip cleanly when the API key isn't available (forked PRs); don't fail the build.
+    # Only run for same-repo PRs; forked PRs can't read secrets.
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     steps:
+      # Map the secret to a step env (the only context where `secrets` is
+      # available) and gate the real work on it, so the check passes cleanly
+      # with a notice when a maintainer hasn't set CLAUDE_API_KEY yet rather
+      # than failing the build. See SECURITY.md.
+      - name: Check for API key
+        id: gate
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+        run: |
+          if [ -n "$CLAUDE_API_KEY" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::CLAUDE_API_KEY secret not set — skipping agentic security review. Add it under Settings → Secrets and variables → Actions to enable. See SECURITY.md."
+          fi
+
       - name: Check out the PR
+        if: steps.gate.outputs.enabled == 'true'
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 2
 
       - name: Run Claude Code security review
+        if: steps.gate.outputs.enabled == 'true'
         uses: anthropics/claude-code-security-review@main
         with:
           comment-pr: true
