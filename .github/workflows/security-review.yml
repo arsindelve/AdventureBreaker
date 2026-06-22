@@ -1,0 +1,35 @@
+name: Security Review
+
+# Agentic security review on every pull request. Reads the diff and comments on real
+# vulnerabilities before merge — the project that does agentic QA holds its own changes
+# to the same bar. See SECURITY.md.
+#
+# Requires a repository secret named CLAUDE_API_KEY. If it is absent (e.g. on a forked PR
+# without secret access) the review job is skipped rather than failing the build, so the
+# reviewer checklist in the PR template remains the gate.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write   # needed for leaving inline PR comments
+
+jobs:
+  security-review:
+    name: Agentic security review
+    runs-on: ubuntu-latest
+    # Skip cleanly when the API key isn't available (forked PRs); don't fail the build.
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    steps:
+      - name: Check out the PR
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+
+      - name: Run Claude Code security review
+        uses: anthropics/claude-code-security-review@main
+        with:
+          comment-pr: true
+          claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
