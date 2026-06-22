@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T18:02:25Z · 15 finding(s)_
+_Generated 2026-06-22T18:14:51Z · 16 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -106,3 +106,10 @@ ProcessKeyPress + both RespondTo* entry points have no IsOn guard, unlike Examin
 - command: `activate floyd; activate floyd; activate floyd (at RobotShop)`
 
 Turning Floyd on is worth 2 points once, but the award was guarded on HasEverBeenOn, which only flips when Floyd finishes his 3-turn wake-up countdown. Each repeated 'activate floyd' during the countdown re-awarded +2 (score 2->4->6), letting a player farm +4. Fixed with a dedicated one-shot HasAwardedActivationPoints flag.
+
+## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
+
+- game `planetfall` · area `Gangway / session-state durability (prod)` · category `other` · target_sha `unknown`
+- command: `drop brush (after a session that ate multiple 500s)`
+
+During a prodplay session that had absorbed several HTTP 500s, a 'drop brush' turn at Gangway came back as a fresh game (Deck Nine, moves=0). Could NOT reproduce in controlled fresh sessions: drop brush alone -> 'Dropped' clean; firing the 500 mid-session did NOT corrupt/reset state. Logging as an unreproduced anomaly to watch; NOT filing a GH issue without a deterministic repro.
