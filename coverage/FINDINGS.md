@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T18:14:51Z · 16 finding(s)_
+_Generated 2026-06-22T18:29:40Z · 18 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -58,6 +58,13 @@ context.LastNoun is a single noun string; 'them' only honored for a single IPlur
 
 If the player never reopens the bio-lock door after Floyd knocks (NeedToReopenDoor state), Floyd dies. But the state stays NeedToReopenDoor and BioLockEast remains a registered actor, so the death announcement 'You hear a final metallic scream... Floyd is dead.' re-fires on EVERY subsequent turn forever. Player-death non-solution paths are clean (DeathProcessor resets); only this Floyd-dies path leaks.
 
+## AB-018 [MEDIUM] 'enter pod' (valid noun) routed to generic refusal/mock instead of 'bulkhead is closed'  · _open_
+
+- game `planetfall` · area `Deck Nine / enter-pod routing (EnterSubLocationEngine)` · category `parser-pronoun` · target_sha `unknown`
+- command: `enter pod / board pod (Deck Nine)`
+
+The escape pod is a valid object: BulkheadDoor.NounsForMatching includes 'pod'. But 'enter/board pod' is classified as an EnterSubLocationIntent, and EnterSubLocationEngine only enters ISubLocation items. 'pod' resolves (via GetItemInScope) to BulkheadDoor, which is NOT an ISubLocation, so the engine emits a generic 'cannot go that way' -> the narrator renders it as a mock of a valid command. With the bulkhead closed it should say 'The escape pod bulkhead is closed.' The 'escape pod door' phrasing works; bare 'pod' does not.
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -106,6 +113,13 @@ ProcessKeyPress + both RespondTo* entry points have no IsOn guard, unlike Examin
 - command: `activate floyd; activate floyd; activate floyd (at RobotShop)`
 
 Turning Floyd on is worth 2 points once, but the award was guarded on HasEverBeenOn, which only flips when Floyd finishes his 3-turn wake-up countdown. Each repeated 'activate floyd' during the countdown re-awarded +2 (score 2->4->6), letting a player farm +4. Fixed with a dedicated one-shot HasAwardedActivationPoints flag.
+
+## AB-017 [LOW] Narrator breaks Infocom character on failed actions (anachronistic/meta, invents 'Podthat')  · _open_
+
+- game `planetfall` · area `Reactor Lobby / Brig (narrator character-break)` · category `character-break` · target_sha `unknown`
+- command: `enter pod (Reactor Lobby); press red button (Brig)`
+
+The AI narrator (product promise: 'never breaks character') produces anachronistic, fourth-wall/meta responses for failed actions instead of the terse 1983 Infocom register. 'enter pod' at Reactor Lobby (no pod present) yields: 'trying to teleport are we? your sci-fi wizardry is malfunctioning', and on repeats invents a capitalized fictional object 'the mysterious and elusive Podthat' / 'the mythical Podthat'. 'press red button' in the Brig yields 'as much effect as a space heater on a sun'. A period-correct engine would say e.g. 'I do not see any pod here.'
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
