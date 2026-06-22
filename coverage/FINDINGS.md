@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T00:51:16Z · 7 finding(s)_
+_Generated 2026-06-22T14:40:08Z · 8 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -22,6 +22,13 @@ Known engine TODO at DeathProcessor.cs:29-31. Not yet filed as issue.
 - command: `GET state; pronoun 'What item are you referring to?'`
 
 Filed zork#230; fixed by PR #232 (merged). Prod not yet redeployed.
+
+## AB-008 [MEDIUM] Take/drop/put ignores adjectives: 'take the good bedistor' acts on the fused one (examine resolves correctly)  · _filed#244_
+
+- game `planetfall` · area `MECH:planetary-defense-bedistor` · category `parser-pronoun` · target_sha `341a64b`
+- command: `take the good bedistor (only fused in scope) -> 'fused to its socket'`
+
+GetItemInScope->HasMatchingNoun uses containment fallback + location-first + no adjective precision; examine's MatchNounAndAdjective resolves correctly, so the paths disagree. Blocks natural puzzle phrasing ('put good bedistor in cube' -> 'you don't have the fused bedistor'). Verified deployed main 341a64b. Filed zork#244.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 

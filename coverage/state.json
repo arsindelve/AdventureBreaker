@@ -1,15 +1,15 @@
 {
-  "generated": "2026-06-22T00:52:04Z",
-  "target_sha": "c31e9ec",
+  "generated": "2026-06-22T14:40:08Z",
+  "target_sha": "341a64b",
   "cells": {
     "planetfall|Course Control|other": {
       "game": "planetfall",
       "area": "Course Control",
       "category": "other",
-      "count": 6,
+      "count": 9,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:24:42Z",
-      "last_target_sha": "c31e9ec",
+      "last_ts": "2026-06-22T14:38:45Z",
+      "last_target_sha": "341a64b",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -17,10 +17,10 @@
       "game": "planetfall",
       "area": "Course Control",
       "category": "movement",
-      "count": 3,
+      "count": 6,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:24:31Z",
-      "last_target_sha": "c31e9ec",
+      "last_ts": "2026-06-22T14:37:52Z",
+      "last_target_sha": "341a64b",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -28,10 +28,10 @@
       "game": "planetfall",
       "area": "Course Control",
       "category": "container",
-      "count": 5,
+      "count": 10,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:23:15Z",
-      "last_target_sha": "c31e9ec",
+      "last_ts": "2026-06-22T14:38:48Z",
+      "last_target_sha": "341a64b",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -503,10 +503,10 @@
       "game": "planetfall",
       "area": "Robot Shop",
       "category": "other",
-      "count": 1,
+      "count": 2,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:14:07Z",
-      "last_target_sha": "c31e9ec",
+      "last_ts": "2026-06-22T14:37:29Z",
+      "last_target_sha": "341a64b",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -723,11 +723,11 @@
       "game": "planetfall",
       "area": "Deck Nine",
       "category": "other",
-      "count": 3,
-      "best_severity": "low",
-      "last_ts": "2026-06-22T00:25:04Z",
-      "last_target_sha": "c31e9ec",
-      "last_result": "clean",
+      "count": 5,
+      "best_severity": "medium",
+      "last_ts": "2026-06-22T14:35:42Z",
+      "last_target_sha": "341a64b",
+      "last_result": "hit",
       "finding_ids": []
     },
     "planetfall|Escape Pod|other": {
@@ -756,10 +756,10 @@
       "game": "planetfall",
       "area": "Course Control",
       "category": "examine-scenery",
-      "count": 4,
+      "count": 8,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:24:39Z",
-      "last_target_sha": "c31e9ec",
+      "last_ts": "2026-06-22T14:38:55Z",
+      "last_target_sha": "341a64b",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -767,10 +767,10 @@
       "game": "planetfall",
       "area": "Course Control",
       "category": "take-drop-scope",
-      "count": 2,
+      "count": 5,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:23:34Z",
-      "last_target_sha": "c31e9ec",
+      "last_ts": "2026-06-22T14:38:58Z",
+      "last_target_sha": "341a64b",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -778,10 +778,10 @@
       "game": "planetfall",
       "area": "Deck Nine",
       "category": "examine-scenery",
-      "count": 1,
+      "count": 2,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T00:25:07Z",
-      "last_target_sha": "c31e9ec",
+      "last_ts": "2026-06-22T14:33:41Z",
+      "last_target_sha": "341a64b",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -796,6 +796,41 @@
       "last_result": "hit",
       "finding_ids": [
         "AB-007"
+      ]
+    },
+    "planetfall|Robot Shop|take-drop-scope": {
+      "game": "planetfall",
+      "area": "Robot Shop",
+      "category": "take-drop-scope",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T14:37:37Z",
+      "last_target_sha": "341a64b",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Robot Shop|examine-scenery": {
+      "game": "planetfall",
+      "area": "Robot Shop",
+      "category": "examine-scenery",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T14:37:40Z",
+      "last_target_sha": "341a64b",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|MECH:planetary-defense-bedistor|parser-pronoun": {
+      "game": "planetfall",
+      "area": "MECH:planetary-defense-bedistor",
+      "category": "parser-pronoun",
+      "count": 1,
+      "best_severity": "medium",
+      "last_ts": "2026-06-22T14:40:08Z",
+      "last_target_sha": "341a64b",
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-008"
       ]
     }
   }

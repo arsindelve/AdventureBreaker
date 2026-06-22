@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-22T00:52:04Z · target_sha `c31e9ec`_
+_Generated 2026-06-22T14:40:08Z · target_sha `341a64b`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -21,11 +21,11 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Computer Room | 4/16 | clean | `c31e9ec` | - |
 | Conference Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Corridor Junction | 1/16 | clean | `c31e9ec` | - |
-| Course Control | 5/16 | clean | `c31e9ec` | - |
+| Course Control | 5/16 | clean | `341a64b` | - |
 | Courtyard | 1/16 | clean | `c31e9ec` | - |
 | Crag | 1/16 | clean | `c31e9ec` | - |
 | Deck Eight | 0/16 | clean | `-` | - |  ⬅ untouched
-| Deck Nine | 3/16 | medium | `c31e9ec` | - |
+| Deck Nine | 3/16 | medium | `341a64b` | - |
 | Dorm Corridor | 1/16 | clean | `c31e9ec` | - |
 | Elevator Lobby | 0/16 | clean | `-` | - |  ⬅ untouched
 | Escalator | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -57,7 +57,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Rec Area | 0/16 | clean | `-` | - |  ⬅ untouched
 | Rec Corridor | 1/16 | clean | `c31e9ec` | - |
 | Repair Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Robot Shop | 2/16 | clean | `c31e9ec` | - |
+| Robot Shop | 4/16 | clean | `341a64b` | - |
 | Sanfac F | 3/16 | clean | `c31e9ec` | - |
 | Shuttle Car Alfie | 0/16 | clean | `-` | - |  ⬅ untouched
 | Shuttle Car Betty | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -80,7 +80,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | MECH:elevators | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:shuttle-alfie-betty | 1/16 | low | `c31e9ec` | AB-006 |
 | MECH:reactor-fromitz | 0/16 | clean | `-` | - |  ⬅ untouched
-| MECH:planetary-defense-bedistor | 1/16 | clean | `c31e9ec` | - |
+| MECH:planetary-defense-bedistor | 2/16 | medium | `341a64b` | AB-008 |
 | MECH:bio-lock | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:miniaturization | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:survival-hunger-thirst | 0/16 | clean | `-` | - |  ⬅ untouched
