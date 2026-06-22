@@ -1,6 +1,6 @@
 {
-  "generated": "2026-06-22T14:40:08Z",
-  "target_sha": "341a64b",
+  "generated": "2026-06-22T16:45:54Z",
+  "target_sha": "8175684",
   "cells": {
     "planetfall|Course Control|other": {
       "game": "planetfall",
@@ -824,13 +824,59 @@
       "game": "planetfall",
       "area": "MECH:planetary-defense-bedistor",
       "category": "parser-pronoun",
-      "count": 1,
+      "count": 2,
       "best_severity": "medium",
-      "last_ts": "2026-06-22T14:40:08Z",
-      "last_target_sha": "341a64b",
-      "last_result": "hit",
+      "last_ts": "2026-06-22T16:45:54Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
       "finding_ids": [
         "AB-008"
+      ]
+    },
+    "planetfall|Kitchen|other": {
+      "game": "planetfall",
+      "area": "Kitchen",
+      "category": "other",
+      "count": 3,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T16:42:28Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Kitchen|take-drop-scope": {
+      "game": "planetfall",
+      "area": "Kitchen",
+      "category": "take-drop-scope",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T16:42:46Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Kitchen|examine-scenery": {
+      "game": "planetfall",
+      "area": "Kitchen",
+      "category": "examine-scenery",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-06-22T16:42:40Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|MECH:access-cards|parser-pronoun": {
+      "game": "planetfall",
+      "area": "MECH:access-cards",
+      "category": "parser-pronoun",
+      "count": 2,
+      "best_severity": "medium",
+      "last_ts": "2026-06-22T16:45:54Z",
+      "last_target_sha": "8175684",
+      "last_result": "clean",
+      "finding_ids": [
+        "AB-009"
       ]
     }
   }

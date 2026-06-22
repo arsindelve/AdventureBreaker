@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T14:40:08Z · 8 finding(s)_
+_Generated 2026-06-22T16:45:54Z · 9 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -29,6 +29,13 @@ Filed zork#230; fixed by PR #232 (merged). Prod not yet redeployed.
 - command: `take the good bedistor (only fused in scope) -> 'fused to its socket'`
 
 GetItemInScope->HasMatchingNoun uses containment fallback + location-first + no adjective precision; examine's MatchNounAndAdjective resolves correctly, so the paths disagree. Blocks natural puzzle phrasing ('put good bedistor in cube' -> 'you don't have the fused bedistor'). Verified deployed main 341a64b. Filed zork#244.
+
+## AB-009 [MEDIUM] Multi-noun (put/give/slide X in/to Y) still adjective-blind after #244; resolves 'kitchen card' to wrong card  · _filed#246_
+
+- game `planetfall` · area `MECH:access-cards` · category `parser-pronoun` · target_sha `8175684`
+- command: `context.HasMatchingNoun('kitchen card') with [shuttle,kitchen] -> Shuttle`
+
+MultiNounEngine.IsItemHere uses raw context/location.HasMatchingNoun (containment, no precise), not the fixed GetItemInScope. #244 patched only single-noun. Confirmed deterministic @8175684. Filed zork#246.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 

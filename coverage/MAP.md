@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-22T14:40:08Z · target_sha `341a64b`_
+_Generated 2026-06-22T16:45:54Z · target_sha `8175684`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -36,7 +36,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Infirmary | 0/16 | clean | `-` | - |  ⬅ untouched
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 0/16 | clean | `-` | - |  ⬅ untouched
-| Kitchen | 0/16 | clean | `-` | - |  ⬅ untouched
+| Kitchen | 3/16 | clean | `8175684` | - |
 | Lawanda Platform | 0/16 | clean | `-` | - |  ⬅ untouched
 | Library | 0/16 | clean | `-` | - |  ⬅ untouched
 | Library Lobby | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -76,11 +76,11 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | MECH:floyd-conversation | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-follow-wander | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-scenes | 0/16 | clean | `-` | - |  ⬅ untouched
-| MECH:access-cards | 0/16 | clean | `-` | - |  ⬅ untouched
+| MECH:access-cards | 1/16 | medium | `8175684` | AB-009 |
 | MECH:elevators | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:shuttle-alfie-betty | 1/16 | low | `c31e9ec` | AB-006 |
 | MECH:reactor-fromitz | 0/16 | clean | `-` | - |  ⬅ untouched
-| MECH:planetary-defense-bedistor | 2/16 | medium | `341a64b` | AB-008 |
+| MECH:planetary-defense-bedistor | 2/16 | medium | `8175684` | AB-008 |
 | MECH:bio-lock | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:miniaturization | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:survival-hunger-thirst | 0/16 | clean | `-` | - |  ⬅ untouched
