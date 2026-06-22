@@ -30,3 +30,12 @@ Running record of what each probe found. Target = ZorkAI `origin/main` (deployed
 - "it"/"them" to an item stolen by the thief / destroyed (prod, AI-narrated).
 - AI pronoun resolver (`ResolvePronounsAsync`) binding "it" to a noun only in narrator flavor text (seen live once; needs a pin-down harness).
 - "it" as `give it to <npc>`; pronoun inside multi-sentence after a disambiguation prompt.
+
+## GET/POST envelope parity (`get_post_parity.py`)
+
+| Field | POST | GET | Issue |
+|---|---|---|---|
+| inventory | held | (was empty) | #230 ✅ fixed |
+| exits / actions in dark | hidden | leaked | #238 (open) |
+| previousLocationName | "Behind House" | **null** | **#250 (open)** |
+| lastMovementDirection / moves / score / locationName | — | match | OK |

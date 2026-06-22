@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T16:51:17Z · 10 finding(s)_
+_Generated 2026-06-22T17:06:04Z · 11 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -71,3 +71,10 @@ Filed zork#238 (open). ItIsDarkHere gates prose but not GameResponse.Exits / Get
 - command: `pull lever (speed 5 -> 0 mid-tunnel)`
 
 ShuttleControl.Act: 'if (Speed != 0 || SpeedChanged) Move()'. On the turn deceleration brings Speed to 0 (ChangeSpeed sets SpeedChanged=true then returns 'The shuttle car comes to a stop...'), Move() still runs (SpeedChanged true), prints 'The shuttle car continues to move. The display blinks, and now reads 0.' and does TunnelPosition++. Same turn shows both stop and continue-move, and advances one position while display reads 0. Confirmed in origin/main c31e9ec (lines 174/271-274/296). Pending user confirm on intended decel-to-stop behavior.
+
+## AB-011 [LOW] GET rehydrate returns previousLocationName=null (POST returns it)  · _filed#250_
+
+- game `zork` · area `MECH:get-post-parity` · category `get-post-parity` · target_sha `8175684`
+- command: `POST move E -> prev='Behind House'; GET -> prev=null`
+
+PreviousLocationName is a GameEngine field (private set, set during a turn at GameEngine.cs:257), not on Context, so RestoreGame doesn't restore it and the no-turn GET path returns null. lastMovementDirection (=>Context) is fine. Same family as #230/#238. Confirmed prod 8175684. Filed zork#250.
