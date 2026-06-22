@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T18:59:00Z · 19 finding(s)_
+_Generated 2026-06-22T22:53:06Z · 20 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -71,6 +71,13 @@ If the player never reopens the bio-lock door after Floyd knocks (NeedToReopenDo
 - command: `enter pod / board pod (Deck Nine)`
 
 The escape pod is a valid object: BulkheadDoor.NounsForMatching includes 'pod'. But 'enter/board pod' is classified as an EnterSubLocationIntent, and EnterSubLocationEngine only enters ISubLocation items. 'pod' resolves (via GetItemInScope) to BulkheadDoor, which is NOT an ISubLocation, so the engine emits a generic 'cannot go that way' -> the narrator renders it as a mock of a valid command. With the bulkhead closed it should say 'The escape pod bulkhead is closed.' The 'escape pod door' phrasing works; bare 'pod' does not.
+
+## AB-020 [MEDIUM] 'it' loses its antecedent across movement in production (Planetfall 1.6.2) despite #248  · _open_
+
+- game `planetfall` · area `Production pronoun resolution / it-across-movement (Planetfall)` · category `parser-pronoun` · target_sha `unknown`
+- command: `take X; examine it; <move>; drop it`
+
+In prod 1.6.2: take <item>; examine it (resolves correctly); <move>; drop it -> 'You don't have that!' / 'invisible <room>' - the carried-item antecedent is lost after a move. #248/#253 claimed to fix exactly this and its deterministic UnitTest (PronounResolutionTests.It_AfterMove_StillResolves_ForCarriedItem, Zork lantern) PASSES on main - so the engine seam works, but the production path (AI pronoun resolver and/or per-turn processing) does not honor the preserved LastNoun. Reproduced 3x cleanly (Feinstein intro AND calm Mech area). 'it' WITHOUT a move resolves fine (take brush; examine it; drop it -> Dropped).
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
