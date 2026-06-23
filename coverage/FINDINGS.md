@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T15:24:38Z · 33 finding(s)_
+_Generated 2026-06-23T18:08:07Z · 36 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -116,6 +116,11 @@ On Deck Nine, 'knock on the bulkhead', 'bang on the bulkhead', 'hit the bulkhead
 - game `planetfall` · area `Planetfall/Admin Corridor South` · category `location-examine-override` · target_sha `unknown`
 - command: `examine chronometer`
 
+## AB-036 [MEDIUM] Rift: 'place ladder across rift' narrates losing the ladder even when you don't have one  · _open_
+
+- game `planetfall` · area `Planetfall/Admin Corridor (rift)` · category `stale-state-message` · target_sha `unknown`
+- command: `place ladder across rift`
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -188,6 +193,16 @@ ZIL gates Floyd's offer to fetch the mini-card (the bio-lab sacrifice) on COMPUT
 
 - game `planetfall` · area `conversation` · category `conversation-routing` · target_sha `unknown`
 - command: `blather, what should i do now`
+
+## AB-034 [LOW] Magnet/crevice: 'put magnet IN crevice/crack' rejected; only on/over/beside/next-to work  · _open_
+
+- game `planetfall` · area `Planetfall/Admin Corridor South` · category `parser-preposition` · target_sha `unknown`
+- command: `put magnet in crack`
+
+## AB-035 [LOW] Magnet/crevice: 'put magnet IN crevice/crack' rejected; only on/over/beside/next-to work  · _open_
+
+- game `planetfall` · area `Planetfall/Admin Corridor South` · category `parser-preposition` · target_sha `unknown`
+- command: `put magnet in crack`
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
