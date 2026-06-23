@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T18:31:48Z · 37 finding(s)_
+_Generated 2026-06-23T18:35:21Z · 38 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -210,6 +210,13 @@ ZIL gates Floyd's offer to fetch the mini-card (the bio-lab sacrifice) on COMPUT
 
 - game `planetfall` · area `Planetfall/Admin Corridor South` · category `parser-preposition` · target_sha `unknown`
 - command: `put magnet in crack`
+
+## AB-038 [LOW] Rift: 'place ladder across rift' when it already spans re-narrates success and re-adds the ladder to Admin Corridor North  · _open_
+
+- game `planetfall` · area `Admin Corridor` · category `state-integrity` · target_sha `unknown`
+- command: `place ladder across rift (when already spanning)`
+
+AdminCorridor.cs RespondToMultiNounInteraction has no 'already spans the rift' guard (ZIL compone.zil:699 checks LADDER-FLAG first). Placing the ladder again when IsAcrossRift==true re-runs the extended branch: prints the success message again AND calls GetLocation<AdminCorridorNorth>().Items.Add(ladder) a second time, duplicating the ladder in that room's Items list. ZIL says 'The ladder already spans the rift.'
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
