@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T18:08:07Z · 36 finding(s)_
+_Generated 2026-06-23T18:31:48Z · 37 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -120,6 +120,13 @@ On Deck Nine, 'knock on the bulkhead', 'bang on the bulkhead', 'hit the bulkhead
 
 - game `planetfall` · area `Planetfall/Admin Corridor (rift)` · category `stale-state-message` · target_sha `unknown`
 - command: `place ladder across rift`
+
+## AB-037 [MEDIUM] Rift bridging: 'place/put ladder across rift' narrates losing a ladder that isn't there  · _open_
+
+- game `planetfall` · area `Admin Corridor` · category `stale-state-message` · target_sha `unknown`
+- command: `place ladder across rift (with no ladder in game)`
+
+At Admin Corridor (rift), with NO ladder anywhere (not in inventory, not in room - confirmed via look), 'place ladder across rift' AND 'put ladder across rift' both print 'The ladder, far too short to reach the other edge of the rift, plunges into the rift and is lost forever.' By contrast 'extend ladder' correctly says it's not here, and 'take ladder' correctly refuses. The rift-bridge handler runs its too-short/lost branch unconditionally without checking ladder presence. Also: 'throw ladder across rift' loses a ground (un-held) ladder, and the un-extended ladder is lost permanently on place with no warning (rift is on critical path = softlock).
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
