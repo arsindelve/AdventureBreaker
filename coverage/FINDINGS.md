@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-22T23:56:22Z · 21 finding(s)_
+_Generated 2026-06-23T00:04:29Z · 22 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -148,3 +148,10 @@ ZIL gates Floyd's offer to fetch the mini-card (the bio-lab sacrifice) on COMPUT
 - command: `drop brush (after a session that ate multiple 500s)`
 
 During a prodplay session that had absorbed several HTTP 500s, a 'drop brush' turn at Gangway came back as a fresh game (Deck Nine, moves=0). Could NOT reproduce in controlled fresh sessions: drop brush alone -> 'Dropped' clean; firing the 500 mid-session did NOT corrupt/reset state. Logging as an unreproduced anomaly to watch; NOT filing a GH issue without a deterministic repro.
+
+## AB-022 [INFO] Testing limitation: god-mode 'go' bypasses BeforeEnterLocation (no actor registration / Floyd follow); unstable during intro  · _open_
+
+- game `planetfall` · area `God mode / actor registration (testing affordance)` · category `other` · target_sha `unknown`
+- command: `god mode go bio lock east; wait (no state machine)`
+
+GodModeProcessor.Go just sets context.CurrentLocation; it never calls BeforeEnterLocation, so the destination's ITurnBasedActor isn't registered and Floyd is not moved. Actor-driven sequences can't be reached by teleport alone: BioLockEast's sacrifice state machine never runs and ComputerRoom never sets FloydHasExpressedConcern. Also, teleporting during the unfinished Feinstein intro is unstable - the explosion timer is still queued and snaps the player back toward Deck Nine (also corrupts a save taken in that state). Fromitz works via teleport because it's driven by Floyd conversation metadata, not a location actor. Reliable prod path for the sacrifice = narrator-on walkthrough replay (survival off). Possible affordance: have god-mode 'go' run BeforeEnterLocation/actor registration + bring followers.
