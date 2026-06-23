@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T00:04:29Z · 22 finding(s)_
+_Generated 2026-06-23T00:22:51Z · 23 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -78,6 +78,13 @@ The escape pod is a valid object: BulkheadDoor.NounsForMatching includes 'pod'. 
 - command: `take X; examine it; <move>; drop it`
 
 In prod 1.6.2: take <item>; examine it (resolves correctly); <move>; drop it -> 'You don't have that!' / 'invisible <room>' - the carried-item antecedent is lost after a move. #248/#253 claimed to fix exactly this and its deterministic UnitTest (PronounResolutionTests.It_AfterMove_StillResolves_ForCarriedItem, Zork lantern) PASSES on main - so the engine seam works, but the production path (AI pronoun resolver and/or per-turn processing) does not honor the preserved LastNoun. Reproduced 3x cleanly (Feinstein intro AND calm Mech area). 'it' WITHOUT a move resolves fine (take brush; examine it; drop it -> Dropped).
+
+## AB-023 [MEDIUM] Physical verbs on the bulkhead (knock/hit/kick/bang) return an EMPTY response  · _open_
+
+- game `planetfall` · area `Deck Nine / bulkhead unhandled-verb empty response` · category `other` · target_sha `unknown`
+- command: `knock on the bulkhead`
+
+On Deck Nine, 'knock on the bulkhead', 'bang on the bulkhead', 'hit the bulkhead', 'kick the bulkhead' all return a completely empty response (blank line) - in prod AND white-box (len=0). Bare 'knock' works ('Your knuckles rap against the air...') and 'knock on the wall' works (narrator flavor). The difference: 'bulkhead' resolves to the real BulkheadDoor object, so the engine routes the verb to it, gets an empty/handled-but-blank result, and returns that instead of falling through to the narrator the way the no-object 'wall' case does. The bulkhead is the prominently-described escape-pod door, so this is a very natural thing for a new player to type.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
