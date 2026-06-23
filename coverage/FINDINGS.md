@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T01:00:48Z · 29 finding(s)_
+_Generated 2026-06-23T15:10:41Z · 31 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -192,3 +192,11 @@ During a prodplay session that had absorbed several HTTP 500s, a 'drop brush' tu
 - command: `god mode go bio lock east; wait (no state machine)`
 
 GodModeProcessor.Go just sets context.CurrentLocation; it never calls BeforeEnterLocation, so the destination's ITurnBasedActor isn't registered and Floyd is not moved. Actor-driven sequences can't be reached by teleport alone: BioLockEast's sacrifice state machine never runs and ComputerRoom never sets FloydHasExpressedConcern. Also, teleporting during the unfinished Feinstein intro is unstable - the explosion timer is still queued and snaps the player back toward Deck Nine (also corrupts a save taken in that state). Fromitz works via teleport because it's driven by Floyd conversation metadata, not a location actor. Reliable prod path for the sacrifice = narrator-on walkthrough replay (survival off). Possible affordance: have god-mode 'go' run BeforeEnterLocation/actor registration + bring followers.
+
+## AB-030 [INFO] 1.6.4 verified in prod: #286 (no-comma NPC address) + #284 (nameless speech routing) FIXED  · _filed#286_
+
+- game `zork` · area `Planetfall/ConversationHandler` · category `regression-verify` · target_sha `unknown`
+
+## AB-031 [INFO] 1.6.4 verified: #285 egg force-open with weapon (prod) + #281 Stream rooms (white-box)  · _filed#285_
+
+- game `zork` · area `ZorkOne/Reservoir+egg` · category `regression-verify` · target_sha `unknown`
