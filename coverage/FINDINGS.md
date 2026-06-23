@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T18:35:21Z · 38 finding(s)_
+_Generated 2026-06-23T18:41:26Z · 39 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -127,6 +127,13 @@ On Deck Nine, 'knock on the bulkhead', 'bang on the bulkhead', 'hit the bulkhead
 - command: `place ladder across rift (with no ladder in game)`
 
 At Admin Corridor (rift), with NO ladder anywhere (not in inventory, not in room - confirmed via look), 'place ladder across rift' AND 'put ladder across rift' both print 'The ladder, far too short to reach the other edge of the rift, plunges into the rift and is lost forever.' By contrast 'extend ladder' correctly says it's not here, and 'take ladder' correctly refuses. The rift-bridge handler runs its too-short/lost branch unconditionally without checking ladder presence. Also: 'throw ladder across rift' loses a ground (un-held) ladder, and the un-extended ladder is lost permanently on place with no warning (rift is on critical path = softlock).
+
+## AB-039 [MEDIUM] Magnet puzzle: canonical 'get key with magnet' unrecognized; narrator falsely calls the steel key 'non-magnetic', steering players off the solution  · _open_
+
+- game `planetfall` · area `Admin Corridor South` · category `narrator-contradiction` · target_sha `unknown`
+- command: `get key with magnet`
+
+At Admin Corridor South, only 'put/place/hold magnet on/over/beside crevice' solves the key puzzle (AdminCorridorSouth.cs:80-81). The original's canonical solve 'get/take/attract key WITH magnet' (key as target, magnet as tool; ZIL KEY-F compone.zil:980-982) is unrecognized and falls through to the AI narrator, which improvises a refusal asserting the key is 'stubbornly non-magnetic' - a direct CONTRADICTION of the puzzle's own success text ('a piece of metal leaps from the crevice and affixes itself to the magnet. It is a steel key!'). Also 'put magnet in crevice' (natural phrasing of the actual solution) gets an AI refusal calling it useless. Net: the narrator tells the player the correct approach won't work and states a false fact about the key.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
