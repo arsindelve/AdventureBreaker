@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T00:22:51Z · 23 finding(s)_
+_Generated 2026-06-23T00:40:08Z · 25 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -85,6 +85,16 @@ In prod 1.6.2: take <item>; examine it (resolves correctly); <move>; drop it -> 
 - command: `knock on the bulkhead`
 
 On Deck Nine, 'knock on the bulkhead', 'bang on the bulkhead', 'hit the bulkhead', 'kick the bulkhead' all return a completely empty response (blank line) - in prod AND white-box (len=0). Bare 'knock' works ('Your knuckles rap against the air...') and 'knock on the wall' works (narrator flavor). The difference: 'bulkhead' resolves to the real BulkheadDoor object, so the engine routes the verb to it, gets an empty/handled-but-blank result, and returns that instead of falling through to the narrator the way the no-object 'wall' case does. The bulkhead is the prominently-described escape-pod door, so this is a very natural thing for a new player to type.
+
+## AB-024 [MEDIUM] 'look at <noun>' returns the room description instead of examining the noun  · _open_
+
+- game `planetfall` · area `Deck Nine / global` · category `parser-routing` · target_sha `unknown`
+- command: `look at uniform`
+
+## AB-025 [MEDIUM] look-at issue filed  · _filed#283_
+
+- game `planetfall` · area `global` · category `parser-routing` · target_sha `unknown`
+- command: `look at uniform`
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
