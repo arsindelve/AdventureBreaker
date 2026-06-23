@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T00:40:08Z · 25 finding(s)_
+_Generated 2026-06-23T01:00:48Z · 29 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -96,6 +96,16 @@ On Deck Nine, 'knock on the bulkhead', 'bang on the bulkhead', 'hit the bulkhead
 - game `planetfall` · area `global` · category `parser-routing` · target_sha `unknown`
 - command: `look at uniform`
 
+## AB-026 [MEDIUM] Bare quoted speech and untargeted 'say' don't route to the present ITalkable NPC  · _open_
+
+- game `planetfall` · area `Reactor Lobby / conversation` · category `conversation-routing` · target_sha `unknown`
+- command: `"you are a fool"`
+
+## AB-027 [MEDIUM] AB-026 filed  · _filed#284_
+
+- game `planetfall` · area `conversation` · category `conversation-routing` · target_sha `unknown`
+- command: `"you are a fool"`
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -158,6 +168,16 @@ The AI narrator (product promise: 'never breaks character') produces anachronist
 - command: `show printout to floyd`
 
 ZIL gates Floyd's offer to fetch the mini-card (the bio-lab sacrifice) on COMPUTER-FLAG (comptwo.zil:1751-1758). COMPUTER-FLAG is set by COMPUTER-ACTION (comptwo.zil:1514, Floyd's 'Uh oh. Computer is broken' line) from TWO triggers: (1) Floyd present in the Computer Room (compone.zil:2291-2293) and (2) 'show printout to floyd' (compone.zil:2024-2026, SHOW verb on PRINT-OUT). The C# only implements trigger (1) - FloydHasExpressedConcern is set solely in ComputerRoom.cs:64. The printout IS modeled (ComputerOutput, nouns output/computer output/printout), but showing it to Floyd does nothing, so a player using the original's show-printout path can't unlock the foray. Primary room-visit gate is faithful.
+
+## AB-028 [LOW] Intermittent: named direct-address to present ITalkable deflects to narrator (~3%, nondeterministic)  · _open_
+
+- game `planetfall` · area `Reactor Lobby / conversation` · category `conversation-routing` · target_sha `unknown`
+- command: `blather, what should i do now`
+
+## AB-029 [LOW] AB-028 filed  · _filed#286_
+
+- game `planetfall` · area `conversation` · category `conversation-routing` · target_sha `unknown`
+- command: `blather, what should i do now`
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
