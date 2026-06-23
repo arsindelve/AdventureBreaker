@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T15:10:41Z · 31 finding(s)_
+_Generated 2026-06-23T15:24:38Z · 33 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -105,6 +105,16 @@ On Deck Nine, 'knock on the bulkhead', 'bang on the bulkhead', 'hit the bulkhead
 
 - game `planetfall` · area `conversation` · category `conversation-routing` · target_sha `unknown`
 - command: `"you are a fool"`
+
+## AB-032 [MEDIUM] Admin Corridor South: examining ANY object returns the crevice description (catch-all swallows all examines)  · _open_
+
+- game `planetfall` · area `Planetfall/Admin Corridor South` · category `location-examine-override` · target_sha `unknown`
+- command: `examine chronometer`
+
+## AB-033 [MEDIUM] Admin Corridor South examine catch-all — filed  · _filed#291_
+
+- game `planetfall` · area `Planetfall/Admin Corridor South` · category `location-examine-override` · target_sha `unknown`
+- command: `examine chronometer`
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
