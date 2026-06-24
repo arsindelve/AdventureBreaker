@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-24T13:49:00Z · target_sha `unknown`_
+_Generated 2026-06-24T15:19:39Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
