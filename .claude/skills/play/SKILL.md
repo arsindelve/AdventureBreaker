@@ -229,7 +229,22 @@ repo's current dev branch.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
 - **god mode is white-box** (a debug cheat: `god mode take <item>` / `go <place>` /
-  `where <item>`). Don't use it during black-box play. Note it can transiently reset
-  live state (e.g. deactivate Floyd — a known issue), so re-check state after using it.
+  `where <item>`; see `_reference.md` §7 for the full verb syntax). Don't use it during
+  black-box play. `take`/`go` rebuild the Repository **without `Init()`**, which
+  **deactivates Floyd** and empties containers — so after any god-mode grab, re-check
+  `state` and `activate floyd` before show/give/conversation tests.
+- **If chasing a fix or tooling workaround balloons, stop.** Write the remaining detail
+  into the GitHub issue and abandon the side-quest (delete any scratch artifact). The job
+  is *find bugs, not fix them* — rabbit-holing into a fix violates it.
+- **One issue per root cause.** When several player-visible symptoms trace to a single
+  defect, file **one** issue covering all of them, not several (e.g. "ladder lost forever"
+  and "re-placing a ladder duplicates it" were one bug — both from a handler matching on
+  command text without checking ladder state). And don't run `finding` twice for the same
+  bug — it harmlessly dups the ledger entry.
+- **GitHub-MCP outage** surfaces as `Streamable HTTP error: ... reset reason: overflow`
+  (the "503/overflow"). There's **no client-side workaround** — it recovers server-side.
+  When `issue_write` fails this way, record the finding in the durable ledger with the
+  **full drafted issue body** and file it once MCP recovers — don't block the run; keep
+  doing MCP-free work (prod play, drafting, committing the ledger).
 - **Don't over-claim:** if a test was confounded (desync, flake, missing item), say so
   and re-run clean rather than logging a dubious finding. Credible ledger > big ledger.

@@ -85,12 +85,27 @@ through the harness like a player and observe what a player would see. So:
 - List deploy runs and find this release's:
   `mcp__github__actions_list` method `list_workflow_runs`, owner `arsindelve`, repo
   `zorkai`, resource_id `deploy.yml`, `workflow_runs_filter: { event: release }`.
-  - The output can exceed the tool's token limit and get saved to a file — if so, parse
-    it with `python3`/`jq` (slice by char range; lines are long). Match the run whose
-    `display_title` == `<tag>`; require `status: completed`, `conclusion: success`.
+  - Match the run whose `display_title` == `<tag>`, requiring `status: completed`,
+    `conclusion: success`, `event: release`.
+  - The `actions_list` payload routinely exceeds the tool's token limit (~350K chars on a
+    single line) and spills to a `tool-results/*.txt`. Parse it with python:
+    ```bash
+    python3 -c "import json,sys; d=json.load(open(sys.argv[1])); \
+      [print(r['id'],r['event'],r['status'],r['conclusion'],r['display_title'],r['created_at']) \
+       for r in d['workflow_runs']]" <file>
+    ```
+    Worked example (1.6.5): `28074443243 | release | completed | success | 1.6.5` → prod
+    serving 1.6.5.
 - If the deploy is still running, **wait** and re-check (don't poll with `sleep`; it
   finishes in a few minutes). If it failed, **stop** and report — prod is not serving
   this release.
+- **Versioning + publishing facts:** releases follow a sequential **patch cadence**
+  (1.6.1 → 1.6.2 → … ); the next tag is latest-patch + 1, target `main` (find latest via
+  `mcp__github__get_latest_release` owner `arsindelve` repo `zorkai`). Release notes are
+  the GitHub auto-generated "## What's Changed" PR list. There is **no
+  create-release/create-tag/publish MCP tool** (only read: `list_releases`,
+  `get_release_by_tag`, `get_tag`) — publishing a release tag on `main` triggers the prod
+  deploy, so it's deliberately a **human action**. An agent only drafts a paste-ready body.
 
 ### 3. Build the test plan
 For each gameplay-testable item, write down: **game** (zork/planetfall), **where**
