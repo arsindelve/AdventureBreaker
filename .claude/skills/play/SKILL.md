@@ -41,6 +41,11 @@ reach interesting states; the goal is to *break things*, not to win.
 - **Engine source for `file:line` citations and ZIL is read-only** — never copy/port ZIL
   into code; see ZorkAI's `CLAUDE.md`.
 
+**Read first:** `.claude/skills/_reference.md` — the `quiet` "no effect" sentinel and
+signal-reading, the bug-class taxonomy (where bugs hide), the severity rubric, ZIL
+dispatch (faithful-vs-bug), game landmarks, and save/restore gotchas. It's the
+how-to-read-and-judge companion to this procedure.
+
 ## Golden rules (do not violate)
 
 1. **Black-box until you find a bug.** While *exploring and probing*, use ONLY the

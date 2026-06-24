@@ -35,6 +35,10 @@ release.
   in scope you can't read the release or file a regression — tell the user.
 - **Network:** outbound HTTPS to prod (the harness plays the live production backend).
 
+**Read first:** `.claude/skills/_reference.md` — the `quiet` "no effect" sentinel and
+signal-reading, the severity rubric (for grading any regression), ZIL dispatch, game
+landmarks, and save/restore gotchas.
+
 ## White-box vs black-box (different from `/play`)
 
 Here white-box is allowed *up front* — you must read the release's PRs, linked issues,
