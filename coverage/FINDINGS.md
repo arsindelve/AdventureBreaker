@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T18:41:26Z · 39 finding(s)_
+_Generated 2026-06-24T17:52:26Z · 41 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -134,6 +134,20 @@ At Admin Corridor (rift), with NO ladder anywhere (not in inventory, not in room
 - command: `get key with magnet`
 
 At Admin Corridor South, only 'put/place/hold magnet on/over/beside crevice' solves the key puzzle (AdminCorridorSouth.cs:80-81). The original's canonical solve 'get/take/attract key WITH magnet' (key as target, magnet as tool; ZIL KEY-F compone.zil:980-982) is unrecognized and falls through to the AI narrator, which improvises a refusal asserting the key is 'stubbornly non-magnetic' - a direct CONTRADICTION of the puzzle's own success text ('a piece of metal leaps from the crevice and affixes itself to the magnet. It is a steel key!'). Also 'put magnet in crevice' (natural phrasing of the actual solution) gets an AI refusal calling it useless. Net: the narrator tells the player the correct approach won't work and states a false fact about the key.
+
+## AB-040 [MEDIUM] Timber Room west exit silently fails with empty response when player carries any item  · _open_
+
+- game `zork` · area `Timber Room / narrow passage` · category `movement` · target_sha `unknown`
+- command: `W`
+
+W exit is listed in the exits envelope for Timber Room (exits=['E','W']) but attempting to go west while carrying any item produces a completely blank response in both narrator-on and narrator-off mode. No 'can't go' message, no 'too narrow' message, nothing. Engine consumes a turn but location doesn't change. Moving west works when the player carries nothing (empty-handed). Reproduced from Mine Entrance → W → N (bat) → Down → Down → W (Timber Room) → W.
+
+## AB-041 [MEDIUM] Timber Room west exit silently fails with empty response when player carries any item  · _filed#309_
+
+- game `zork` · area `Timber Room / narrow passage` · category `movement` · target_sha `unknown`
+- command: `W`
+
+W exit listed in exits envelope but produces blank response + consumed turn when player carries anything. Works empty-handed (reaches Drafty Room).
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
