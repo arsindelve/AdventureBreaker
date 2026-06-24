@@ -22,6 +22,25 @@ reach interesting states; the goal is to *break things*, not to win.
 `$ARGUMENTS` = `<game> [focus area]`, e.g. `planetfall`, `zork`, `planetfall rift`.
 `<game>` is `zork` or `planetfall`. The optional focus area names a room/puzzle to target.
 
+## Prerequisites (check these first)
+
+- **Working dir:** the AdventureBreaker repo (this skill's home). Run `git rev-parse`
+  to confirm, and read `HANDOFF.md` at the repo root for cold-start context if you're
+  new to the project.
+- **Sibling ZorkAI checkout at `../ZorkAI`** — required for the white-box confirm step.
+  It must contain the engine C# **and** the gitignored ZIL ground-truth sub-checkouts
+  `zork1/` and `planetfall-source/` (the originals this engine recreates). The ZIL is
+  the authority for "is this a real bug or faithful original behavior." **If `../ZorkAI`
+  or its ZIL aren't present, you can still black-box play, but you cannot confirm
+  behavioral bugs against ground truth — say so and lower your confidence rather than
+  asserting "divergence."** Verify: `ls ../ZorkAI/planetfall-source/*.zil ../ZorkAI/zork1/*.zil`.
+- **GitHub MCP scope:** both `arsindelve/AdventureBreaker` (ledger commits) and
+  `arsindelve/zorkai` (issues + engine source). If zorkai isn't in scope you can't file
+  the issue or read the source — tell the user.
+- **Network:** outbound HTTPS to prod (the harness plays the live production backend).
+- **Engine source for `file:line` citations and ZIL is read-only** — never copy/port ZIL
+  into code; see ZorkAI's `CLAUDE.md`.
+
 ## Golden rules (do not violate)
 
 1. **Black-box until you find a bug.** While *exploring and probing*, use ONLY the
@@ -69,6 +88,24 @@ probes along the way:
   and pick from the least-covered (`never tested` / low-count) area × category rows.
 
 ### 2. Navigate there (spine = GPS)
+- **Find the spine step for your area.** The walkthrough lives at
+  `adventurebreaker/spine/<game>.json` as an ordered list of steps, each
+  `{"cmd": ..., "expect": [...]}`. `spine-run --count N` replays steps `0..N-1`, leaving
+  `spine_pos = N`. To reach a room/puzzle, grep the spine for a landmark command or an
+  expected room name to get its index, then `spine-run --count <index>` (stop *just
+  before* the step that performs the thing you want to probe, so you can probe it
+  yourself). Example:
+  ```bash
+  python3 -c "
+  import json; s=json.load(open('adventurebreaker/spine/planetfall.json'))
+  steps=s['steps'] if isinstance(s,dict) else s
+  for i,st in enumerate(steps):
+      cmd=(st.get('cmd') or '').lower()
+      if 'magnet' in cmd or 'rift' in cmd or 'ladder' in cmd: print(i, st.get('cmd'), st.get('expect'))
+  "
+  ```
+  (Landmarks shift if the spine is re-extracted, so derive the index live — don't
+  hard-code step numbers.)
 - Drive the walkthrough to the target with `spine-run --count N` (narrator OFF, cheap).
   Inspect with `state` to confirm location + inventory.
 - Once positioned, `save <name>` a checkpoint so destructive probes can be undone
