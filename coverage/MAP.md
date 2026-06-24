@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-24T13:49:00Z · target_sha `unknown`_
+_Generated 2026-06-24T18:11:40Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -98,43 +98,43 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Aragain Falls | 0/16 | clean | `-` | - |  ⬅ untouched
 | Atlantis Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Attic | 2/16 | clean | `unknown` | - |
-| Bat Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Behind House | 2/16 | clean | `unknown` | - |
+| Bat Room | 4/16 | medium | `unknown` | AB-042, AB-043 |
+| Behind House | 3/16 | low | `unknown` | - |
 | Canyon Bottom | 1/16 | clean | `unknown` | - |
 | Canyon View | 1/16 | clean | `unknown` | - |
-| Cave | 0/16 | clean | `-` | - |  ⬅ untouched
+| Cave | 1/16 | clean | `unknown` | - |
 | Cellar | 1/16 | clean | `unknown` | - |
-| Chasm | 0/16 | clean | `-` | - |  ⬅ untouched
+| Chasm | 1/16 | clean | `unknown` | - |
 | Clearing | 1/16 | low | `unknown` | - |
 | Cold Passage | 0/16 | clean | `-` | - |  ⬅ untouched
-| Dam | 0/16 | clean | `-` | - |  ⬅ untouched
-| Dam Base | 0/16 | clean | `-` | - |  ⬅ untouched
-| Dam Lobby | 0/16 | clean | `-` | - |  ⬅ untouched
-| Damp Cave | 0/16 | clean | `-` | - |  ⬅ untouched
-| Deep Canyon | 0/16 | clean | `-` | - |  ⬅ untouched
+| Dam | 3/16 | low | `unknown` | - |
+| Dam Base | 5/16 | low | `unknown` | - |
+| Dam Lobby | 2/16 | clean | `unknown` | - |
+| Damp Cave | 1/16 | low | `unknown` | - |
+| Deep Canyon | 1/16 | low | `unknown` | - |
 | Dome Room | 2/16 | clean | `unknown` | - |
 | East of Chasm | 1/16 | clean | `unknown` | - |
-| East-West Passage | 1/16 | clean | `unknown` | - |
+| East-West Passage | 1/16 | low | `unknown` | - |
 | Egyptian Room | 2/16 | clean | `unknown` | - |
 | End of Rainbow | 3/16 | clean | `unknown` | - |
 | Engravings Cave | 1/16 | clean | `unknown` | - |
-| Entrance to Hades | 0/16 | clean | `-` | - |  ⬅ untouched
+| Entrance to Hades | 5/16 | low | `unknown` | - |
 | Gallery | 2/16 | clean | `unknown` | - |
-| Kitchen | 3/16 | clean | `unknown` | - |
+| Kitchen | 5/16 | low | `unknown` | - |
 | Land of the Dead | 0/16 | clean | `-` | - |  ⬅ untouched
 | Living Room | 6/16 | low | `unknown` | - |
-| Loud Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Maintenance Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Mirror Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Narrow Passage | 0/16 | clean | `-` | - |  ⬅ untouched
-| North of House | 1/16 | clean | `unknown` | - |
+| Loud Room | 1/16 | clean | `unknown` | - |
+| Maintenance Room | 4/16 | clean | `unknown` | - |
+| Mirror Room | 2/16 | low | `unknown` | - |
+| Narrow Passage | 1/16 | low | `unknown` | - |
+| North of House | 3/16 | low | `unknown` | - |
 | North-South Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | On The Rainbow | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir North | 0/16 | clean | `-` | - |  ⬅ untouched
-| Reservoir South | 0/16 | clean | `-` | - |  ⬅ untouched
+| Reservoir South | 1/16 | clean | `unknown` | - |
 | Rocky Ledge | 1/16 | clean | `unknown` | - |
-| Round Room | 1/16 | clean | `unknown` | - |
+| Round Room | 1/16 | low | `unknown` | - |
 | Sandy Beach | 0/16 | clean | `-` | - |  ⬅ untouched
 | Sandy Cave | 0/16 | clean | `-` | - |  ⬅ untouched
 | Shore | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -145,7 +145,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Torch Room | 1/16 | clean | `unknown` | - |
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | Up A Tree | 4/16 | clean | `unknown` | - |
-| West Of House | 3/16 | clean | `unknown` | - |
+| West Of House | 6/16 | low | `unknown` | - |
 | White Cliffs Beach | 0/16 | clean | `-` | - |  ⬅ untouched
 | Winding Stair | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched
