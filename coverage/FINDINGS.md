@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-24T18:08:26Z · 43 finding(s)_
+_Generated 2026-06-24T19:10:19Z · 44 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -162,6 +162,13 @@ Entering the Bat Room from the south causes the vampire bat description to appea
 - command: `N (into Bat Room from Squeaky Room)`
 
 Bat NPC description doubled on movement entry. look with narrator ON shows once (masks bug). Narrator-on movement shows doubled text.
+
+## AB-044 [MEDIUM] "look at <noun>" returns room description instead of examining (Zork I)  · _filed#312_
+
+- game `zork` · area `global / look-at parser` · category `examine-scenery` · target_sha `unknown`
+- command: `look at mailbox`
+
+look at <single-word noun> collapses to bare room look. look at <two-word noun> works. examine always works. Same root cause as #283 (Planetfall).
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
