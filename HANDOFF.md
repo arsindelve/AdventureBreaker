@@ -81,7 +81,11 @@ re-tested and prod-lag never banks a stale "clean".
 
 **CRITICAL (prod lags `main`):** prod can be ~dozens of PRs behind `main`. Always
 confirm a prod-observed bug against current `origin/main` source before filing —
-it may already be fixed-but-undeployed (e.g. #230 was fixed by #232 same day).
+it may already be fixed-but-undeployed (e.g. #230 was fixed by #232 same day). A bug
+you find in prod may already be fixed and shipping in the next release; that's not
+wasted work — the `AB_TARGET_SHA` on the finding records which SHA you saw it on, so the
+staleness stays legible. Check open issues / recent merges before assuming a divergence
+is novel.
 
 ## Repo layout
 
@@ -124,7 +128,8 @@ spine [--from N] [--count M]   # show upcoming spine steps
 spine-run [--count N] [--narrator] [--verbose]   # auto-advance via walkthrough
 save NAME / saves / restore ID
 finding --severity {info,low,medium,high,critical} --category C --title T \
-        [--detail D] [--evidence E] [--command CMD] [--repro R]
+        [--detail D] [--evidence E] [--command CMD] [--repro R] [--area A] [--issue N]
+        # --command = the single repro line;  --repro = longer reproduction steps (distinct slots)
 report
 ```
 
