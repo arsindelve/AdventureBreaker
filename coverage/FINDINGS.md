@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T18:41:26Z · 39 finding(s)_
+_Generated 2026-06-24T22:23:42Z · 45 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -135,6 +135,41 @@ At Admin Corridor (rift), with NO ladder anywhere (not in inventory, not in room
 
 At Admin Corridor South, only 'put/place/hold magnet on/over/beside crevice' solves the key puzzle (AdminCorridorSouth.cs:80-81). The original's canonical solve 'get/take/attract key WITH magnet' (key as target, magnet as tool; ZIL KEY-F compone.zil:980-982) is unrecognized and falls through to the AI narrator, which improvises a refusal asserting the key is 'stubbornly non-magnetic' - a direct CONTRADICTION of the puzzle's own success text ('a piece of metal leaps from the crevice and affixes itself to the magnet. It is a steel key!'). Also 'put magnet in crevice' (natural phrasing of the actual solution) gets an AI refusal calling it useless. Net: the narrator tells the player the correct approach won't work and states a false fact about the key.
 
+## AB-040 [MEDIUM] Timber Room west exit silently fails with empty response when player carries any item  · _open_
+
+- game `zork` · area `Timber Room / narrow passage` · category `movement` · target_sha `unknown`
+- command: `W`
+
+W exit is listed in the exits envelope for Timber Room (exits=['E','W']) but attempting to go west while carrying any item produces a completely blank response in both narrator-on and narrator-off mode. No 'can't go' message, no 'too narrow' message, nothing. Engine consumes a turn but location doesn't change. Moving west works when the player carries nothing (empty-handed). Reproduced from Mine Entrance → W → N (bat) → Down → Down → W (Timber Room) → W.
+
+## AB-041 [MEDIUM] Timber Room west exit silently fails with empty response when player carries any item  · _filed#309_
+
+- game `zork` · area `Timber Room / narrow passage` · category `movement` · target_sha `unknown`
+- command: `W`
+
+W exit listed in exits envelope but produces blank response + consumed turn when player carries anything. Works empty-handed (reaches Drafty Room).
+
+## AB-042 [MEDIUM] Bat Room: vampire bat description appears twice on room entry (engine duplicates NPC text)  · _open_
+
+- game `zork` · area `Bat Room` · category `examine-scenery` · target_sha `unknown`
+- command: `N (into Bat Room from Squeaky Room)`
+
+Entering the Bat Room from the south causes the vampire bat description to appear twice in both quiet and narrator-on mode. The line 'In the corner of the room on the ceiling is a large vampire bat who is obviously deranged and holding his nose.' is printed twice consecutively. Reproducible on every entry. The 'look' command with narrator ON shows it only once (narrator rewrites full room description, masking the duplicate), but movement-triggered room entry shows both copies. The garlic held by the player causes the bat to stay (correct mechanic) but the description is still doubled.
+
+## AB-043 [MEDIUM] Bat Room: vampire bat description appears twice on room entry (engine duplicates NPC text)  · _filed#311_
+
+- game `zork` · area `Bat Room` · category `examine-scenery` · target_sha `unknown`
+- command: `N (into Bat Room from Squeaky Room)`
+
+Bat NPC description doubled on movement entry. look with narrator ON shows once (masks bug). Narrator-on movement shows doubled text.
+
+## AB-044 [MEDIUM] "look at <noun>" returns room description instead of examining (Zork I)  · _filed#312_
+
+- game `zork` · area `global / look-at parser` · category `examine-scenery` · target_sha `unknown`
+- command: `look at mailbox`
+
+look at <single-word noun> collapses to bare room look. look at <two-word noun> works. examine always works. Same root cause as #283 (Planetfall).
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -224,6 +259,13 @@ ZIL gates Floyd's offer to fetch the mini-card (the bio-lab sacrifice) on COMPUT
 - command: `place ladder across rift (when already spanning)`
 
 AdminCorridor.cs RespondToMultiNounInteraction has no 'already spans the rift' guard (ZIL compone.zil:699 checks LADDER-FLAG first). Placing the ladder again when IsAcrossRift==true re-runs the extended branch: prints the success message again AND calls GetLocation<AdminCorridorNorth>().Items.Add(ladder) a second time, duplicating the ladder in that room's Items list. ZIL says 'The ladder already spans the rift.'
+
+## AB-045 [LOW] Narrator falsely denies existence of keyboard in Miniaturization Booth (scenery-noun false-negative pattern)  · _filed#315_
+
+- game `planetfall` · area `MECH:miniaturization` · category `narrator-hallucination` · target_sha `unknown`
+- command: `examine keyboard`
+
+Room description says 'a keyboard with numeric keys' is there. Narrator says 'the legendary invisible keyboard—often mistaken for air. Keep searching, Ensign.' Engine has no examine handler (quiet=no effect); narrator generates false-absent response instead of neutral scenery description.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
