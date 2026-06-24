@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-24T22:23:42Z · 45 finding(s)_
+_Generated 2026-06-24T22:59:36Z · 49 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -169,6 +169,28 @@ Bat NPC description doubled on movement entry. look with narrator ON shows once 
 - command: `look at mailbox`
 
 look at <single-word noun> collapses to bare room look. look at <two-word noun> works. examine always works. Same root cause as #283 (Planetfall).
+
+## AB-046 [MEDIUM] "say Ulysses" does not dismiss the cyclops — only bare "Ulysses" is handled  · _open_
+
+- game `zork` · area `cyclops-room` · category `parser-pronoun` · target_sha `unknown`
+- command: `say Ulysses`
+
+In the Cyclops Room, typing "say Ulysses" (or "say Odysseus") returns the "no effect" sentinel, while the bare name "Ulysses" or "Odysseus" correctly makes the cyclops flee. CyclopsRoom.RespondToSpecificLocationInteraction matches only against raw input being exactly "ulysses" or "odysseus" — it does not handle the "say X" phrasing. In the original Zork I, "say Ulysses" is the canonical documented solution and should work.
+
+## AB-047 [MEDIUM] "read gothic lettering" fails — AI parser does not strip adjective modifier from noun  · _open_
+
+- game `zork` · area `living-room` · category `parser-pronoun` · target_sha `unknown`
+- command: `read gothic lettering`
+
+In the Living Room, the room description says "strange gothic lettering" above the door. Typing "read gothic lettering" or "examine gothic lettering" returns the no-effect sentinel. The bare form "read lettering" works correctly, returning "The engravings translate to \"This space intentionally left blank.\"" The AI parser treats "gothic lettering" as a compound noun (Noun="gothic lettering") rather than Noun="lettering" with Adjective="gothic". LivingRoom.RespondToSimpleInteraction matches against ["lettering","engraving","engravings","door"] using action.Match() which only checks the Noun field — so "gothic lettering" never matches "lettering".
+
+## AB-048 [MEDIUM] "say Ulysses" does not dismiss the cyclops — only bare "Ulysses" is handled  · _filed#316_
+
+- game `zork` · area `cyclops-room` · category `parser-pronoun` · target_sha `unknown`
+
+## AB-049 [MEDIUM] "read gothic lettering" fails — AI parser does not strip adjective modifier from noun  · _filed#317_
+
+- game `zork` · area `living-room` · category `parser-pronoun` · target_sha `unknown`
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
