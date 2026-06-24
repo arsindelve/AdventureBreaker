@@ -15,10 +15,21 @@
   *beat* Zork with an LLM. AdventureBreaker reuses its plumbing ideas (HTTP client,
   backend registry, reporting) but swaps the "how to win" brain for a walkthrough
   spine + an adversarial, judging driver (Claude = the L3 critic).
-- **State:** harness is **built, working, and proven against live prod Zork.**
-  Full mechanic demonstrated end-to-end: spine navigation → checkpoint → narrator
-  probing → deterministic oracles → findings ledger → restore-to-continue.
-  **6 findings** recorded in the first deep run (2 medium, 4 low) — see below.
+- **State:** harness is **built, working, and proven against live prod Zork &
+  Planetfall.** Full mechanic demonstrated end-to-end: spine navigation → checkpoint →
+  narrator probing → deterministic oracles → findings ledger → restore-to-continue.
+  **39+ findings** recorded across many runs (see `coverage/FINDINGS.md`); numerous have
+  been filed as `arsindelve/zorkai` issues and fixed in shipped releases.
+- **Two skills now drive the common workflows** (`.claude/skills/`) — prefer these as the
+  entry points:
+  - **`/play {game}`** (`/play planetfall`, `/play zork`, or `/play planetfall rift`) —
+    black-box adversarial bug-hunt: find ONE real bug, confirm with the user, file a GH
+    issue, record it, commit/push, stop.
+  - **`/test {release}`** (`/test 1.6.5`, or `/test` for latest) — verify a shipped
+    release live in prod: deploy check → smoke-test matrix → file any regression.
+  Each skill is self-contained (prerequisites, harness commands, spine-navigation, the
+  issue template, and the hard-won gotchas). This HANDOFF remains the deeper project
+  reference.
 - **Why this handoff exists:** the original build session was scoped to
   `arsindelve/zorkai` only; it could not create/push `arsindelve/AdventureBreaker`
   (git proxy + GitHub MCP both hard-scoped). The repo now exists on GitHub

@@ -22,6 +22,19 @@ if any shipped fix did not actually take in prod (a regression that escaped).
 `$ARGUMENTS` = the release number / tag, e.g. `1.6.5`. If omitted, use the **latest**
 release.
 
+## Prerequisites (check these first)
+
+- **Working dir:** the AdventureBreaker repo; read `HANDOFF.md` at the repo root for
+  cold-start context if you're new to the project.
+- **Sibling ZorkAI checkout at `../ZorkAI`** (engine C# + the gitignored ZIL
+  sub-checkouts `zork1/`/`planetfall-source/`) — needed to learn each fix's exact
+  expected behavior and `file:line`. If absent, you can still verify against the PR/issue
+  text, but note you couldn't cross-check the code.
+- **GitHub MCP scope:** `arsindelve/zorkai` (release notes, PRs, issues, Actions/deploy,
+  engine source) **and** `arsindelve/AdventureBreaker` (ledger commits). If zorkai isn't
+  in scope you can't read the release or file a regression — tell the user.
+- **Network:** outbound HTTPS to prod (the harness plays the live production backend).
+
 ## White-box vs black-box (different from `/play`)
 
 Here white-box is allowed *up front* — you must read the release's PRs, linked issues,
@@ -93,6 +106,20 @@ python3 -m adventurebreaker.harness state                     # confirm position
 python3 -m adventurebreaker.harness play  "<repro>"           # narrator on  (player view)
 python3 -m adventurebreaker.harness quiet "<repro>"           # narrator off (engine truth)
 ```
+- **Finding `<N>` (the step count for an area):** the walkthrough is
+  `adventurebreaker/spine/<game>.json` — an ordered list of `{"cmd", "expect"}` steps;
+  `spine-run --count N` replays steps `0..N-1`. Grep the spine for a landmark command or
+  expected room name to get its index, then stop just before the step you want to probe.
+  Quick lister:
+  ```bash
+  python3 -c "
+  import json; s=json.load(open('adventurebreaker/spine/<game>.json'))
+  steps=s['steps'] if isinstance(s,dict) else s
+  for i,st in enumerate(steps):
+      if '<keyword>' in (st.get('cmd') or '').lower(): print(i, st.get('cmd'), st.get('expect'))
+  "
+  ```
+  Derive the index live (don't hard-code — it shifts if the spine is re-extracted).
 - Assert the fixed behavior vs the PR's expected output. Where a clean before/after is
   known, show both sides in the report.
 - Use `save`/`restore` to fork (restore also resets Planetfall's survival clock).
