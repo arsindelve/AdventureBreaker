@@ -157,6 +157,17 @@ The game is the test harness. The bugs are real.
 
 ---
 
+## Porting to a New Game
+
+Two documents cover everything needed to target a different backend:
+
+- **[docs/api-contract.md](docs/api-contract.md)** — the HTTP contract your backend must implement, field-by-field response envelope reference, and how to register a new game in `config.py`
+- **[docs/spine-format.md](docs/spine-format.md)** — the spine JSON schema, a worked example, and how to write one by hand or extract it from existing tests
+
+No source code changes required — add a config entry, drop in a spine file, and run.
+
+---
+
 ## Related
 
 - [ZorkAI](https://github.com/arsindelve/ZorkAI) — the engine under test
