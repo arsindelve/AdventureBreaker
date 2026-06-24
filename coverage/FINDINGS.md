@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T01:00:48Z · 29 finding(s)_
+_Generated 2026-06-23T18:41:26Z · 39 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -106,6 +106,35 @@ On Deck Nine, 'knock on the bulkhead', 'bang on the bulkhead', 'hit the bulkhead
 - game `planetfall` · area `conversation` · category `conversation-routing` · target_sha `unknown`
 - command: `"you are a fool"`
 
+## AB-032 [MEDIUM] Admin Corridor South: examining ANY object returns the crevice description (catch-all swallows all examines)  · _open_
+
+- game `planetfall` · area `Planetfall/Admin Corridor South` · category `location-examine-override` · target_sha `unknown`
+- command: `examine chronometer`
+
+## AB-033 [MEDIUM] Admin Corridor South examine catch-all — filed  · _filed#291_
+
+- game `planetfall` · area `Planetfall/Admin Corridor South` · category `location-examine-override` · target_sha `unknown`
+- command: `examine chronometer`
+
+## AB-036 [MEDIUM] Rift: 'place ladder across rift' narrates losing the ladder even when you don't have one  · _open_
+
+- game `planetfall` · area `Planetfall/Admin Corridor (rift)` · category `stale-state-message` · target_sha `unknown`
+- command: `place ladder across rift`
+
+## AB-037 [MEDIUM] Rift bridging: 'place/put ladder across rift' narrates losing a ladder that isn't there  · _open_
+
+- game `planetfall` · area `Admin Corridor` · category `stale-state-message` · target_sha `unknown`
+- command: `place ladder across rift (with no ladder in game)`
+
+At Admin Corridor (rift), with NO ladder anywhere (not in inventory, not in room - confirmed via look), 'place ladder across rift' AND 'put ladder across rift' both print 'The ladder, far too short to reach the other edge of the rift, plunges into the rift and is lost forever.' By contrast 'extend ladder' correctly says it's not here, and 'take ladder' correctly refuses. The rift-bridge handler runs its too-short/lost branch unconditionally without checking ladder presence. Also: 'throw ladder across rift' loses a ground (un-held) ladder, and the un-extended ladder is lost permanently on place with no warning (rift is on critical path = softlock).
+
+## AB-039 [MEDIUM] Magnet puzzle: canonical 'get key with magnet' unrecognized; narrator falsely calls the steel key 'non-magnetic', steering players off the solution  · _open_
+
+- game `planetfall` · area `Admin Corridor South` · category `narrator-contradiction` · target_sha `unknown`
+- command: `get key with magnet`
+
+At Admin Corridor South, only 'put/place/hold magnet on/over/beside crevice' solves the key puzzle (AdminCorridorSouth.cs:80-81). The original's canonical solve 'get/take/attract key WITH magnet' (key as target, magnet as tool; ZIL KEY-F compone.zil:980-982) is unrecognized and falls through to the AI narrator, which improvises a refusal asserting the key is 'stubbornly non-magnetic' - a direct CONTRADICTION of the puzzle's own success text ('a piece of metal leaps from the crevice and affixes itself to the magnet. It is a steel key!'). Also 'put magnet in crevice' (natural phrasing of the actual solution) gets an AI refusal calling it useless. Net: the narrator tells the player the correct approach won't work and states a false fact about the key.
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -179,6 +208,23 @@ ZIL gates Floyd's offer to fetch the mini-card (the bio-lab sacrifice) on COMPUT
 - game `planetfall` · area `conversation` · category `conversation-routing` · target_sha `unknown`
 - command: `blather, what should i do now`
 
+## AB-034 [LOW] Magnet/crevice: 'put magnet IN crevice/crack' rejected; only on/over/beside/next-to work  · _open_
+
+- game `planetfall` · area `Planetfall/Admin Corridor South` · category `parser-preposition` · target_sha `unknown`
+- command: `put magnet in crack`
+
+## AB-035 [LOW] Magnet/crevice: 'put magnet IN crevice/crack' rejected; only on/over/beside/next-to work  · _open_
+
+- game `planetfall` · area `Planetfall/Admin Corridor South` · category `parser-preposition` · target_sha `unknown`
+- command: `put magnet in crack`
+
+## AB-038 [LOW] Rift: 'place ladder across rift' when it already spans re-narrates success and re-adds the ladder to Admin Corridor North  · _open_
+
+- game `planetfall` · area `Admin Corridor` · category `state-integrity` · target_sha `unknown`
+- command: `place ladder across rift (when already spanning)`
+
+AdminCorridor.cs RespondToMultiNounInteraction has no 'already spans the rift' guard (ZIL compone.zil:699 checks LADDER-FLAG first). Placing the ladder again when IsAcrossRift==true re-runs the extended branch: prints the success message again AND calls GetLocation<AdminCorridorNorth>().Items.Add(ladder) a second time, duplicating the ladder in that room's Items list. ZIL says 'The ladder already spans the rift.'
+
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
 - game `planetfall` · area `Gangway / session-state durability (prod)` · category `other` · target_sha `unknown`
@@ -192,3 +238,11 @@ During a prodplay session that had absorbed several HTTP 500s, a 'drop brush' tu
 - command: `god mode go bio lock east; wait (no state machine)`
 
 GodModeProcessor.Go just sets context.CurrentLocation; it never calls BeforeEnterLocation, so the destination's ITurnBasedActor isn't registered and Floyd is not moved. Actor-driven sequences can't be reached by teleport alone: BioLockEast's sacrifice state machine never runs and ComputerRoom never sets FloydHasExpressedConcern. Also, teleporting during the unfinished Feinstein intro is unstable - the explosion timer is still queued and snaps the player back toward Deck Nine (also corrupts a save taken in that state). Fromitz works via teleport because it's driven by Floyd conversation metadata, not a location actor. Reliable prod path for the sacrifice = narrator-on walkthrough replay (survival off). Possible affordance: have god-mode 'go' run BeforeEnterLocation/actor registration + bring followers.
+
+## AB-030 [INFO] 1.6.4 verified in prod: #286 (no-comma NPC address) + #284 (nameless speech routing) FIXED  · _filed#286_
+
+- game `zork` · area `Planetfall/ConversationHandler` · category `regression-verify` · target_sha `unknown`
+
+## AB-031 [INFO] 1.6.4 verified: #285 egg force-open with weapon (prod) + #281 Stream rooms (white-box)  · _filed#285_
+
+- game `zork` · area `ZorkOne/Reservoir+egg` · category `regression-verify` · target_sha `unknown`
