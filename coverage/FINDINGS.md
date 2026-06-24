@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-24T19:10:19Z · 44 finding(s)_
+_Generated 2026-06-24T22:23:42Z · 45 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -259,6 +259,13 @@ ZIL gates Floyd's offer to fetch the mini-card (the bio-lab sacrifice) on COMPUT
 - command: `place ladder across rift (when already spanning)`
 
 AdminCorridor.cs RespondToMultiNounInteraction has no 'already spans the rift' guard (ZIL compone.zil:699 checks LADDER-FLAG first). Placing the ladder again when IsAcrossRift==true re-runs the extended branch: prints the success message again AND calls GetLocation<AdminCorridorNorth>().Items.Add(ladder) a second time, duplicating the ladder in that room's Items list. ZIL says 'The ladder already spans the rift.'
+
+## AB-045 [LOW] Narrator falsely denies existence of keyboard in Miniaturization Booth (scenery-noun false-negative pattern)  · _filed#315_
+
+- game `planetfall` · area `MECH:miniaturization` · category `narrator-hallucination` · target_sha `unknown`
+- command: `examine keyboard`
+
+Room description says 'a keyboard with numeric keys' is there. Narrator says 'the legendary invisible keyboard—often mistaken for air. Keep searching, Ensign.' Engine has no examine handler (quiet=no effect); narrator generates false-absent response instead of neutral scenery description.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
