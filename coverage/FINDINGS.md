@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-24T17:52:26Z · 41 finding(s)_
+_Generated 2026-06-24T18:08:26Z · 43 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -148,6 +148,20 @@ W exit is listed in the exits envelope for Timber Room (exits=['E','W']) but att
 - command: `W`
 
 W exit listed in exits envelope but produces blank response + consumed turn when player carries anything. Works empty-handed (reaches Drafty Room).
+
+## AB-042 [MEDIUM] Bat Room: vampire bat description appears twice on room entry (engine duplicates NPC text)  · _open_
+
+- game `zork` · area `Bat Room` · category `examine-scenery` · target_sha `unknown`
+- command: `N (into Bat Room from Squeaky Room)`
+
+Entering the Bat Room from the south causes the vampire bat description to appear twice in both quiet and narrator-on mode. The line 'In the corner of the room on the ceiling is a large vampire bat who is obviously deranged and holding his nose.' is printed twice consecutively. Reproducible on every entry. The 'look' command with narrator ON shows it only once (narrator rewrites full room description, masking the duplicate), but movement-triggered room entry shows both copies. The garlic held by the player causes the bat to stay (correct mechanic) but the description is still doubled.
+
+## AB-043 [MEDIUM] Bat Room: vampire bat description appears twice on room entry (engine duplicates NPC text)  · _filed#311_
+
+- game `zork` · area `Bat Room` · category `examine-scenery` · target_sha `unknown`
+- command: `N (into Bat Room from Squeaky Room)`
+
+Bat NPC description doubled on movement entry. look with narrator ON shows once (masks bug). Narrator-on movement shows doubled text.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
