@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-24T22:59:36Z · 49 finding(s)_
+_Generated 2026-06-25T03:09:38Z · 50 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -288,6 +288,13 @@ AdminCorridor.cs RespondToMultiNounInteraction has no 'already spans the rift' g
 - command: `examine keyboard`
 
 Room description says 'a keyboard with numeric keys' is there. Narrator says 'the legendary invisible keyboard—often mistaken for air. Keep searching, Ensign.' Engine has no examine handler (quiet=no effect); narrator generates false-absent response instead of neutral scenery description.
+
+## AB-050 [LOW] Diary Septem 5 entry has duplicate phrase and missing spaces; END OF DIARY appends contradictory button-flash footer  · _filed#321_
+
+- game `planetfall` · area `diary` · category `other` · target_sha `unknown`
+- command: `read diary (then press button x13 for Bug A; x14 for Bug B)`
+
+Bug A: _messages[13] has 'when I was when I was' (dup), 'andassigned', 'evenabandon' (missing spaces). Bug B: Read() appends button-flash footer to the final END OF DIARY message which itself says the button flickers off.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
