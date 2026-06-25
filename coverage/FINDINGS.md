@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-25T03:09:38Z · 50 finding(s)_
+_Generated 2026-06-25T14:27:02Z · 51 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -191,6 +191,13 @@ In the Living Room, the room description says "strange gothic lettering" above t
 ## AB-049 [MEDIUM] "read gothic lettering" fails — AI parser does not strip adjective modifier from noun  · _filed#317_
 
 - game `zork` · area `living-room` · category `parser-pronoun` · target_sha `unknown`
+
+## AB-051 [MEDIUM] Library terminal: press 0 from text leaf doesn't navigate back to submenu (Parent=null after serialization)  · _filed#323_
+
+- game `planetfall` · area `library-terminal` · category `puzzle-step` · target_sha `unknown`
+- command: `turn on terminal; press 1; press 2; press 0`
+
+GoUp() returns NoEffect because leaf MenuItem.Parent is null. Computed Children getter creates new objects on every access; the Parent reference is lost during JSON serialization between HTTP calls.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
