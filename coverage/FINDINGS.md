@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-25T14:27:02Z · 51 finding(s)_
+_Generated 2026-06-28T14:56:32Z · 52 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -198,6 +198,13 @@ In the Living Room, the room description says "strange gothic lettering" above t
 - command: `turn on terminal; press 1; press 2; press 0`
 
 GoUp() returns NoEffect because leaf MenuItem.Parent is null. Computed Children getter creates new objects on every access; the Parent reference is lost during JSON serialization between HTTP calls.
+
+## AB-052 [MEDIUM] examine mailbox (open) hides contents — only says "It's open."  · _filed#331_
+
+- game `zork` · area `West Of House` · category `examine-scenery` · target_sha `unknown`
+- command: `open mailbox. examine mailbox`
+
+Mailbox.ExaminationDescription returns 'It''s open.' without calling ItemListDescription; coffin correctly lists contents.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 

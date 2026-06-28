@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-24T18:11:40Z · target_sha `unknown`_
+_Generated 2026-06-28T02:12:07Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -8,14 +8,14 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 
 | Area | Covered | Worst | Last sha | Findings |
 |---|---|---|---|---|
-| Alfie Control East | 2/16 | low | `unknown` | - |
+| Alfie Control East | 4/16 | low | `unknown` | - |
 | Alfie Control West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Auxiliary Booth | 0/16 | clean | `-` | - |  ⬅ untouched
 | Balcony | 1/16 | clean | `unknown` | - |
 | Betty Control East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Betty Control West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Booth 1 | 0/16 | clean | `-` | - |  ⬅ untouched
-| Booth 2 | 0/16 | clean | `-` | - |  ⬅ untouched
+| Booth 2 | 4/16 | low | `unknown` | - |
 | Booth 3 | 0/16 | clean | `-` | - |  ⬅ untouched
 | Brig | 6/16 | high | `unknown` | - |
 | Computer Room | 5/16 | clean | `unknown` | - |
@@ -23,29 +23,29 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Corridor Junction | 2/16 | clean | `unknown` | - |
 | Course Control | 5/16 | clean | `341a64b` | - |
 | Courtyard | 1/16 | clean | `unknown` | - |
-| Crag | 1/16 | clean | `unknown` | - |
+| Crag | 2/16 | clean | `unknown` | - |
 | Deck Eight | 1/16 | low | `unknown` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
 | Dorm Corridor | 1/16 | clean | `unknown` | - |
 | Elevator Lobby | 3/16 | low | `unknown` | - |
 | Escalator | 0/16 | clean | `-` | - |  ⬅ untouched
-| Escape Pod | 4/16 | low | `unknown` | - |
+| Escape Pod | 5/16 | low | `unknown` | - |
 | Fork | 0/16 | clean | `-` | - |  ⬅ untouched
 | Gangway | 4/16 | low | `unknown` | - |
 | In Bed | 0/16 | clean | `-` | - |  ⬅ untouched
-| Infirmary | 0/16 | clean | `-` | - |  ⬅ untouched
+| Infirmary | 4/16 | clean | `unknown` | - |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
-| Kalamontee Platform | 2/16 | low | `unknown` | - |
+| Kalamontee Platform | 5/16 | low | `unknown` | - |
 | Kitchen | 5/16 | medium | `unknown` | - |
 | Lawanda Platform | 0/16 | clean | `-` | - |  ⬅ untouched
 | Library | 3/16 | clean | `8175684` | - |
-| Library Lobby | 0/16 | clean | `-` | - |  ⬅ untouched
-| Lower Elevator | 2/16 | clean | `unknown` | - |
+| Library Lobby | 3/16 | clean | `unknown` | - |
+| Lower Elevator | 5/16 | low | `unknown` | - |
 | Machine Shop | 5/16 | low | `unknown` | - |
 | Mess Corridor | 4/16 | low | `unknown` | - |
 | Mess Hall | 5/16 | low | `unknown` | - |
-| Middle of Strip | 0/16 | clean | `-` | - |  ⬅ untouched
-| Miniaturization Booth | 3/16 | clean | `c31e9ec` | - |
+| Middle of Strip | 1/16 | clean | `unknown` | - |
+| Miniaturization Booth | 4/16 | clean | `unknown` | - |
 | Physical Plant | 5/16 | low | `unknown` | - |
 | Plain Hall | 1/16 | clean | `unknown` | - |
 | Planetary Defense | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -59,18 +59,18 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Repair Room | 4/16 | clean | `unknown` | - |
 | Robot Shop | 5/16 | clean | `unknown` | - |
 | Sanfac F | 3/16 | clean | `c31e9ec` | - |
-| Shuttle Car Alfie | 1/16 | clean | `unknown` | - |
+| Shuttle Car Alfie | 3/16 | low | `unknown` | - |
 | Shuttle Car Betty | 0/16 | clean | `-` | - |  ⬅ untouched
-| Station 384 | 0/16 | clean | `-` | - |  ⬅ untouched
+| Station 384 | 3/16 | clean | `unknown` | - |
 | Storage West | 2/16 | low | `unknown` | - |
-| Strip Near Relay | 0/16 | clean | `-` | - |  ⬅ untouched
-| Strip Near Station | 0/16 | clean | `-` | - |  ⬅ untouched
+| Strip Near Relay | 7/16 | low | `unknown` | - |
+| Strip Near Station | 1/16 | clean | `unknown` | - |
 | Systems Corridor | 0/16 | clean | `-` | - |  ⬅ untouched
 | Systems Corridor East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Systems Corridor West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Underwater | 1/16 | clean | `unknown` | - |
-| Upper Elevator | 4/16 | clean | `unknown` | - |
-| Waiting Area | 1/16 | clean | `unknown` | - |
+| Upper Elevator | 6/16 | low | `unknown` | - |
+| Waiting Area | 5/16 | low | `unknown` | - |
 | West Wing | 0/16 | clean | `-` | - |  ⬅ untouched
 | Winding Stair | 1/16 | clean | `unknown` | - |
 | MECH:floyd-conversation | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -82,7 +82,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | MECH:reactor-fromitz | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:planetary-defense-bedistor | 2/16 | medium | `8175684` | AB-008 |
 | MECH:bio-lock | 0/16 | clean | `-` | - |  ⬅ untouched
-| MECH:miniaturization | 0/16 | clean | `-` | - |  ⬅ untouched
+| MECH:miniaturization | 1/16 | low | `unknown` | AB-045 |
 | MECH:survival-hunger-thirst | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:survival-sleep | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -97,56 +97,56 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Altar | 1/16 | clean | `unknown` | - |
 | Aragain Falls | 0/16 | clean | `-` | - |  ⬅ untouched
 | Atlantis Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Attic | 2/16 | clean | `unknown` | - |
-| Bat Room | 4/16 | medium | `unknown` | AB-042, AB-043 |
-| Behind House | 3/16 | low | `unknown` | - |
-| Canyon Bottom | 1/16 | clean | `unknown` | - |
-| Canyon View | 1/16 | clean | `unknown` | - |
-| Cave | 1/16 | clean | `unknown` | - |
-| Cellar | 1/16 | clean | `unknown` | - |
-| Chasm | 1/16 | clean | `unknown` | - |
-| Clearing | 1/16 | low | `unknown` | - |
-| Cold Passage | 0/16 | clean | `-` | - |  ⬅ untouched
+| Attic | 2/16 | low | `unknown` | - |
+| Bat Room | 6/16 | medium | `unknown` | AB-042, AB-043 |
+| Behind House | 4/16 | low | `unknown` | - |
+| Canyon Bottom | 6/16 | medium | `unknown` | - |
+| Canyon View | 5/16 | medium | `unknown` | - |
+| Cave | 1/16 | low | `unknown` | - |
+| Cellar | 4/16 | low | `unknown` | - |
+| Chasm | 1/16 | low | `unknown` | - |
+| Clearing | 6/16 | low | `unknown` | - |
+| Cold Passage | 1/16 | clean | `unknown` | - |
 | Dam | 3/16 | low | `unknown` | - |
 | Dam Base | 5/16 | low | `unknown` | - |
 | Dam Lobby | 2/16 | clean | `unknown` | - |
-| Damp Cave | 1/16 | low | `unknown` | - |
-| Deep Canyon | 1/16 | low | `unknown` | - |
+| Damp Cave | 5/16 | low | `unknown` | - |
+| Deep Canyon | 6/16 | low | `unknown` | - |
 | Dome Room | 2/16 | clean | `unknown` | - |
-| East of Chasm | 1/16 | clean | `unknown` | - |
+| East of Chasm | 1/16 | low | `unknown` | - |
 | East-West Passage | 1/16 | low | `unknown` | - |
 | Egyptian Room | 2/16 | clean | `unknown` | - |
-| End of Rainbow | 3/16 | clean | `unknown` | - |
+| End of Rainbow | 7/16 | low | `unknown` | - |
 | Engravings Cave | 1/16 | clean | `unknown` | - |
-| Entrance to Hades | 5/16 | low | `unknown` | - |
-| Gallery | 2/16 | clean | `unknown` | - |
+| Entrance to Hades | 6/16 | low | `unknown` | - |
+| Gallery | 3/16 | low | `unknown` | - |
 | Kitchen | 5/16 | low | `unknown` | - |
 | Land of the Dead | 0/16 | clean | `-` | - |  ⬅ untouched
-| Living Room | 6/16 | low | `unknown` | - |
-| Loud Room | 1/16 | clean | `unknown` | - |
+| Living Room | 6/16 | medium | `unknown` | - |
+| Loud Room | 7/16 | low | `unknown` | - |
 | Maintenance Room | 4/16 | clean | `unknown` | - |
-| Mirror Room | 2/16 | low | `unknown` | - |
-| Narrow Passage | 1/16 | low | `unknown` | - |
-| North of House | 3/16 | low | `unknown` | - |
+| Mirror Room | 4/16 | low | `unknown` | - |
+| Narrow Passage | 3/16 | low | `unknown` | - |
+| North of House | 5/16 | low | `unknown` | - |
 | North-South Passage | 0/16 | clean | `-` | - |  ⬅ untouched
-| On The Rainbow | 0/16 | clean | `-` | - |  ⬅ untouched
+| On The Rainbow | 2/16 | clean | `unknown` | - |
 | Reservoir | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir North | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir South | 1/16 | clean | `unknown` | - |
-| Rocky Ledge | 1/16 | clean | `unknown` | - |
-| Round Room | 1/16 | low | `unknown` | - |
+| Rocky Ledge | 3/16 | low | `unknown` | - |
+| Round Room | 4/16 | low | `unknown` | - |
 | Sandy Beach | 0/16 | clean | `-` | - |  ⬅ untouched
 | Sandy Cave | 0/16 | clean | `-` | - |  ⬅ untouched
 | Shore | 0/16 | clean | `-` | - |  ⬅ untouched
-| South of House | 2/16 | clean | `8175684` | - |
-| Studio | 1/16 | clean | `unknown` | - |
+| South of House | 4/16 | low | `unknown` | - |
+| Studio | 2/16 | low | `unknown` | - |
 | Temple | 1/16 | clean | `unknown` | - |
 | The Troll Room | 3/16 | low | `unknown` | - |
 | Torch Room | 1/16 | clean | `unknown` | - |
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched
-| Up A Tree | 4/16 | clean | `unknown` | - |
+| Up A Tree | 4/16 | low | `unknown` | - |
 | West Of House | 6/16 | low | `unknown` | - |
-| White Cliffs Beach | 0/16 | clean | `-` | - |  ⬅ untouched
+| White Cliffs Beach | 6/16 | low | `unknown` | - |
 | Winding Stair | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:death-resurrection | 0/16 | clean | `-` | - |  ⬅ untouched
