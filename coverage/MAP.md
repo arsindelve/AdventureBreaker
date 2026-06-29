@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-24T13:49:00Z · target_sha `unknown`_
+_Generated 2026-06-29T22:12:59Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -8,71 +8,71 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 
 | Area | Covered | Worst | Last sha | Findings |
 |---|---|---|---|---|
-| Alfie Control East | 2/16 | low | `unknown` | - |
+| Alfie Control East | 4/16 | low | `a5cf54c` | - |
 | Alfie Control West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Auxiliary Booth | 0/16 | clean | `-` | - |  ⬅ untouched
-| Balcony | 1/16 | clean | `unknown` | - |
+| Balcony | 1/16 | clean | `a5cf54c` | - |
 | Betty Control East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Betty Control West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Booth 1 | 0/16 | clean | `-` | - |  ⬅ untouched
-| Booth 2 | 0/16 | clean | `-` | - |  ⬅ untouched
-| Booth 3 | 0/16 | clean | `-` | - |  ⬅ untouched
+| Booth 2 | 4/16 | low | `a5cf54c` | - |
+| Booth 3 | 2/16 | low | `unknown` | - |
 | Brig | 6/16 | high | `unknown` | - |
-| Computer Room | 5/16 | clean | `unknown` | - |
+| Computer Room | 6/16 | low | `unknown` | - |
 | Conference Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Corridor Junction | 2/16 | clean | `unknown` | - |
-| Course Control | 5/16 | clean | `341a64b` | - |
-| Courtyard | 1/16 | clean | `unknown` | - |
-| Crag | 1/16 | clean | `unknown` | - |
+| Corridor Junction | 2/16 | low | `unknown` | - |
+| Course Control | 5/16 | low | `unknown` | - |
+| Courtyard | 1/16 | clean | `a5cf54c` | - |
+| Crag | 1/16 | clean | `a5cf54c` | - |
 | Deck Eight | 1/16 | low | `unknown` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
-| Dorm Corridor | 1/16 | clean | `unknown` | - |
-| Elevator Lobby | 3/16 | low | `unknown` | - |
-| Escalator | 0/16 | clean | `-` | - |  ⬅ untouched
-| Escape Pod | 4/16 | low | `unknown` | - |
-| Fork | 0/16 | clean | `-` | - |  ⬅ untouched
+| Dorm Corridor | 1/16 | low | `a5cf54c` | - |
+| Elevator Lobby | 5/16 | low | `unknown` | - |
+| Escalator | 1/16 | clean | `a5cf54c` | - |
+| Escape Pod | 4/16 | low | `a5cf54c` | - |
+| Fork | 1/16 | clean | `a5cf54c` | - |
 | Gangway | 4/16 | low | `unknown` | - |
 | In Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Infirmary | 0/16 | clean | `-` | - |  ⬅ untouched
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
-| Kalamontee Platform | 2/16 | low | `unknown` | - |
+| Kalamontee Platform | 5/16 | low | `a5cf54c` | - |
 | Kitchen | 5/16 | medium | `unknown` | - |
-| Lawanda Platform | 0/16 | clean | `-` | - |  ⬅ untouched
-| Library | 3/16 | clean | `8175684` | - |
-| Library Lobby | 0/16 | clean | `-` | - |  ⬅ untouched
-| Lower Elevator | 2/16 | clean | `unknown` | - |
+| Lawanda Platform | 1/16 | clean | `a5cf54c` | - |
+| Library | 5/16 | low | `unknown` | - |
+| Library Lobby | 2/16 | low | `unknown` | - |
+| Lower Elevator | 5/16 | low | `a5cf54c` | - |
 | Machine Shop | 5/16 | low | `unknown` | - |
 | Mess Corridor | 4/16 | low | `unknown` | - |
-| Mess Hall | 5/16 | low | `unknown` | - |
+| Mess Hall | 5/16 | low | `a5cf54c` | - |
 | Middle of Strip | 0/16 | clean | `-` | - |  ⬅ untouched
-| Miniaturization Booth | 3/16 | clean | `c31e9ec` | - |
+| Miniaturization Booth | 4/16 | low | `unknown` | - |
 | Physical Plant | 5/16 | low | `unknown` | - |
-| Plain Hall | 1/16 | clean | `unknown` | - |
-| Planetary Defense | 0/16 | clean | `-` | - |  ⬅ untouched
-| ProjCon Office | 1/16 | clean | `unknown` | - |
+| Plain Hall | 1/16 | clean | `a5cf54c` | - |
+| Planetary Defense | 3/16 | low | `unknown` | - |
+| ProjCon Office | 2/16 | low | `unknown` | - |
 | Project Corridor | 0/16 | clean | `-` | - |  ⬅ untouched
-| Project Corridor East | 0/16 | clean | `-` | - |  ⬅ untouched
+| Project Corridor East | 1/16 | low | `unknown` | - |
 | Project Corridor West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reactor Lobby | 6/16 | low | `unknown` | - |
 | Rec Area | 0/16 | clean | `-` | - |  ⬅ untouched
-| Rec Corridor | 1/16 | clean | `unknown` | - |
-| Repair Room | 4/16 | clean | `unknown` | - |
-| Robot Shop | 5/16 | clean | `unknown` | - |
+| Rec Corridor | 1/16 | clean | `a5cf54c` | - |
+| Repair Room | 4/16 | low | `a5cf54c` | - |
+| Robot Shop | 5/16 | low | `a5cf54c` | - |
 | Sanfac F | 3/16 | clean | `c31e9ec` | - |
-| Shuttle Car Alfie | 1/16 | clean | `unknown` | - |
+| Shuttle Car Alfie | 3/16 | low | `a5cf54c` | - |
 | Shuttle Car Betty | 0/16 | clean | `-` | - |  ⬅ untouched
 | Station 384 | 0/16 | clean | `-` | - |  ⬅ untouched
-| Storage West | 2/16 | low | `unknown` | - |
+| Storage West | 2/16 | low | `a5cf54c` | - |
 | Strip Near Relay | 0/16 | clean | `-` | - |  ⬅ untouched
 | Strip Near Station | 0/16 | clean | `-` | - |  ⬅ untouched
-| Systems Corridor | 0/16 | clean | `-` | - |  ⬅ untouched
-| Systems Corridor East | 0/16 | clean | `-` | - |  ⬅ untouched
-| Systems Corridor West | 0/16 | clean | `-` | - |  ⬅ untouched
-| Underwater | 1/16 | clean | `unknown` | - |
-| Upper Elevator | 4/16 | clean | `unknown` | - |
-| Waiting Area | 1/16 | clean | `unknown` | - |
+| Systems Corridor | 1/16 | clean | `unknown` | - |
+| Systems Corridor East | 1/16 | clean | `unknown` | - |
+| Systems Corridor West | 1/16 | clean | `unknown` | - |
+| Underwater | 1/16 | clean | `a5cf54c` | - |
+| Upper Elevator | 6/16 | low | `a5cf54c` | - |
+| Waiting Area | 5/16 | low | `a5cf54c` | - |
 | West Wing | 0/16 | clean | `-` | - |  ⬅ untouched
-| Winding Stair | 1/16 | clean | `unknown` | - |
+| Winding Stair | 1/16 | clean | `a5cf54c` | - |
 | MECH:floyd-conversation | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-follow-wander | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-scenes | 0/16 | clean | `-` | - |  ⬅ untouched

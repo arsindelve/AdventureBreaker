@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-23T18:41:26Z · 39 finding(s)_
+_Generated 2026-06-29T22:24:37Z · 40 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -224,6 +224,13 @@ ZIL gates Floyd's offer to fetch the mini-card (the bio-lab sacrifice) on COMPUT
 - command: `place ladder across rift (when already spanning)`
 
 AdminCorridor.cs RespondToMultiNounInteraction has no 'already spans the rift' guard (ZIL compone.zil:699 checks LADDER-FLAG first). Placing the ladder again when IsAcrossRift==true re-runs the extended branch: prints the success message again AND calls GetLocation<AdminCorridorNorth>().Items.Add(ladder) a second time, duplicating the ladder in that room's Items list. ZIL says 'The ladder already spans the rift.'
+
+## AB-040 [LOW] Aragain Falls DOWN uses generic movement failure instead of canonical long-way message  · _filed#335_
+
+- game `zork` · area `Aragain Falls` · category `movement` · target_sha `unknown`
+- command: `down`
+
+At Aragain Falls in Zork prod, DOWN returns generic "You cannot go that way." instead of the original room-specific "It's a long way...". Root cause: ZorkOne/Location/AragainFalls.cs maps only N and conditional W, so Direction.Down falls through to generic movement failure. Original ZIL zork1/1dungeon.zil:2319-2328 defines DOWN "It's a long way...".
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
