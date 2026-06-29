@@ -23,10 +23,9 @@ two ways:
    review** section. The author confirms each item and the human reviewer signs off.
 
 > **Maintainers:** the automated review requires a repository secret named `CLAUDE_API_KEY`
-> (Settings → Secrets and variables → Actions). Without it the workflow is skipped rather
-> than failing the build, so forked PRs without secret access are not blocked — but the
-> reviewer checklist still applies. To make the review a hard gate, mark the
-> **Security Review** check as required under branch protection for `main`.
+> (Settings → Secrets and variables → Actions). Forked PRs without secret access are skipped,
+> but same-repo PRs fail fast when the secret is missing. To make the review a hard gate,
+> mark the **Security Review** check as required under branch protection for `main`.
 
 ## Threat model (what we actually worry about)
 

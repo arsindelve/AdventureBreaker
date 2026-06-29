@@ -4,9 +4,9 @@ name: Security Review
 # vulnerabilities before merge — the project that does agentic QA holds its own changes
 # to the same bar. See SECURITY.md.
 #
-# Requires a repository secret named CLAUDE_API_KEY. If it is absent (e.g. on a forked PR
-# without secret access) the review job is skipped rather than failing the build, so the
-# reviewer checklist in the PR template remains the gate.
+# Requires a repository secret named CLAUDE_API_KEY. Forked PRs are skipped because they
+# cannot read secrets; same-repo PRs fail fast if the secret is missing, so branch
+# protection can use this workflow as a real gate.
 
 on:
   pull_request:
@@ -22,32 +22,23 @@ jobs:
     # Only run for same-repo PRs; forked PRs can't read secrets.
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     steps:
-      # Map the secret to a step env (the only context where `secrets` is
-      # available) and gate the real work on it, so the check passes cleanly
-      # with a notice when a maintainer hasn't set CLAUDE_API_KEY yet rather
-      # than failing the build. See SECURITY.md.
       - name: Check for API key
-        id: gate
         env:
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
         run: |
-          if [ -n "$CLAUDE_API_KEY" ]; then
-            echo "enabled=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "enabled=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::CLAUDE_API_KEY secret not set — skipping agentic security review. Add it under Settings → Secrets and variables → Actions to enable. See SECURITY.md."
+          if [ -z "$CLAUDE_API_KEY" ]; then
+            echo "::error::CLAUDE_API_KEY secret not set. Add it under Settings -> Secrets and variables -> Actions, or do not require this check yet. See SECURITY.md."
+            exit 1
           fi
 
       - name: Check out the PR
-        if: steps.gate.outputs.enabled == 'true'
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 2
 
       - name: Run Claude Code security review
-        if: steps.gate.outputs.enabled == 'true'
-        uses: anthropics/claude-code-security-review@main
+        uses: anthropics/claude-code-security-review@0c6a49f1fa56a1d472575da86a94dbc1edb78eda
         with:
           comment-pr: true
           claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
