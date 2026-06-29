@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-29T22:32:31Z · 42 finding(s)_
+_Generated 2026-06-29T22:40:57Z · 43 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -245,6 +245,13 @@ At Aragain Falls in Zork prod, the room description exposes a rainbow and cross 
 - command: `swim in river`
 
 At Shore in Zork prod, river/water scenery commands fall through: swim and swim in river return generic no-effect, enter river returns generic cannot-get-there, and drink/take water return generic no-effect. Root cause: ZorkOne/Location/Shore.cs only maps N/S exits and has no local/global water or river handler; SandyBeach.cs similarly describes river water but only maps NE/S plus boat launch. Original ZIL defines GLOBAL-WATER in LOCAL-GLOBALS, includes GLOBAL-WATER RIVER in SHORE and SANDY-BEACH, and routes SWIM/DRINK via the global water handlers.
+
+## AB-043 [LOW] North-South Passage location name contains trailing newline  · _filed#339_
+
+- game `zork` · area `North-South Passage` · category `other` · target_sha `unknown`
+- command: `SW to North-South Passage`
+
+Prod serializes the room as "North-South Passage\n" in the harness/API location field and durable journal area key, causing an extra title blank line and splitting coverage from the canonical area name. Root cause: ZorkOne/Location/NorthSouthPassage.cs Name property is "North-South Passage\n". Original ZIL zork1/1dungeon.zil:1998-2006 has DESC "North-South Passage" with no embedded newline.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
