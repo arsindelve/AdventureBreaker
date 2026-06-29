@@ -142,6 +142,15 @@ python3 -m adventurebreaker.harness quiet "<repro>"           # narrator off (en
   python3 -c "import json,pathlib; p=pathlib.Path('runs/<run>/state.json'); d=json.loads(p.read_text()); d['spine_pos']=1; p.write_text(json.dumps(d, indent=2))"
   python3 -m adventurebreaker.harness --run <run> spine-run --count $((N-1))
   ```
+- **Planetfall `ResetTime` setup:** the walkthrough spine includes a test-only
+  `ResetTime` setup before `slide shuttle access card through slot` in Alfie Control
+  East. In prod, use the deployed equivalent:
+  `quiet "god mode reset time"`. It should respond
+  `God mode: chronometer reset to 2000.` and `score` should show Current Galactic
+  Standard Time `2000` before you swipe the shuttle card. Then run the exact spine
+  command `quiet "slide shuttle access card through slot"` and set `spine_pos` to the
+  next step before resuming. This is controlled setup for the chronometer gate, separate
+  from `god mode no survival`.
 - **Finding `<N>` (the step count for an area):** the walkthrough is
   `adventurebreaker/spine/<game>.json` — an ordered list of `{"cmd", "expect"}` steps;
   `spine-run --count N` replays steps `0..N-1`. Grep the spine for a landmark command or
@@ -213,6 +222,11 @@ git push -u origin "$(git rev-parse --abbrev-ref HEAD)"     # retry w/ backoff 2
   the item under test is survival-clock behavior. The toggle consumes a turn, so for the
   opening Deck Nine spine set `spine_pos=1` before replaying; otherwise timed events are
   one turn ahead of the spine expectations.
+- **Chronometer gate (Planetfall Alfie):** sleep/hunger toggles do not affect
+  `CurrentTime`. If the spine reaches Alfie after `CurrentTime > 6000`, the shuttle card
+  is rejected with the evening-hours authorization message. Use
+  `quiet "god mode reset time"` at the walkthrough's `ResetTime` point; prod should set
+  the chronometer to `2000`, after which the shuttle card activates Alfie.
 - **NPCs wander (Floyd):** `wait` for "Floyd back!" / confirm presence in `state` before
   show/give/conversation checks.
 - **god mode is white-box** and can transiently reset live state (e.g. deactivate Floyd)

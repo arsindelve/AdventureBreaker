@@ -233,6 +233,12 @@ repo's current dev branch.
   before replaying the spine, set `runs/<run>/state.json` `spine_pos` to `1` and reduce
   the replay count by one; otherwise the opening explosion fires one command earlier
   than the spine expects and the route can desync before the escape pod.
+- **Chronometer gate (Planetfall Alfie):** the walkthrough uses a test-only `ResetTime`
+  setup before `slide shuttle access card through slot`. In prod, use
+  `quiet "god mode reset time"` at that point. It should respond
+  `God mode: chronometer reset to 2000.`; verify with `score` if needed, then run the
+  exact shuttle-card command and advance `spine_pos` past that manual step before
+  continuing. This is separate from `god mode no survival`.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
 - **god mode is white-box** (a debug cheat: `god mode take <item>` / `go <place>` /
