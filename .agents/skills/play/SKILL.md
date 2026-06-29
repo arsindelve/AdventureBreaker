@@ -233,19 +233,6 @@ repo's current dev branch.
   before replaying the spine, set `runs/<run>/state.json` `spine_pos` to `1` and reduce
   the replay count by one; otherwise the opening explosion fires one command earlier
   than the spine expects and the route can desync before the escape pod.
-- **Planetfall lower-elevator card spine repair:** in prod, the spine command
-  `slide lower access card through slot` can no-op in the Lower Elevator. The full phrase
-  `quiet "slide lower elevator access card through slot"` succeeds with
-  `A recorded voice chimes "Elevator enabled."` Use that full phrase as a route repair,
-  record it as controlled setup, then continue with `press down button`, `wait`, `wait`.
-- **Floyd lower-card RNG trap:** the lower elevator card lives inside Floyd and is revealed
-  probabilistically after Floyd sees card swipes. If `take lower card` only gives generic
-  `card`, the score does not increase, and the Lower Elevator slot no-ops, the route did
-  not get Floyd's lower elevator access card. Preferred deterministic route repair:
-  before `activate floyd` in Robot Shop, run `quiet "search floyd"` while Floyd is still
-  off; this should find and take the lower elevator card. Then continue with
-  `activate floyd`. If you miss that window, restart and repair there instead of judging
-  later Kalamontee/Lawanda behavior from that run.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
 - **god mode is white-box** (a debug cheat: `god mode take <item>` / `go <place>` /
