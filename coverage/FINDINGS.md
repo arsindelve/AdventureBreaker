@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-29T22:29:08Z · 41 finding(s)_
+_Generated 2026-06-29T22:32:31Z · 42 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -238,6 +238,13 @@ At Aragain Falls in Zork prod, DOWN returns generic "You cannot go that way." in
 - command: `look under rainbow`
 
 At Aragain Falls in Zork prod, the room description exposes a rainbow and cross rainbow is handled, but look under rainbow returns generic no-effect and through/go through rainbow returns generic movement failure. Root cause: ZorkOne/Location/AragainFalls.cs hard-codes only cross rainbow, with no Rainbow local/global object/action handler. Original ZIL defines RAINBOW in LOCAL-GLOBALS, includes it in ARAGAIN-FALLS, and RAINBOW-FCN handles LOOK-UNDER plus CROSS/THROUGH.
+
+## AB-042 [LOW] Shore and Sandy Beach river water local-global actions fall through  · _filed#337_
+
+- game `zork` · area `Shore` · category `other` · target_sha `unknown`
+- command: `swim in river`
+
+At Shore in Zork prod, river/water scenery commands fall through: swim and swim in river return generic no-effect, enter river returns generic cannot-get-there, and drink/take water return generic no-effect. Root cause: ZorkOne/Location/Shore.cs only maps N/S exits and has no local/global water or river handler; SandyBeach.cs similarly describes river water but only maps NE/S plus boat launch. Original ZIL defines GLOBAL-WATER in LOCAL-GLOBALS, includes GLOBAL-WATER RIVER in SHORE and SANDY-BEACH, and routes SWIM/DRINK via the global water handlers.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
