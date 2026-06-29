@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-29T22:24:37Z · 40 finding(s)_
+_Generated 2026-06-29T22:29:08Z · 41 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -231,6 +231,13 @@ AdminCorridor.cs RespondToMultiNounInteraction has no 'already spans the rift' g
 - command: `down`
 
 At Aragain Falls in Zork prod, DOWN returns generic "You cannot go that way." instead of the original room-specific "It's a long way...". Root cause: ZorkOne/Location/AragainFalls.cs maps only N and conditional W, so Direction.Down falls through to generic movement failure. Original ZIL zork1/1dungeon.zil:2319-2328 defines DOWN "It's a long way...".
+
+## AB-041 [LOW] Rainbow local-global object is missing LOOK-UNDER and THROUGH behavior  · _filed#336_
+
+- game `zork` · area `Aragain Falls` · category `examine-scenery` · target_sha `unknown`
+- command: `look under rainbow`
+
+At Aragain Falls in Zork prod, the room description exposes a rainbow and cross rainbow is handled, but look under rainbow returns generic no-effect and through/go through rainbow returns generic movement failure. Root cause: ZorkOne/Location/AragainFalls.cs hard-codes only cross rainbow, with no Rainbow local/global object/action handler. Original ZIL defines RAINBOW in LOCAL-GLOBALS, includes it in ARAGAIN-FALLS, and RAINBOW-FCN handles LOOK-UNDER plus CROSS/THROUGH.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
