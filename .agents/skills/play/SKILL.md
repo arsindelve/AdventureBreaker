@@ -233,6 +233,11 @@ repo's current dev branch.
   before replaying the spine, set `runs/<run>/state.json` `spine_pos` to `1` and reduce
   the replay count by one; otherwise the opening explosion fires one command earlier
   than the spine expects and the route can desync before the escape pod.
+- **Planetfall lower-elevator card spine repair:** in prod, the spine command
+  `slide lower access card through slot` can no-op in the Lower Elevator. The full phrase
+  `quiet "slide lower elevator access card through slot"` succeeds with
+  `A recorded voice chimes "Elevator enabled."` Use that full phrase as a route repair,
+  record it as controlled setup, then continue with `press down button`, `wait`, `wait`.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
 - **god mode is white-box** (a debug cheat: `god mode take <item>` / `go <place>` /

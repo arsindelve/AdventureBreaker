@@ -213,6 +213,13 @@ git push -u origin "$(git rev-parse --abbrev-ref HEAD)"     # retry w/ backoff 2
   the item under test is survival-clock behavior. The toggle consumes a turn, so for the
   opening Deck Nine spine set `spine_pos=1` before replaying; otherwise timed events are
   one turn ahead of the spine expectations.
+- **Planetfall lower-elevator card spine repair:** if the spine desyncs in the Lower
+  Elevator around the Kalamontee descent because `slide lower access card through slot`
+  returns "no effect," use the full noun phrase
+  `quiet "slide lower elevator access card through slot"`. Prod accepts the full phrase
+  and responds `A recorded voice chimes "Elevator enabled."`; the shorter spine phrase
+  can fail even though ZorkAI tests and noun aliases suggest it should work. Record this
+  as a controlled route repair, then continue with `press down button`, `wait`, `wait`.
 - **NPCs wander (Floyd):** `wait` for "Floyd back!" / confirm presence in `state` before
   show/give/conversation checks.
 - **god mode is white-box** and can transiently reset live state (e.g. deactivate Floyd)
