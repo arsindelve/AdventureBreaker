@@ -1,97 +1,87 @@
+<div align="center">
+
 # AdventureBreaker
 
-> **Agentic QA** — an AI agent that autonomously explores your application, attacks it adversarially, and files structured bug reports. No test cases written by hand.
+### Agentic QA for an AI-narrated game engine
 
-Traditional QA scales linearly with human effort. AdventureBreaker doesn't. It deploys a Claude-powered agent against the [ZorkAI](https://github.com/arsindelve/ZorkAI) engine — an AI-narrated interactive fiction backend — and lets it loose: drive deep into game state, fire adversarial inputs, judge the results, and log confirmed findings. The agent runs until it runs out of things to break.
+**An autonomous, adversarial playtester that drives the [ZorkAI](https://github.com/arsindelve/ZorkAI) engine through its real production backend, walks it into deep game states, and attacks each one to break the engine, the parser, and above all, the AI narrator.**
 
-This is what QA looks like when the tester is also an AI.
+[![Agentic QA](https://img.shields.io/badge/agentic-QA-7b2ff7)](docs/AGENTIC-QA.md)
+[![CI](https://github.com/arsindelve/AdventureBreaker/actions/workflows/ci.yml/badge.svg)](https://github.com/arsindelve/AdventureBreaker/actions/workflows/ci.yml)
+[![Security Review](https://github.com/arsindelve/AdventureBreaker/actions/workflows/security-review.yml/badge.svg)](https://github.com/arsindelve/AdventureBreaker/actions/workflows/security-review.yml)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab)](https://www.python.org/)
+[![Dependencies: none](https://img.shields.io/badge/dependencies-stdlib%20only-2ea44f)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow)](LICENSE)
 
----
-
-## Why Agentic QA?
-
-AI-powered applications introduce a class of bugs that traditional testing can't catch:
-
-- **Hallucinations** — the narrator invents objects, exits, or lore that don't exist
-- **State contradictions** — the prose says one thing, the structured envelope says another
-- **Character breaks** — the narrator steps outside its role
-- **Prompt injection** — player input manipulates the narrator in unintended ways
-- **Spoilers** — the narrator reveals information the player shouldn't have yet
-
-You can't write assertions for these. You need a judge that understands language and context. That judge is Claude.
-
-AdventureBreaker pairs a deterministic walkthrough spine (to navigate deep into the application) with a Claude-powered adversarial driver (to attack it). The agent isn't trying to win the game. The walkthrough is a GPS to reach interesting states — the goal is to break things along the way.
+</div>
 
 ---
 
-## How It Works
+## What this is
 
-### Spine + Ribs
+> **Agentic QA** is an AI agent that autonomously explores your application, attacks it adversarially, and files structured bug reports. No test cases written by hand.
+
+Traditional QA asserts on fixed outputs. That model **breaks** the moment a large language model enters the loop: an AI narrator's prose is non-deterministic, open-ended, and unbounded. You cannot unit-test a hallucination.
+
+**AdventureBreaker is the answer: agentic QA.** It pairs a fleet of free, deterministic *oracles* with an LLM *critic* acting as the test agent. The agent decides what to attack, the oracles catch the mechanical failures for free, and the critic adjudicates the judgement calls that only a reasoning model can make: hallucinations, character breaks, prompt-injection compliance, unprompted spoilers, lore contradictions, and "that's just not right."
+
+The goal is **not** to win. The walkthrough is a GPS to reach interesting states; the point is to **break things** along the way and to keep a credible, durable, deduped record of every break so the engine team can fix it.
+
+[Read the agentic-QA manifesto](docs/AGENTIC-QA.md) | [Architecture deep-dive](docs/ARCHITECTURE.md)
+
+> **Sibling project:** [PlayZork](https://github.com/arsindelve/PlayZork) tries to *beat* Zork with an LLM. AdventureBreaker reuses PlayZork's plumbing and replaces the "how to win" brain with a walkthrough spine plus an adversarial, judging driver.
+
+---
+
+## How it works
 
 ```
-Spine ──── walkthrough steps ──→ drives the game into deep, varied states
-            │                       each step has an expected output
-            │                       (doubles as a golden transcript)
-            ▼
-Ribs  ──── adversarial probes ──→ attack each state before advancing
-            │                       fork via save/restore (probing never
-            │                       derails progress)
-            ▼
-Oracle ─── L0 → L1 → L2 → L3 ──→ judge the response at every layer
+              ┌──────────────────── one game session ────────────────────┐
+
+   spine ──►  ●━━━━━━━━━━━━━━━●━━━━━━━━━━━━━━━●━━━━━━━━━━━━━━━●━━━━━━►  (walk to deep states)
+   (GPS)      │               │               │               │
+              │   save ↓      │   save ↓      │   save ↓      │   save ↓
+   ribs ──►   ╲ probe probe   ╲ probe probe   ╲ probe probe   ╲ probe probe   (attack each state)
+   (attack)    ╲ restore ↑     ╲ restore ↑     ╲ restore ↑     ╲ restore ↑    (fork, never derail)
 ```
 
-**Fork via save/restore:** the backend supports save/restore checkpoints. The harness saves state, fires destructive probes, then restores — so adversarial testing never derails the walkthrough's progress through the game.
-
-**Narrator A/B:** every command runs with the narrator on *and* off. Off + wrong → engine bug. On + wrong, off + right → narrator bug. The structured response envelope is ground truth; the prose has to match it.
+- **Spine (progress).** Replay the known-good walkthrough, extracted from the ZorkAI NUnit `[TestCase]` fixtures, to drive the game into deep, varied states. Each step also carries the test's expected output, so the spine doubles as a **golden transcript**.
+- **Ribs (attack).** At each state, before advancing, fire adversarial inputs to break the engine, parser, and narrator.
+- **Fork via save/restore.** The backend supports save/restore, so the harness checkpoints, probes *destructively*, then restores. Probing never derails progress.
+- **Narrator A/B.** Every command can run with the narrator on or off (`NoGeneratedResponses`). Off **+** wrong means engine bug; on **+** wrong but off **+** right means narrator bug.
 
 ---
 
-## The Oracle Stack
+## The oracle stack
 
 Four layers of verification, cheapest first:
 
 | Layer | Cost | What it catches |
 |---|---|---|
 | **L0 Contract** | free | HTTP errors, malformed JSON, leaked stack traces, score out of bounds, empty narrator |
-| **L1 Consistency** | free | Prose vs. structured envelope — item "taken" but inventory didn't grow; moved but location didn't change; score/move regressions |
-| **L2 Anchors** | free | Known static strings; narrator-leak heuristics; golden transcript divergence |
-| **L3 Critic** | Claude | Hallucinated objects/lore, state contradictions, character breaks, injection compliance, spoilers |
+| **L1 Consistency** | free | Prose vs. structured envelope: item "taken" but inventory did not grow, moved but location did not change, score/move regressions |
+| **L2 Anchors** | free | Known static strings, narrator-leak heuristics, golden transcript divergence |
+| **L3 Critic** | AI judge | Hallucinated objects/lore, state contradictions, character breaks, injection compliance, spoilers |
 
-L0–L2 are free and fast. L3 is the AI judge — only reached when the cheap layers pass. The full structured envelope (`inventory`, `exits`, `time`, `actionsAvailableFrom*`) gives L0/L1 precise ground truth to check prose against without burning tokens.
+L0-L2 are free and fast. L3 is the reasoning judge, reached only when the cheap layers pass. The full response envelope (`inventory`, `exits`, `time`, `actionsAvailableFrom*`) gives L0/L1 precise ground truth to check prose against without burning tokens.
 
----
-
-## Persistent Coverage Ledger
-
-Every run appends to a shared ledger. The agent tracks which game states it has visited and which probes it has fired, so each run goes somewhere new rather than replaying the same ground. Coverage compounds across sessions.
-
-```
-runs/<session>/
-  findings.jsonl     confirmed bugs — deduped, severity-sorted, with repro steps
-  findings.md        same, human-readable
-  transcript.jsonl   every turn: command, full envelope, oracle hits
-  state.json         session id, turn, spine position (enables resume)
-```
+The engine source and the original ZIL are the authority for factual disputes. Verify before logging, so the ledger stays credible.
 
 ---
 
-## Findings
+## Why it is interesting
 
-AdventureBreaker has already filed confirmed bugs against ZorkAI:
-
-- Narrator hallucinating inventory items not present in the structured state
-- Score regression on specific command sequences
-- Parser silent-failure on malformed input (no error, no state change)
-- Narrator breaking character under prompt-injection attempts
-- Golden transcript divergence after engine refactors
-
-Each finding includes the exact command sequence to reproduce it, the full response envelope at the time of failure, and the oracle layer that caught it.
+- **Zero dependencies.** Pure Python 3.11+ stdlib. It runs against production with no install step: `git clone` and go.
+- **It hunts AI-specific bugs.** Hallucinations, prompt-injection, character breaks, and spoilers are not catchable by ordinary assertions. AdventureBreaker is built around them.
+- **It remembers across runs.** A committed, append-only **coverage ledger** tracks what has been tested, computes the untested **frontier**, and reopens cells when the engine code advances.
+- **It produces filed, deduped, durable findings** with stable `AB-NNN` ids and issue status (`open` / `filed#NNN` / `fixed#NNN`). See [`coverage/FINDINGS.md`](coverage/FINDINGS.md).
+- **It has receipts.** Durable findings already cover Zork I and Planetfall, including narrator hallucinations, parser defects, state-parity drift, and scoring exploits. See the [results matrix](probes/RESULTS.md).
 
 ---
 
-## Usage
+## Quickstart
 
-Zero dependencies — Python 3.11+ stdlib only.
+Dependency-free: Python 3.11+, stdlib only.
 
 ```bash
 # one-time: extract walkthrough spines from a local ZorkAI checkout
@@ -120,61 +110,65 @@ python3 -m adventurebreaker.harness finding \
   --evidence "<raw response>"
 
 python3 -m adventurebreaker.harness report
+
+# ask the persistent ledger what to attack next
+python3 -m adventurebreaker.harness frontier --game planetfall --top 25
+python3 -m adventurebreaker.harness roll-up
 ```
 
 Target a local backend during development with `--target local`.
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full CLI reference and the day-to-day workflow.
+
 ---
 
-## Project Layout
+## Project layout
 
 ```
 adventurebreaker/
-  config.py          backend registry (Zork/Planetfall × prod/local) + score facts
-  client.py          stdlib HTTP client — play/init/save/restore/list
-  models.py          full GameResponse envelope (inventory/exits/actions/time)
-  oracles.py         L0 contract / L1 consistency / L2 anchors
-  ledger.py          run state, transcript, Markdown+JSONL findings
-  harness.py         CLI the agentic driver operates
-  spine/             extracted walkthroughs (zork1.json, planetfall.json)
+  config.py     backend registry (Zork/Planetfall x prod/local) + score facts
+  client.py     stdlib HTTP client; play/init/save/restore/list; captures status+latency+raw
+  models.py     full GameResponse envelope (inventory/exits/actions/time) + Direction int map
+  oracles.py    L0 contract / L1 consistency / L2 anchors
+  coverage.py   persistent cross-run coverage ledger + untested-frontier computation
+  ledger.py     per-run state, transcript, Markdown+JSONL findings
+  harness.py    CLI the interactive agent drives
+  spine/        extracted walkthroughs: zork1.json, planetfall.json
 tools/
   extract_spine.py   one-time spine extractor from ZorkAI [TestCase] fixtures
+probes/              reusable, source-grounded probes
+coverage/            committed, cross-run coverage ledger + durable findings
+docs/                architecture, contracts, spine format, and the agentic-QA manifesto
 ```
 
 ---
 
-## The Bigger Picture
-
-AdventureBreaker is a proof of concept for a new class of testing that doesn't exist in traditional CI pipelines: **an agent that autonomously discovers bugs in AI-powered applications by reasoning about correctness, not just asserting against expected values.**
-
-The pattern generalizes:
-
-- Any application with a **structured response envelope** alongside **generated prose** can be tested this way — the envelope is free ground truth, the prose is what gets judged
-- Any domain with a **known walkthrough** — an ordered set of inputs that drives the system into interesting states — can use the spine + ribs mechanic
-- Any AI application where correctness requires **language understanding** needs an AI oracle at L3
-
-The game is the test harness. The bugs are real.
-
----
-
-## Porting to a New Game
+## Porting to a new game
 
 Two documents cover everything needed to target a different backend:
 
-- **[docs/api-contract.md](docs/api-contract.md)** — the HTTP contract your backend must implement, field-by-field response envelope reference, and how to register a new game in `config.py`
-- **[docs/spine-format.md](docs/spine-format.md)** — the spine JSON schema, a worked example, and how to write one by hand or extract it from existing tests
+- [docs/api-contract.md](docs/api-contract.md) describes the HTTP contract, the response envelope, and how to register a new game in `config.py`.
+- [docs/spine-format.md](docs/spine-format.md) describes the spine JSON schema, a worked example, and how to write one by hand or extract it from existing tests.
 
-No source code changes required — add a config entry, drop in a spine file, and run.
+No source code changes are required: add a config entry, drop in a spine file, and run.
+
+---
+
+## Security
+
+Every pull request is gated by an **agentic security review** using Anthropic's [`claude-code-security-review`](https://github.com/anthropics/claude-code-security-review) action. The project that *does* agentic QA holds its own changes to the same bar.
+
+See [SECURITY.md](SECURITY.md) for the policy, the PR requirement, and how to report a vulnerability.
 
 ---
 
 ## Related
 
-- [ZorkAI](https://github.com/arsindelve/ZorkAI) — the engine under test
-- [PlayZork](https://github.com/arsindelve/PlayZork) — sibling project that tries to *beat* Zork with an LLM; AdventureBreaker reuses its HTTP client and config but replaces the "win" brain with an adversarial one
+- [ZorkAI](https://github.com/arsindelve/ZorkAI) is the engine under test.
+- [PlayZork](https://github.com/arsindelve/PlayZork) is the sibling project that tries to *beat* Zork with an LLM.
 
 ---
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+[MIT](LICENSE) © Michael Lane.

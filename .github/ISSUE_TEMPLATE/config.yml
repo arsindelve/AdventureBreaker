@@ -1,0 +1,10 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Game-engine bug (ZorkAI)
+    url: https://github.com/arsindelve/zorkai/issues/new
+    about: >
+      Bugs in the game engine or narrator are the OUTPUT of AdventureBreaker and are
+      filed upstream in the ZorkAI repo. Use this for engine/narrator findings.
+  - name: Security vulnerability
+    url: https://github.com/arsindelve/AdventureBreaker/security/advisories/new
+    about: Report a vulnerability in AdventureBreaker privately. See SECURITY.md.
