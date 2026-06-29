@@ -229,6 +229,26 @@ git push -u origin "$(git rev-parse --abbrev-ref HEAD)"     # retry w/ backoff 2
   the chronometer to `2000`, after which the shuttle card activates Alfie.
 - **NPCs wander (Floyd):** `wait` for "Floyd back!" / confirm presence in `state` before
   show/give/conversation checks.
+- **Planetfall live endgame parser traps:** the walkthrough unit test uses mocked
+  conversation/parser setup that prod does not always mirror. For the Lawanda board
+  handoff, `quiet "floyd, go north"` can return `Floyd isn't here` even from a valid
+  Repair Room stop; use normal `play "floyd, go north"` and `play "floyd, take board"`
+  and require the shiny-board / "If you say so" outputs before setting `spine_pos=211`.
+  In Lab Storage, use `quiet "open lab uniform pocket"` and
+  `quiet "take teleportation access card"`; plain `open pocket` can ask whether you mean
+  the patrol or lab uniform pocket. In Course Control, use
+  `quiet "put good bedistor in cube"`; `put good in cube` can no-op in prod.
+- **Bio Lock / mini-card live blocker:** do not bulldoze from Bio Lock divergence into
+  the monster chase. In prod, Floyd can wander or fail to be physically present in
+  Bio Lock East; if `open door` happens before Floyd's "We'll need card" plan, the
+  player dies and the game restarts at Deck Nine. `look through window` may fall through
+  to the room description; `examine window` gives the magnetic-card view, but that alone
+  does not prove Floyd is ready. Also, current prod god mode has no BioLock setup, and
+  `god mode take miniaturization access card` can misleadingly report a generic `card`
+  / `where ... Inventory` while the usable miniaturization card is not in the inventory
+  action list and `slide miniaturization access card through slot` still no-ops. Verify
+  the actual inventory actions or `examine miniaturization access card` before relying
+  on a god-mode card.
 - **god mode is white-box** and can transiently reset live state (e.g. deactivate Floyd)
   — avoid during black-box verification; re-check `state` if used for setup.
 - **Big Actions output:** `actions_list` can blow the token limit and spill to a file —

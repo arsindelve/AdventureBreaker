@@ -241,6 +241,24 @@ repo's current dev branch.
   continuing. This is separate from `god mode no survival`.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
+- **Planetfall live endgame parser traps:** the walkthrough unit test has mocked
+  conversation/parser setup that prod can differ from. At the Lawanda Repair Room board
+  step, `quiet "floyd, go north"` may say `Floyd isn't here`; normal
+  `play "floyd, go north"` and `play "floyd, take board"` produced the expected
+  shiny-board and "If you say so" outputs in prod. In Lab Storage, use the explicit
+  `open lab uniform pocket` / `take teleportation access card`; plain `open pocket`
+  can ask which uniform. In Course Control, use `put good bedistor in cube`;
+  `put good in cube` can no-op.
+- **Bio Lock / mini-card is fragile live:** Floyd must be physically present in
+  Bio Lock East and must have said the "We'll need card" plan before opening the lab
+  door. If not, opening the door kills the player and restarts at Deck Nine. Do not
+  continue the monster chase from a run that died or lost the mini-card. `examine window`
+  is more reliable than `look through window` for the magnetic-card description, but it
+  is not proof Floyd is ready. Current prod god mode has no BioLock setup, and
+  `god mode take miniaturization access card` may produce a misleading generic `card`
+  / `where ... Inventory` while `examine miniaturization access card` and
+  `slide miniaturization access card through slot` still fail. Check the inventory
+  action list for the actual miniaturization card before treating setup as valid.
 - **god mode is white-box** (a debug cheat: `god mode take <item>` / `go <place>` /
   `where <item>` / `no survival`; see `_reference.md` §7 for the full verb syntax).
   Use it only for controlled setup, never as evidence for a player-visible bug.
