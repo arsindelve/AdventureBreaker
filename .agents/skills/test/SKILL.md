@@ -220,6 +220,13 @@ git push -u origin "$(git rev-parse --abbrev-ref HEAD)"     # retry w/ backoff 2
   and responds `A recorded voice chimes "Elevator enabled."`; the shorter spine phrase
   can fail even though ZorkAI tests and noun aliases suggest it should work. Record this
   as a controlled route repair, then continue with `press down button`, `wait`, `wait`.
+- **Floyd lower-card RNG trap:** the lower elevator card lives inside Floyd and is revealed
+  probabilistically when Floyd sees successful card swipes (`OfferLowerElevatorCard`;
+  current source uses a small Day-1 chance). If the transcript shows `take lower card` in
+  the Kitchen returning only generic `card`, no lower-card point, and the Lower Elevator
+  slot no-oping, the spine is missing Floyd's reveal. Do not claim lower-elevator or
+  post-Kalamontee behavior from that run; restart and drive until Floyd actually reveals
+  the lower elevator access card, or mark that target not smoke-tested.
 - **NPCs wander (Floyd):** `wait` for "Floyd back!" / confirm presence in `state` before
   show/give/conversation checks.
 - **god mode is white-box** and can transiently reset live state (e.g. deactivate Floyd)

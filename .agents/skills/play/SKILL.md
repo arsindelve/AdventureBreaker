@@ -238,6 +238,11 @@ repo's current dev branch.
   `quiet "slide lower elevator access card through slot"` succeeds with
   `A recorded voice chimes "Elevator enabled."` Use that full phrase as a route repair,
   record it as controlled setup, then continue with `press down button`, `wait`, `wait`.
+- **Floyd lower-card RNG trap:** the lower elevator card lives inside Floyd and is revealed
+  probabilistically after Floyd sees card swipes. If `take lower card` only gives generic
+  `card`, the score does not increase, and the Lower Elevator slot no-ops, the route did
+  not get Floyd's lower elevator access card. Restart for a reveal instead of judging
+  later Kalamontee/Lawanda behavior from that run.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
 - **god mode is white-box** (a debug cheat: `god mode take <item>` / `go <place>` /
