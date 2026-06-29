@@ -225,8 +225,12 @@ git push -u origin "$(git rev-parse --abbrev-ref HEAD)"     # retry w/ backoff 2
   current source uses a small Day-1 chance). If the transcript shows `take lower card` in
   the Kitchen returning only generic `card`, no lower-card point, and the Lower Elevator
   slot no-oping, the spine is missing Floyd's reveal. Do not claim lower-elevator or
-  post-Kalamontee behavior from that run; restart and drive until Floyd actually reveals
-  the lower elevator access card, or mark that target not smoke-tested.
+  post-Kalamontee behavior from that run. Preferred deterministic route repair: when the
+  spine reaches Robot Shop and before `activate floyd`, run `quiet "search floyd"` (or
+  `open floyd`) while Floyd is still off. Source tests cover this path: it should say you
+  "find and take" the card and put `LowerElevatorAccessCard` in inventory. Then continue
+  with `activate floyd`. If you miss that window, restart and repair there rather than
+  depending on the low Day-1 reveal chance.
 - **NPCs wander (Floyd):** `wait` for "Floyd back!" / confirm presence in `state` before
   show/give/conversation checks.
 - **god mode is white-box** and can transiently reset live state (e.g. deactivate Floyd)
