@@ -229,7 +229,10 @@ repo's current dev branch.
   run as controlled setup, and do not use the toggle if the bug being judged involves
   survival-clock behavior. Re-enable with `quiet "god mode survival"`; fine-grained
   forms are `god mode no sleep`, `god mode sleep`, `god mode no hunger`, and
-  `god mode hunger`.
+  `god mode hunger`. The toggle consumes one Planetfall turn. If you run it at Deck Nine
+  before replaying the spine, set `runs/<run>/state.json` `spine_pos` to `1` and reduce
+  the replay count by one; otherwise the opening explosion fires one command earlier
+  than the spine expects and the route can desync before the escape pod.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
 - **god mode is white-box** (a debug cheat: `god mode take <item>` / `go <place>` /

@@ -133,6 +133,15 @@ python3 -m adventurebreaker.harness quiet "<repro>"           # narrator off (en
   `play`/`quiet` commands. Re-enable with `quiet "god mode survival"` when testing
   survival-clock behavior itself. Fine-grained toggles also exist:
   `god mode no sleep`, `god mode sleep`, `god mode no hunger`, `god mode hunger`.
+  **Important:** the god-mode toggle is still a game command and consumes one
+  Planetfall turn. If you run it at Deck Nine before replaying the spine, compensate by
+  treating it as the first padding `wait`: set the run's `spine_pos` to `1` and run
+  `spine-run --count (N-1)`. Otherwise the opening explosion timing shifts by one turn
+  and the route can desync before the escape pod. Example:
+  ```bash
+  python3 -c "import json,pathlib; p=pathlib.Path('runs/<run>/state.json'); d=json.loads(p.read_text()); d['spine_pos']=1; p.write_text(json.dumps(d, indent=2))"
+  python3 -m adventurebreaker.harness --run <run> spine-run --count $((N-1))
+  ```
 - **Finding `<N>` (the step count for an area):** the walkthrough is
   `adventurebreaker/spine/<game>.json` — an ordered list of `{"cmd", "expect"}` steps;
   `spine-run --count N` replays steps `0..N-1`. Grep the spine for a landmark command or
@@ -201,7 +210,9 @@ git push -u origin "$(git rev-parse --abbrev-ref HEAD)"     # retry w/ backoff 2
   positioning runs, use the controlled setup command `quiet "god mode no survival"`
   immediately after a fresh `new` to disable both clocks, then `spine-run`; document this
   in the report. `quiet "god mode survival"` re-enables them. Do not use the toggle when
-  the item under test is survival-clock behavior.
+  the item under test is survival-clock behavior. The toggle consumes a turn, so for the
+  opening Deck Nine spine set `spine_pos=1` before replaying; otherwise timed events are
+  one turn ahead of the spine expectations.
 - **NPCs wander (Floyd):** `wait` for "Floyd back!" / confirm presence in `state` before
   show/give/conversation checks.
 - **god mode is white-box** and can transiently reset live state (e.g. deactivate Floyd)
