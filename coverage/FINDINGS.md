@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-30T13:23:01Z · 46 finding(s)_
+_Generated 2026-06-30T13:34:15Z · 47 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -273,6 +273,13 @@ In Zork prod Attic, after turning off the lantern, the room reports pitch black 
 - command: `open window; through window / board window / enter window`
 
 In Zork prod Behind House, after the kitchen window is open, bare 'in' enters Kitchen but object-based commands fail: 'through window' only says the window is open and asks the player to say so, 'board window' no-ops, and 'enter window' returns cannot-get-there. This reproduces in quiet/engine-only mode and is a regression of the #265 window-entry fix.
+
+## AB-047 [LOW] Zork: failed take of non-takeable window still mutates structured inventory  · _filed#345_
+
+- game `zork` · area `Behind House` · category `take-drop-scope` · target_sha `unknown`
+- command: `take window`
+
+In Zork prod Behind House, 'take window' responds with no effect, and textual inventory is empty, but the structured harness/API inventory gains 'window'. This reproduces in quiet/engine-only mode from a fresh save, so the session state is being contaminated even though the command appears to fail.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-30T13:18:33Z",
+  "generated": "2026-06-30T13:26:45Z",
   "target_sha": "unknown",
   "cells": {
     "planetfall|Course Control|other": {
@@ -896,9 +896,9 @@
       "game": "zork",
       "area": "West Of House",
       "category": "container",
-      "count": 7,
+      "count": 8,
       "best_severity": "clean",
-      "last_ts": "2026-06-30T12:54:57Z",
+      "last_ts": "2026-06-30T13:18:49Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -907,9 +907,9 @@
       "game": "zork",
       "area": "South of House",
       "category": "movement",
-      "count": 7,
+      "count": 8,
       "best_severity": "clean",
-      "last_ts": "2026-06-30T12:55:00Z",
+      "last_ts": "2026-06-30T13:18:54Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -1977,20 +1977,22 @@
       "game": "zork",
       "area": "Behind House",
       "category": "movement",
-      "count": 10,
-      "best_severity": "clean",
-      "last_ts": "2026-06-30T12:55:00Z",
+      "count": 20,
+      "best_severity": "low",
+      "last_ts": "2026-06-30T13:23:01Z",
       "last_target_sha": "unknown",
-      "last_result": "clean",
-      "finding_ids": []
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-046"
+      ]
     },
     "zork|Behind House|container": {
       "game": "zork",
       "area": "Behind House",
       "category": "container",
-      "count": 7,
+      "count": 12,
       "best_severity": "clean",
-      "last_ts": "2026-06-30T12:55:03Z",
+      "last_ts": "2026-06-30T13:20:52Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -1999,9 +2001,9 @@
       "game": "zork",
       "area": "Kitchen",
       "category": "movement",
-      "count": 18,
+      "count": 20,
       "best_severity": "clean",
-      "last_ts": "2026-06-30T12:55:18Z",
+      "last_ts": "2026-06-30T13:20:54Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -2054,9 +2056,9 @@
       "game": "zork",
       "area": "West Of House",
       "category": "examine-scenery",
-      "count": 7,
+      "count": 8,
       "best_severity": "clean",
-      "last_ts": "2026-06-30T12:54:58Z",
+      "last_ts": "2026-06-30T13:18:51Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -2065,9 +2067,9 @@
       "game": "zork",
       "area": "West Of House",
       "category": "take-drop-scope",
-      "count": 6,
+      "count": 7,
       "best_severity": "clean",
-      "last_ts": "2026-06-30T12:55:00Z",
+      "last_ts": "2026-06-30T13:18:53Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -4444,6 +4446,28 @@
       "finding_ids": [
         "AB-045"
       ]
+    },
+    "zork|Behind House|other": {
+      "game": "zork",
+      "area": "Behind House",
+      "category": "other",
+      "count": 4,
+      "best_severity": "clean",
+      "last_ts": "2026-06-30T13:20:54Z",
+      "last_target_sha": "unknown",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "zork|Behind House|examine-scenery": {
+      "game": "zork",
+      "area": "Behind House",
+      "category": "examine-scenery",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-06-30T13:19:23Z",
+      "last_target_sha": "unknown",
+      "last_result": "clean",
+      "finding_ids": []
     }
   }
 }

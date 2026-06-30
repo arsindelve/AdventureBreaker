@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-30T13:18:33Z · target_sha `unknown`_
+_Generated 2026-06-30T13:26:45Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -99,7 +99,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Atlantis Room | 6/16 | medium | `unknown` | - |
 | Attic | 7/16 | low | `unknown` | AB-044, AB-045 |
 | Bat Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Behind House | 2/16 | clean | `unknown` | - |
+| Behind House | 4/16 | low | `unknown` | AB-046 |
 | Canyon Bottom | 1/16 | clean | `unknown` | - |
 | Canyon View | 1/16 | clean | `unknown` | - |
 | Cave | 2/16 | clean | `unknown` | - |
