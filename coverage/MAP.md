@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-29T22:33:42Z · target_sha `unknown`_
+_Generated 2026-06-29T22:49:49Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -95,23 +95,23 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Area | Covered | Worst | Last sha | Findings |
 |---|---|---|---|---|
 | Altar | 1/16 | clean | `unknown` | - |
-| Aragain Falls | 4/16 | low | `unknown` | AB-040, AB-041 |
-| Atlantis Room | 0/16 | clean | `-` | - |  ⬅ untouched
+| Aragain Falls | 9/16 | low | `unknown` | AB-040, AB-041 |
+| Atlantis Room | 6/16 | medium | `unknown` | - |
 | Attic | 2/16 | clean | `unknown` | - |
 | Bat Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Behind House | 2/16 | clean | `unknown` | - |
 | Canyon Bottom | 1/16 | clean | `unknown` | - |
 | Canyon View | 1/16 | clean | `unknown` | - |
-| Cave | 0/16 | clean | `-` | - |  ⬅ untouched
+| Cave | 2/16 | clean | `unknown` | - |
 | Cellar | 1/16 | low | `unknown` | - |
-| Chasm | 1/16 | clean | `unknown` | - |
+| Chasm | 2/16 | clean | `unknown` | - |
 | Clearing | 3/16 | low | `unknown` | - |
 | Cold Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | Dam | 3/16 | clean | `unknown` | - |
 | Dam Base | 3/16 | clean | `unknown` | - |
 | Dam Lobby | 1/16 | clean | `unknown` | - |
-| Damp Cave | 0/16 | clean | `-` | - |  ⬅ untouched
-| Deep Canyon | 0/16 | clean | `-` | - |  ⬅ untouched
+| Damp Cave | 3/16 | low | `unknown` | - |
+| Deep Canyon | 3/16 | clean | `unknown` | - |
 | Dome Room | 2/16 | clean | `unknown` | - |
 | East of Chasm | 1/16 | clean | `unknown` | - |
 | East-West Passage | 1/16 | clean | `unknown` | - |
@@ -123,15 +123,15 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Kitchen | 3/16 | clean | `unknown` | - |
 | Land of the Dead | 0/16 | clean | `-` | - |  ⬅ untouched
 | Living Room | 6/16 | low | `unknown` | - |
-| Loud Room | 0/16 | clean | `-` | - |  ⬅ untouched
+| Loud Room | 5/16 | clean | `unknown` | - |
 | Maintenance Room | 3/16 | clean | `unknown` | - |
 | Mirror Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Narrow Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | North of House | 1/16 | clean | `unknown` | - |
-| North-South Passage | 0/16 | clean | `-` | - |  ⬅ untouched
+| North-South Passage | 1/16 | low | `unknown` | AB-043 |
 | On The Rainbow | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir | 1/16 | clean | `unknown` | - |
-| Reservoir North | 2/16 | clean | `unknown` | - |
+| Reservoir North | 3/16 | clean | `unknown` | - |
 | Reservoir South | 2/16 | low | `unknown` | - |
 | Rocky Ledge | 1/16 | clean | `unknown` | - |
 | Round Room | 1/16 | clean | `unknown` | - |
@@ -146,7 +146,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | Up A Tree | 4/16 | clean | `unknown` | - |
 | West Of House | 3/16 | clean | `unknown` | - |
-| White Cliffs Beach | 3/16 | clean | `unknown` | - |
+| White Cliffs Beach | 4/16 | low | `unknown` | - |
 | Winding Stair | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:death-resurrection | 0/16 | clean | `-` | - |  ⬅ untouched

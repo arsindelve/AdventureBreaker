@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-29T22:40:57Z · 43 finding(s)_
+_Generated 2026-06-30T12:46:14Z · 44 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -252,6 +252,13 @@ At Shore in Zork prod, river/water scenery commands fall through: swim and swim 
 - command: `SW to North-South Passage`
 
 Prod serializes the room as "North-South Passage\n" in the harness/API location field and durable journal area key, causing an extra title blank line and splitting coverage from the canonical area name. Root cause: ZorkOne/Location/NorthSouthPassage.cs Name property is "North-South Passage\n". Original ZIL zork1/1dungeon.zil:1998-2006 has DESC "North-South Passage" with no embedded newline.
+
+## AB-044 [LOW] Zork: singular 'it' after 'take all' drops the whole object set  · _filed#341_
+
+- game `zork` · area `Attic` · category `parser-pronoun` · target_sha `unknown`
+- command: `take all; drop it`
+
+In Zork prod Attic, after take all takes rope and knife, singular drop it drops both rope and knife. This reproduced in narrator-on and quiet/engine-only modes. The original parser tracks a singular P-IT-OBJECT and updates it per performed object, so singular it should not mean the whole multi-object set; plural them should be the set pronoun. Related closed issue #248 covers the inverse them collection gap, not this singular-it overreach.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
