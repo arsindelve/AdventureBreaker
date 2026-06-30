@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-30T13:02:03Z · 45 finding(s)_
+_Generated 2026-06-30T13:23:01Z · 46 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -266,6 +266,13 @@ In Zork prod Attic, after take all takes rope and knife, singular drop it drops 
 - command: `turn off lantern; take rope`
 
 In Zork prod Attic, after turning off the lantern, the room reports pitch black and hides exits/actions, but take rope still succeeds and adds the rope to inventory. This reproduces in quiet/engine-only mode, so it is not narrator flavor. This is a current prod regression of closed ZorkAI #7.
+
+## AB-046 [LOW] Zork: object-based kitchen window entry no longer moves through the open window  · _filed#344_
+
+- game `zork` · area `Behind House` · category `movement` · target_sha `unknown`
+- command: `open window; through window / board window / enter window`
+
+In Zork prod Behind House, after the kitchen window is open, bare 'in' enters Kitchen but object-based commands fail: 'through window' only says the window is open and asks the player to say so, 'board window' no-ops, and 'enter window' returns cannot-get-there. This reproduces in quiet/engine-only mode and is a regression of the #265 window-entry fix.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 

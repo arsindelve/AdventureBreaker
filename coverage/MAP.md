@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-30T12:50:24Z · target_sha `unknown`_
+_Generated 2026-06-30T13:18:33Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -97,7 +97,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Altar | 1/16 | clean | `unknown` | - |
 | Aragain Falls | 9/16 | low | `unknown` | AB-040, AB-041 |
 | Atlantis Room | 6/16 | medium | `unknown` | - |
-| Attic | 6/16 | low | `unknown` | AB-044 |
+| Attic | 7/16 | low | `unknown` | AB-044, AB-045 |
 | Bat Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Behind House | 2/16 | clean | `unknown` | - |
 | Canyon Bottom | 1/16 | clean | `unknown` | - |
@@ -109,16 +109,16 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Cold Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | Dam | 3/16 | clean | `unknown` | - |
 | Dam Base | 3/16 | clean | `unknown` | - |
-| Dam Lobby | 1/16 | clean | `unknown` | - |
+| Dam Lobby | 2/16 | clean | `unknown` | - |
 | Damp Cave | 3/16 | low | `unknown` | - |
 | Deep Canyon | 3/16 | clean | `unknown` | - |
 | Dome Room | 2/16 | clean | `unknown` | - |
 | East of Chasm | 1/16 | clean | `unknown` | - |
-| East-West Passage | 1/16 | clean | `unknown` | - |
+| East-West Passage | 1/16 | low | `unknown` | - |
 | Egyptian Room | 2/16 | clean | `unknown` | - |
 | End of Rainbow | 3/16 | low | `unknown` | - |
 | Engravings Cave | 1/16 | clean | `unknown` | - |
-| Entrance to Hades | 0/16 | clean | `-` | - |  ⬅ untouched
+| Entrance to Hades | 3/16 | low | `unknown` | - |
 | Gallery | 2/16 | clean | `unknown` | - |
 | Kitchen | 3/16 | clean | `unknown` | - |
 | Land of the Dead | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -146,7 +146,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | Up A Tree | 4/16 | clean | `unknown` | - |
 | West Of House | 3/16 | clean | `unknown` | - |
-| White Cliffs Beach | 4/16 | low | `unknown` | - |
+| White Cliffs Beach | 5/16 | low | `unknown` | - |
 | Winding Stair | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:death-resurrection | 0/16 | clean | `-` | - |  ⬅ untouched
