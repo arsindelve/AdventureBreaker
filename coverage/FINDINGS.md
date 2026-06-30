@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-30T12:46:14Z · 44 finding(s)_
+_Generated 2026-06-30T13:02:03Z · 45 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -259,6 +259,13 @@ Prod serializes the room as "North-South Passage\n" in the harness/API location 
 - command: `take all; drop it`
 
 In Zork prod Attic, after take all takes rope and knife, singular drop it drops both rope and knife. This reproduced in narrator-on and quiet/engine-only modes. The original parser tracks a singular P-IT-OBJECT and updates it per performed object, so singular it should not mean the whole multi-object set; plural them should be the set pronoun. Related closed issue #248 covers the inverse them collection gap, not this singular-it overreach.
+
+## AB-045 [LOW] Zork: room objects can still be taken in pitch darkness  · _filed#342_
+
+- game `zork` · area `Attic` · category `light-dark` · target_sha `unknown`
+- command: `turn off lantern; take rope`
+
+In Zork prod Attic, after turning off the lantern, the room reports pitch black and hides exits/actions, but take rope still succeeds and adds the rope to inventory. This reproduces in quiet/engine-only mode, so it is not narrator flavor. This is a current prod regression of closed ZorkAI #7.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
