@@ -95,11 +95,23 @@ probes along the way:
 ### 2. Navigate there (spine = GPS)
 - **Find the spine step for your area.** The walkthrough lives at
   `adventurebreaker/spine/<game>.json` as an ordered list of steps, each
-  `{"cmd": ..., "expect": [...]}`. `spine-run --count N` replays steps `0..N-1`, leaving
-  `spine_pos = N`. To reach a room/puzzle, grep the spine for a landmark command or an
-  expected room name to get its index, then `spine-run --count <index>` (stop *just
-  before* the step that performs the thing you want to probe, so you can probe it
-  yourself). Example:
+  `{"cmd": ..., "expect": [...]}`. **`spine-run --count N` runs N *additional* steps
+  from wherever `spine_pos` currently is — it is NOT "replay to absolute position N."**
+  (`spine_run`'s loop is `while n < args.count and run.spine_pos < len(steps)`, starting
+  from the run's *existing* `spine_pos`.) The two coincide only when you call it once on
+  a session still at `spine_pos == 0` — that's why `--count <index>` "just works" for a
+  first call on a fresh run. **Never call `spine-run` a second time on the same run
+  expecting the same count to land at the same target** — the second call adds `N` more
+  steps on top of wherever the first one left off, which silently overshoots deep into
+  the spine (a real overshoot this session ran ~80 steps past intent, straight through a
+  long `wait` stretch, and looked exactly like a catastrophic session reset — same
+  symptom as AB-047 — until re-derivation from a single clean call from `spine_pos == 0`
+  proved it was pure step-count arithmetic, not an engine bug). If you need to resume
+  from a non-zero position, first read the *actual* current `spine_pos` (`state`, or the
+  run's `state.json`) and compute `count = target − current`. To reach a room/puzzle,
+  grep the spine for a landmark command or an expected room name to get its index, then
+  (on a **fresh** run) `spine-run --count <index>` (stop *just before* the step that
+  performs the thing you want to probe, so you can probe it yourself). Example:
   ```bash
   python3 -c "
   import json; s=json.load(open('adventurebreaker/spine/planetfall.json'))
@@ -133,6 +145,38 @@ probes along the way:
 - After a clean (no-bug) probe of an avenue, record coverage so the frontier advances:
   `python3 -m adventurebreaker.harness cover --category <cat> --result clean` (use the
   matching category from the list in **Reference**).
+
+**Worked example — do the reckless thing on purpose, ride it to its natural end, then
+A/B-isolate the variable.** (AB-056, `zorkai#373`.) The canonical Planetfall shuttle
+walkthrough decelerates *immediately*: `push lever` then `pull lever` right back to
+center. A real, careless player wouldn't — so instead of following that timing, the
+probe deliberately did the wrong thing on purpose and then **kept going instead of
+stopping at the first sign of trouble**: pushed the lever once and *never touched it
+again*, sailing straight through the "Limit 45" sign and the "Begin Deceleration"
+warning, letting speed climb to 120 (six times the death threshold) all the way to the
+tunnel's end. That's the first move: **don't just poke a mechanism once and check the
+immediate response — commit to the wrong path and let the state machine run to
+completion**, because the interesting behavior is usually at the boundary/completion,
+not mid-stream.
+
+The arrival message ("approaching a brightly lit area...") looked like a safe landing —
+until the *next* unrelated command (`score`) retroactively revealed a death message.
+That's confusing on its own (is this flaky? a delayed effect? infra noise?) — the
+temptation is to shrug and move on. Instead, the second move: **hold everything else
+identical and vary only the one thing you're suspicious of.** Redo the *exact* same
+reckless setup, but this time make the very next command `W` (leave) instead of `score`.
+Result: clean escape, zero consequence. Same recklessness, same final speed, two
+different outcomes — the only variable was which command came next. That A/B pair (not
+a single observation) is what turned "huh, weird" into a deterministic, provable bug:
+leaving the control cabin the instant the door opens deregisters the location as a
+turn-based actor *before* the engine's already-scheduled (but not-yet-run) speed penalty
+gets a chance to fire — a race between movement processing and actor processing,
+confirmed by then reading `ShuttleControl.cs`'s `Act()`/`Move()`/`OnLeaveLocation()`.
+Neither half of this would have surfaced from playing the walkthrough as written, or
+from stopping at the first "that's odd." Generalizes to: **when a symptom looks
+intermittent, don't write it off as noise — reproduce the identical setup twice and
+change exactly one thing to find out whether "intermittent" is actually "deterministic
+on a variable you haven't isolated yet."**
 
 ### 4. Suspected bug? → NOW go white-box to confirm
 Only once a black-box observation looks wrong:
