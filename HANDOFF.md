@@ -56,7 +56,10 @@
    python3 -m adventurebreaker.harness frontier --game planetfall --top 25
    ```
 4. **Probe those avenues.** Coverage accrues automatically as you `play`/`quiet`/
-   `spine-run`. When done, `roll-up`, then commit `coverage/` so it persists.
+   `spine-run`. When done, `roll-up`, then commit `coverage/` and push **directly to
+   `main`** (no feature branch, no PR — it's append-only telemetry; see `_reference.md`
+   §7 for the fetch/rebase/retry pattern and how to resolve the `AB-NNN` id collisions
+   that come from concurrent sessions pushing straight to `main`).
 
 ## Coverage ledger (persistent across runs)
 

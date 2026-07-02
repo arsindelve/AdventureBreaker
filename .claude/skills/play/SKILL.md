@@ -165,13 +165,23 @@ Present the confirmed bug crisply, then ask with `AskUserQuestion`:
    ```
    This writes the durable ledger (`coverage/FINDINGS.md`, `findings.jsonl`) and marks
    the coverage cell.
-3. **Commit + push the ledger** (the signing server often 503s — bypass it):
+3. **Commit + push the ledger directly to `main`** — ledger/finding progress
+   (`coverage/findings.jsonl`, `journal.jsonl`, `FINDINGS.md`, `state.json`, `MAP.md`) is
+   append-only telemetry, not reviewed code: push straight to `main`, **no feature
+   branch, no PR**. The signing server often 503s — bypass it. `main` moves often
+   (concurrent sessions), so fetch + rebase before pushing and retry on rejection:
    ```bash
    git add -A
    git -c commit.gpgsign=false commit --no-gpg-sign -m "Find <AB-id>: <title> (#<issue>)"
-   # push with backoff (2s,4s,8s,16s) to the current dev branch:
-   git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
+   git fetch origin main
+   git rebase origin/main
+   # push with backoff (2s,4s,8s,16s); on rejection, re-fetch + rebase and retry:
+   git push origin HEAD:main
    ```
+   If the rebase conflicts, it's almost always the append-only ledger files — resolve
+   per `_reference.md` §7 (union the `*.jsonl` lines, regenerate `FINDINGS.md`/
+   `state.json`/`MAP.md`, renumbering any colliding `AB-NNN` ids), then continue the
+   rebase and push again.
 4. **Stop.** Report the bug + issue link + what was covered this run.
 
 ## GitHub issue template
@@ -214,7 +224,7 @@ npc-conversation, narrator-hallucination, narrator-spoiler-injection, character-
 puzzle-step, other`.
 
 **Repos:** GitHub issues → `arsindelve/zorkai`. Ledger commits → the AdventureBreaker
-repo's current dev branch.
+repo's `main` branch, directly (no branch/PR).
 
 ## Gotchas (learned the hard way)
 

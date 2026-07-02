@@ -190,14 +190,23 @@ items were and weren't exercised. Lead with any ❌.
      --evidence "..." --issue <N>
    ```
 
-### 7. Commit + push the ledger / journal
+### 7. Commit + push the ledger / journal directly to `main`
 The harness writes journal/ledger entries during the run; commit and push them so the
-verification is recorded (signing server often 503s — bypass it):
+verification is recorded. This is append-only telemetry, not reviewed code: push
+straight to `main`, **no feature branch, no PR**. The signing server often 503s —
+bypass it. `main` moves often (concurrent sessions), so fetch + rebase before pushing
+and retry on rejection:
 ```bash
 git add -A
 git -c commit.gpgsign=false commit --no-gpg-sign -m "Smoke-test <release> in prod: <summary>"
-git push -u origin "$(git rev-parse --abbrev-ref HEAD)"     # retry w/ backoff 2,4,8,16s
+git fetch origin main
+git rebase origin/main
+git push origin HEAD:main     # retry w/ backoff 2,4,8,16s; re-fetch + rebase between retries
 ```
+If the rebase conflicts, it's almost always the append-only ledger files — resolve per
+`_reference.md` §7 (union the `*.jsonl` lines, regenerate `FINDINGS.md`/`state.json`/
+`MAP.md`, renumbering any colliding `AB-NNN` ids), then continue the rebase and push
+again.
 
 ## Reference (shared with `/play`)
 
@@ -208,7 +217,8 @@ git push -u origin "$(git rev-parse --abbrev-ref HEAD)"     # retry w/ backoff 2
 **GitHub MCP:** `get_release_by_tag` / `get_latest_release`, `pull_request_read`,
 `issue_read`, `actions_list` (deploy verification), `issue_write` (regression filing).
 
-**Repos:** issues → `arsindelve/zorkai`; ledger commits → AdventureBreaker current branch.
+**Repos:** issues → `arsindelve/zorkai`; ledger commits → AdventureBreaker `main`,
+directly (no branch/PR).
 
 ## Gotchas (same hazards as `/play`)
 
