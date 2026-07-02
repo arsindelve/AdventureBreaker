@@ -66,6 +66,24 @@ meatiest bugs are **state-machine edges**. For any puzzle or action, deliberatel
   (`unlock door with key` vs the padlock; `unlock padlock with brush`).
 - **Canonical-original phrasing** — the *original game's* solution wording, which a
   faithful port should accept. (→ #298: `get key with magnet` was unrecognized.)
+- **Ignore-the-warning, ride it to the end** — don't just poke a timed/stateful
+  mechanism once and check the immediate response; deliberately do the *wrong* thing
+  (skip the fix-it-now step the walkthrough takes) and let it run all the way to
+  completion instead of stopping at the first sign of trouble. Boundary/completion
+  states are where consequence logic lives, and the walkthrough never visits them
+  because it always does the puzzle correctly. (→ AB-056/`zorkai#373`: the canonical
+  shuttle solve decelerates immediately; never touching the lever back to center and
+  riding the tunnel to the end at full speed reached a state — the exact turn the
+  arrival door opens — that no scripted playthrough ever reaches.)
+- **A/B-isolate a symptom that looks intermittent.** A single confusing observation
+  (worked once, failed once, "must be flaky") is not evidence either way. Reproduce the
+  *identical* setup twice, changing exactly one variable between the two runs — usually
+  which command comes next. If the outcome flips deterministically with that one
+  variable, you've found a real bug, not noise; if it doesn't, you've ruled out that
+  variable and can look elsewhere. (→ AB-056: same reckless full-speed run twice; typing
+  `W` immediately vs. any other command was the entire difference between a clean escape
+  and a retroactive death — proving a race between movement processing and a deferred
+  actor consequence, not a flaky server.)
 
 ## 3. Severity rubric (grade consistently)
 
@@ -128,6 +146,18 @@ re-extraction command + source fixtures are in the README "Usage" section:
   ≈79, shuttle ≈83, lower ≈97. Computer Room entry ≈294 — **this sets the Floyd-concern
   flag, so test the show-printout branch BEFORE it**; `read output` ≈295; bio-lab ≈298+;
   Floyd dies in the bio-lab sacrifice ≈308–320.
+- **Alfie/Betty shuttle (`ShuttleControl<TCabin,TControl>`), ≈173–202.** Kalamontee
+  Platform ≈173, enter shuttle car ≈174, Alfie Control **East** (not West — activation
+  is rejected from the wrong cabin: "Use other control cabin") ≈175, `slide shuttle
+  access card through slot` ≈176 (needs `god mode reset time` first — see the
+  chronometer gate below), `push lever`/`pull lever` ≈177–178. **Proven bug-rich**: the
+  speed display (`push`=+5/turn, `pull`=−5/turn) has zero enforcement of the "Limit 45"
+  sign shown at tunnel position 2 — riding at full acceleration the whole way is
+  possible and the door opens the instant the tunnel ends, one turn *before* the
+  deferred speed-based crash/death consequence (`Arrived()`) actually fires (→
+  AB-056/`zorkai#373`). Betty's control rooms share the same generic base class and are
+  still untested (`frontier` shows 0/16) — worth checking whether the same race
+  reproduces there.
 - **Item initial states:** the **survival kit is NOT a starting item** (acquired mid-game
   ≈25–48); it **starts closed, holding all three goos** (red/brown/green). The **steel
   key starts at the bottom of the crevice** (retrieved with the magnet).
