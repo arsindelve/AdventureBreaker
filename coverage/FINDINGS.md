@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-24T22:23:42Z · 45 finding(s)_
+_Generated 2026-07-02T14:41:05Z · 46 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -22,6 +22,13 @@ Black-box: against Planetfall prod (6kvs9n5pj4...), the single input 'look exami
 - command: `floyd|blather|ambassador, <go up|drop diary|take brush> while absent`
 
 ConversationHandler.CollectTalkableEntities only gathers ICanBeTalkedTo characters from inventory + current room. When the named NPC is absent, FindTargetCharacter returns null, the whole input falls through to normal command parsing, and the PLAYER executes the command. State-affecting: 'floyd/blather/ambassador, go up' moves the PLAYER; 'X, drop diary' drops the PLAYER's item; 'X, take brush' -> 'You already have that!'; 'floyd, sing' even hallucinates Floyd singing while absent. The game should always know these named characters and, if addressed while absent, say 'X isn't here.' This is the absent-case gap left by #182 (which handles direct-address only when present). Confirmed for all three ICanBeTalkedTo NPCs.
+
+## AB-046 [HIGH] Forced sleep drops carried items in the pre-move room, then the movement command still executes  · _filed#355_
+
+- game `planetfall` · area `MECH:survival-hunger-thirst` · category `puzzle-step` · target_sha `094a1ed`
+- command: `W (from Small Office holding upper elevator access card + kitchen access card, at forced-sleep fatigue threshold)`
+
+SleepEngine.ProcessWakeUp (SleepEngine.cs:162-176) drops non-worn items to context.CurrentLocation, which at forced-sleep time is still the pre-move room. GameEngine.cs:423-432 has no early-return for the sleep case (unlike PendingDeath immediately below it), so the player's original movement command still executes afterward in the same turn, landing them in a new room while items are silently left in the old one.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
