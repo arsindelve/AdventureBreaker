@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T15:46:49Z · 51 finding(s)_
+_Generated 2026-07-02T18:05:00Z · 51 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -37,7 +37,14 @@ ConversationHandler.CollectTalkableEntities only gathers ICanBeTalkedTo characte
 
 In authentic Infocom parsers, SCORE, LOOK, and INVENTORY are free meta-verbs that never advance the in-game clock or move counter. In this engine, every one of these commands advances moves by exactly 1 and the in-game time field by exactly 54 ticks, identical to a real action (take/open/movement). Reproduced cleanly in an isolated fresh session (narrator OFF, ruling out narrator involvement): moves=0 time=4558 at game start; after 'score' -> moves=1 time=4671; after 'look' -> moves=2 time=4725 (+54); after 'inventory' -> moves=3 time=4779 (+54); after 'score' again -> moves=4 time=4833 (+54). The in-game clock is confirmed turn-based (fixed +54/turn), not wall-clock, so this directly desyncs pacing from the intended design. Concretely observed harm: replaying the engine's own verified golden walkthrough (extracted from its NUnit test fixtures) command-for-command on live prod, the walkthrough calls 'score' 7 times before a certain point (completely normal player behavior) -- those 7 'free' checks silently burned 7 extra turns (378 extra clock ticks) the golden path never accounts for. The very next scripted command (moving W into the Large Office, which the golden path expects to be safe) instead triggered an unavoidable sleep/hunger death ('...you awake as several ferocious beasts...You have died') that does not occur in the verified walkthrough. A real player who does nothing wrong beyond periodically checking their score/inventory/surroundings can be killed by survival-clock drift entirely outside their control.
 
-## AB-049 [HIGH] Floyd unresponsive to examine/search/oil/social verbs whenever holding an item  · _filed#352_
+## AB-048 [HIGH] Systemic: three call sites re-derive item-possession/interaction-handled with an inconsistent, wrong check instead of trusting the resolver that already got it right  · _filed#362_
+
+- game `planetfall` · area `Systems Corridor West + Robot Shop / systemic: no canonical possession/InteractionHappened check (drop, Floyd-holding-item, nested-container give/show)` · category `take-drop-scope` · target_sha `094a1ed`
+- command: `drop board (wrong item resolved); give brush to floyd then examine floyd (short-circuited); show id card to floyd with card still in worn uniform (false denial)`
+
+Consolidates AB-049 and AB-050 (same root cause, filed separately in error - see their entries). Three independent call sites each have a correct signal available (Repository.GetItemInScope's accessibility walk, or InteractionResult.InteractionHappened) but re-derive the answer with a different, narrower, wrong check: (1) TakeOrDropInteractionProcessor.GetItemsToDrop falls back to the unscoped global Repository.GetItem(noun) instead of GetItemInScope, so single-item drop can resolve to the wrong same-named item (6+ FromitzBoardBase-derived items share generic 'board'/'fromitz board' nouns) - drop all and examine both resolve correctly via GetItemInScope, only single-item drop is broken. (2) Floyd.cs:230-235 checks 'result is not null' instead of 'result.InteractionHappened' when delegating to ItemBeingHeld, so a NoNounMatchInteractionResult (non-null, InteractionHappened=false) from the held item short-circuits Floyd's own examine/search/oil/social-verb handling whenever he holds anything. (3) GiveSomethingToSomeoneDecisionEngine.cs:49 and Floyd.cs:377 (RespondToShow) check flat context.Items.Contains(thing) instead of trusting the accessibility walk GetItemInScope already did, so items nested in a worn container (e.g. the starting ID card) falsely fail GIVE/SHOW. Proposed systemic fix: introduce a canonical Repository.IsItemPossessedBy(item, context) helper (possession-terminates-at-player variant of the existing IsItemAccessible walk) and use it in (1) and (3); fix (2) to check .InteractionHappened, matching the established pattern in SimpleInteractionEngine.cs.
+
+## AB-049 [HIGH] Floyd unresponsive to examine/search/oil/social verbs whenever holding an item  · _duplicate-of-AB-048#362_
 
 - game `planetfall` · area `Robot Shop / Floyd (ItemBeingHeld interaction short-circuit)` · category `character-break` · target_sha `094a1ed`
 - command: `give brush to floyd; examine floyd`
@@ -198,14 +205,7 @@ Bat NPC description doubled on movement entry. look with narrator ON shows once 
 
 look at <single-word noun> collapses to bare room look. look at <two-word noun> works. examine always works. Same root cause as #283 (Planetfall).
 
-## AB-048 [MEDIUM] Single-item DROP can resolve to the wrong same-named item (unscoped global lookup)  · _filed#362_
-
-- game `planetfall` · area `Systems Corridor West / general GIVE-DROP scope (unscoped Repository.GetItem fallback)` · category `take-drop-scope` · target_sha `094a1ed`
-- command: `drop board / drop fromitz board / drop shiny fromitz board (while holding ShinyFromitzBoard); drop all works`
-
-TakeOrDropInteractionProcessor.GetItemsToDrop falls back to the global unscoped Repository.GetItem(noun) (FirstOrDefault across every item ever instantiated, no accessibility/possession/precision awareness), unlike GetItemsToTake which correctly uses Repository.GetItemInScope. At least 6 FromitzBoardBase-derived items (First/Cracked/Third/Fourth/Shiny/Fried) share generic 'board'/'fromitz board'/'fromitz' nouns; once more than one is lazily instantiated, single-item drop can resolve to a different board instance than the one held, producing a false 'You don't have that!' while inventory/examine/drop-all all confirm the item is genuinely held. Related latent bug in the same file: FromitzBoardBase.NounsForPreciseMatching excepts ['card','access card'] (strings not present in any board's noun list) instead of ['board','fromitz board'] per its own comment, making it a no-op.
-
-## AB-050 [MEDIUM] GIVE/SHOW falsely say 'You don't have the X!' for items nested in a worn container  · _filed#353_
+## AB-050 [MEDIUM] GIVE/SHOW falsely say 'You don't have the X!' for items nested in a worn container  · _duplicate-of-AB-048#362_
 
 - game `planetfall` · area `Robot Shop / Floyd SHOW + general GIVE (nested-container possession check)` · category `character-break` · target_sha `094a1ed`
 - command: `show id card to floyd; give id card to floyd (ID card still inside worn uniform)`
