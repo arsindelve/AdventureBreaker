@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-24T22:23:42Z · 45 finding(s)_
+_Generated 2026-07-02T14:01:38Z · 46 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -22,6 +22,13 @@ Black-box: against Planetfall prod (6kvs9n5pj4...), the single input 'look exami
 - command: `floyd|blather|ambassador, <go up|drop diary|take brush> while absent`
 
 ConversationHandler.CollectTalkableEntities only gathers ICanBeTalkedTo characters from inventory + current room. When the named NPC is absent, FindTargetCharacter returns null, the whole input falls through to normal command parsing, and the PLAYER executes the command. State-affecting: 'floyd/blather/ambassador, go up' moves the PLAYER; 'X, drop diary' drops the PLAYER's item; 'X, take brush' -> 'You already have that!'; 'floyd, sing' even hallucinates Floyd singing while absent. The game should always know these named characters and, if addressed while absent, say 'X isn't here.' This is the absent-case gap left by #182 (which handles direct-address only when present). Confirmed for all three ICanBeTalkedTo NPCs.
+
+## AB-046 [HIGH] Meta-verbs (score/look/inventory) incorrectly consume a game turn, accelerating the survival clock into unwarranted deaths  · _open_
+
+- game `planetfall` · area `Engine-wide / turn-clock daemon (affects every room)` · category `turn-accounting` · target_sha `unknown`
+- command: `score (or look, or inventory) — any location, narrator off or on`
+
+In authentic Infocom parsers, SCORE, LOOK, and INVENTORY are free meta-verbs that never advance the in-game clock or move counter. In this engine, every one of these commands advances moves by exactly 1 and the in-game time field by exactly 54 ticks, identical to a real action (take/open/movement). Reproduced cleanly in an isolated fresh session (narrator OFF, ruling out narrator involvement): moves=0 time=4558 at game start; after 'score' -> moves=1 time=4671; after 'look' -> moves=2 time=4725 (+54); after 'inventory' -> moves=3 time=4779 (+54); after 'score' again -> moves=4 time=4833 (+54). The in-game clock is confirmed turn-based (fixed +54/turn), not wall-clock, so this directly desyncs pacing from the intended design. Concretely observed harm: replaying the engine's own verified golden walkthrough (extracted from its NUnit test fixtures) command-for-command on live prod, the walkthrough calls 'score' 7 times before a certain point (completely normal player behavior) -- those 7 'free' checks silently burned 7 extra turns (378 extra clock ticks) the golden path never accounts for. The very next scripted command (moving W into the Large Office, which the golden path expects to be safe) instead triggered an unavoidable sleep/hunger death ('...you awake as several ferocious beasts...You have died') that does not occur in the verified walkthrough. A real player who does nothing wrong beyond periodically checking their score/inventory/surroundings can be killed by survival-clock drift entirely outside their control.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
