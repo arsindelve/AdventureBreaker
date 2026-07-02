@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T14:42:29Z · 49 finding(s)_
+_Generated 2026-07-02T15:23:08Z · 50 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -43,6 +43,13 @@ In authentic Infocom parsers, SCORE, LOOK, and INVENTORY are free meta-verbs tha
 - command: `give brush to floyd; examine floyd`
 
 Floyd.cs:230-235 short-circuits on 'result is not null' when delegating simple interactions to ItemBeingHeld, but ItemBase.RespondToSimpleInteraction returns a non-null NoNounMatchInteractionResult (InteractionHappened=false) when the noun doesn't match the held item. Floyd treats that negative result as final, skipping his own social responses, search, and ICanBeExamined description. Confirmed by toggling: give item -> broken; take item back -> fixed.
+
+## AB-050 [HIGH] Floyd's 'already did that' fromitz-board line lies - re-asking teleports the board back regardless of location  · _filed#360_
+
+- game `planetfall` · area `Repair Room / Floyd fromitz board retrieval (unconditional re-grant)` · category `puzzle-step` · target_sha `094a1ed`
+- command: `floyd, take board (twice, after dropping the board in a different room between asks)`
+
+FloydLocationBehaviors.HandleFromitzBoardRetrieval calls context.ItemPlacedHere<ShinyFromitzBoard>() unconditionally, gated only on the narration text (not the state mutation). Take()'s only duplicate guard checks context.Items, not the item's actual CurrentLocation, so if the board was dropped elsewhere it silently teleports back into inventory the moment Floyd is re-asked, while the narration ('Floyd already did that') implies nothing happened. Confirmed live: dropped the board in Systems Corridor West, returned to Repair Room, re-asked Floyd -> inv= shows the board back immediately in the same response as the no-op narration. Same unconditional call path is plausibly reachable even after the board is later installed into the FromitzAccessPanel puzzle, which would silently un-solve it (not live-tested, code-supported only).
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
