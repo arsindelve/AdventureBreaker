@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T14:32:02Z · 47 finding(s)_
+_Generated 2026-07-02T15:28:19Z · 48 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -183,6 +183,13 @@ Bat NPC description doubled on movement entry. look with narrator ON shows once 
 - command: `look at mailbox`
 
 look at <single-word noun> collapses to bare room look. look at <two-word noun> works. examine always works. Same root cause as #283 (Planetfall).
+
+## AB-048 [MEDIUM] Single-item DROP can resolve to the wrong same-named item (unscoped global lookup)  · _filed#362_
+
+- game `planetfall` · area `Systems Corridor West / general GIVE-DROP scope (unscoped Repository.GetItem fallback)` · category `take-drop-scope` · target_sha `094a1ed`
+- command: `drop board / drop fromitz board / drop shiny fromitz board (while holding ShinyFromitzBoard); drop all works`
+
+TakeOrDropInteractionProcessor.GetItemsToDrop falls back to the global unscoped Repository.GetItem(noun) (FirstOrDefault across every item ever instantiated, no accessibility/possession/precision awareness), unlike GetItemsToTake which correctly uses Repository.GetItemInScope. At least 6 FromitzBoardBase-derived items (First/Cracked/Third/Fourth/Shiny/Fried) share generic 'board'/'fromitz board'/'fromitz' nouns; once more than one is lazily instantiated, single-item drop can resolve to a different board instance than the one held, producing a false 'You don't have that!' while inventory/examine/drop-all all confirm the item is genuinely held. Related latent bug in the same file: FromitzBoardBase.NounsForPreciseMatching excepts ['card','access card'] (strings not present in any board's noun list) instead of ['board','fromitz board'] per its own comment, making it a no-op.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
