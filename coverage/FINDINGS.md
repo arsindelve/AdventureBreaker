@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T18:50:06Z · 52 finding(s)_
+_Generated 2026-07-02T19:18:10Z · 53 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -315,6 +315,13 @@ AdminCorridor.cs RespondToMultiNounInteraction has no 'already spans the rift' g
 - command: `examine keyboard`
 
 Room description says 'a keyboard with numeric keys' is there. Narrator says 'the legendary invisible keyboard—often mistaken for air. Keep searching, Ensign.' Engine has no examine handler (quiet=no effect); narrator generates false-absent response instead of neutral scenery description.
+
+## AB-053 [LOW] Examining Achilles' body gives generic "nothing special" fallback despite Floyd's emotional backstory moment  · _filed#367_
+
+- game `planetfall` · area `Repair Room / Achilles corpse (BrokenRobot)` · category `examine-scenery` · target_sha `unknown`
+- command: `N into Repair Room (Achilles reveal fires); examine damaged robot`
+
+BrokenRobot.cs (the Achilles corpse in Repair Room) implements NeverPickedUpDescription/GenericDescription (used for room-listing text) but does NOT implement ICanBeExamined at all, so 'examine damaged robot' / 'examine robot' / 'examine broken robot' falls through to the engine's generic default ('There is nothing special about the damaged robot.'). This is jarring because entering the room triggers Floyd's own scripted reaction (RepairRoom.cs's Act(), same pattern family as Infirmary's Lazarus scene) where he narrates a specific, named, emotionally-loaded backstory: 'That's Achilles. He was in charge of repairing machinery. He repaired Floyd once... Looks like he fell down the stairs... A Planner-person once told me that's why they named him Achilles.' A player who examines the very corpse Floyd just eulogized gets a completely generic non-answer instead of anything acknowledging what Floyd just said (limping foot, repair role, etc). Confirmed live on prod immediately after the Achilles reveal fired correctly.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
