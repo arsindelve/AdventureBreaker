@@ -49,4 +49,4 @@ done
 ```
 
 ---
-Found via the AdventureBreaker harness (black-box prod; white-box/ZIL confirmation was unavailable this session — arsindelve/zorkai was out of scope). AB-046.
+Found via the AdventureBreaker harness (black-box prod; white-box/ZIL confirmation was unavailable this session — arsindelve/zorkai was out of scope). AB-047.
