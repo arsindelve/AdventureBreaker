@@ -199,14 +199,19 @@ re-extraction command + source fixtures are in the README "Usage" section:
   grep "spine_pos now" "$out" | tail -1
   python3 -m adventurebreaker.harness state
   ```
-- **god mode** is a white-box debug cheat (don't use during black-box play; OK for
-  `/test` setup). Verbs: `god mode take <item>` (→ "I hope you enjoy your <item>";
+- **god mode** is a white-box debug cheat. `take`/`go`/`where` (teleport/inventory
+  cheats) are **never** used during black-box play — only for `/test` setup. The
+  survival-clock toggles (`god mode [no] sleep|hunger|survival [on|off]`, `god mode
+  reset time`) are the one narrow exception: both `/play` and `/test` may use them for
+  **controlled long-run positioning setup** (record the run as controlled setup, and
+  never use them for a bug you're actually judging survival-clock behavior on — see each
+  skill's Gotchas). Verbs: `god mode take <item>` (→ "I hope you enjoy your <item>";
   unresolvable → "Invalid use of God mode. Bad adventurer!"), `god mode go <place>`,
-  `god mode where <item>`, `god mode [no] sleep|hunger|survival [on|off]`. **Trap:**
-  `take`/`go` route through `LoadAllItems`/`LoadAllLocations`, which rebuild the
-  Repository **without `Init()`** — this **resets Floyd to deactivated** and empties
-  containers. After a god-mode grab in Planetfall, re-check `state` and `activate floyd`
-  before testing show/give/conversation.
+  `god mode where <item>`, `god mode [no] sleep|hunger|survival [on|off]`, `god mode
+  reset time`. **Trap:** `take`/`go` route through `LoadAllItems`/`LoadAllLocations`,
+  which rebuild the Repository **without `Init()`** — this **resets Floyd to
+  deactivated** and empties containers. After a god-mode grab in Planetfall, re-check
+  `state` and `activate floyd` before testing show/give/conversation.
 - To extract just the narrator text from harness output, filter the envelope/markers,
   e.g. `grep -vE '^$|oracles@|actions@loc|^> .*HTTP|^---'`.
 - Commit through the signing-server 503 with
