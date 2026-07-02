@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T20:11:50Z · 55 finding(s)_
+_Generated 2026-07-02T21:05:44Z · 56 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -232,6 +232,13 @@ RiftLocationBase.RespondToSimpleInteraction (Planetfall/Location/Kalamontee/Admi
 - command: `take canteen (Mess Hall); open canteen -- blank response, no feedback at all, in both play and quiet mode`
 
 Canteen.cs:31-34 overrides NowOpen to unconditionally return string.Empty, and OnOpening (Canteen.cs:36-42) only returns text when the canteen has contents (if Items.Any()) -- for an empty canteen both halves of OpenAndCloseInteractionProcessor.OpenMe's concatenation (NowOpen + OnOpening) are empty, so the response is totally blank even though IsOpen correctly flips to true underneath. Confirmed on prod, reproducible 3x in both play and quiet mode: 'open canteen' on the canteen exactly as taken from Mess Hall (its natural pristine state) returns nothing at all -- the harness oracle auto-flagged it as an empty narrator response. Contrast: opening the SAME canteen once filled with protein liquid correctly shows 'Opening the canteen reveals a quantity of protein-rich liquid.' A sibling container, SurvivalKit.cs:14-20, has the correct pattern (NowOpen returns 'Opened. ' when empty, custom text only when there's something to describe) that Canteen.cs should have followed but doesn't.
+
+## AB-056 [MEDIUM] Leaving the shuttle control cabin at the arrival moment skips the speed-based crash/death consequence  · _filed#373_
+
+- game `planetfall` · area `Alfie/Betty Control East+West (shared ShuttleControl base class)` · category `puzzle-step` · target_sha `unknown`
+- command: `activate shuttle; push lever once, never touch it again; wait through entire tunnel (speed climbs to 120+); on the 'approaching a brightly lit area' turn, next command W (escapes, no consequence) vs any other command e.g. score (retroactive crash/death fires)`
+
+A player who pushes the lever once and never decelerates (ignoring the Limit 45 sign and Begin Deceleration warning, speed climbs unchecked to 120+) should face a speed-based Arrived() consequence on arrival. Confirmed A/B on prod: same reckless setup both times, differing only in the command typed on the turn the 'approaching a brightly lit area' landmark appears. Typing W (leave cabin) as the next command escapes with zero consequence. Typing anything else (score) retroactively triggers the crash/death message on that turn instead. Root cause: ShuttleControl.cs's Move() checks TunnelPosition==EndOfTunnel at its TOP before incrementing, so the turn TunnelPosition goes 23->24 just prints the landmark and increments, WITHOUT calling Arrived() (the actual crash/death computation) - that's deferred to a separate later Act() cycle. But DoorIsClosed becomes false the instant TunnelPosition hits 24, so the door is already open at that moment, and if the player leaves via CanLeave(), OnLeaveLocation() immediately deregisters the shuttle as an actor and resets Activated=false, permanently skipping the pending Arrived() call since movement processing precedes actor processing in the turn pipeline. The developer's own code comment states explicit design intent ('speed... make sure you decelerate to a reasonable speed before you enter the station'), directly contradicted by this exploit. Both AlfieControlEast/West and BettyControlEast/West extend the same generic ShuttleControl<TCabin,TControl> base class, so one root cause affects both shuttle lines. No ZIL access this session, but this is an engine-architecture timing bug (actor deregistration racing a deferred consequence check), not a faithful-cruelty judgment call.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
