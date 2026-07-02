@@ -1,6 +1,13 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-24T22:23:42Z · 45 finding(s)_
+_Generated 2026-07-02T14:00:42Z · 46 finding(s)_
+
+## AB-046 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
+
+- game `planetfall` · area `MECH:consecutive-wait-session-reset` · category `other` · target_sha `unknown`
+- command: `new --game planetfall --target prod; then quiet wait x14 (any idle command repeated)`
+
+Black-box against Planetfall prod (6kvs9n5pj4...): sending consecutive wait-type (idle, no state-changing) commands to a session causes the server to silently and completely reset that session's authoritative state back to near-initial values -- moves reverts to 0, time= drops back close to its session-start value, and any acquired ambient item (the ship's 'brochure', normally picked up automatically a few turns in) disappears from inv=. The response is still HTTP 200 with plausible flavor text ('Time passes...'), so nothing signals to a client/player that a reset occurred. Reproduced deterministically 3 times on independent fresh sessions: (1) 300x identical 'wait' (quiet/noGeneratedResponses) -> resets at request #14, 28, 42, 56 ... 294, i.e. every single multiple of 14 with zero exceptions across 21 cycles; (2) 60x alternating 'wait'/'z' (different literal text, same in-fiction effect) -> resets again at exactly 14, 28, 42, 56, ruling out a naive identical-text dedup/idempotency-key explanation; (3) 24x 'wait' with a forced 4-second gap between every call -> reset still lands at exactly request #14 (72s elapsed, vs ~15-20s elapsed to reach #14 in the unpaced tests), ruling out a simple wall-clock TTL/cache-expiry explanation -- the trigger is the COUNT of consecutive idle commands, not elapsed time. Contrast case: sessions replaying the real walkthrough (movement, taking items, puzzle actions, with only short wait streaks of <=10 interspersed with substantive actions) reached move ~150+ cleanly with no reset anywhere near move 14, so this is not simply 'every Nth HTTP request to any session' -- it specifically implicates long streaks of consecutive wait/no-op commands. This directly collides with legitimate gameplay: Planetfall's own walkthrough requires riding the Alfie/Betty shuttle to reach the Lawanda Complex, which is a scripted sequence of ~20 consecutive 'wait' commands (spine steps ~179-200 in adventurebreaker/spine/planetfall.json) with no opportunity to interleave other actions without breaking the shuttle sequence. Every attempt this session to spine-run through that exact stretch reset back to Deck Nine (score 0, starting inventory) partway through the wait run, consistent with this bug being the root cause of that navigation failure.
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
