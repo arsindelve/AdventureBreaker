@@ -1,8 +1,8 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T14:36:38Z · 47 finding(s)_
+_Generated 2026-07-02T14:43:19Z · 47 finding(s)_
 
-## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
+## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _filed#356_
 
 - game `planetfall` · area `MECH:consecutive-wait-session-reset` · category `other` · target_sha `unknown`
 - command: `new --game planetfall --target prod; then quiet wait x14 (any idle command repeated)`
