@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T19:46:57Z · 54 finding(s)_
+_Generated 2026-07-02T20:11:50Z · 55 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -225,6 +225,13 @@ GiveSomethingToSomeoneDecisionEngine.cs:49 and Floyd.cs:377 (RespondToShow) both
 - command: `jump into rift / jump over rift / jump rift / enter rift at Admin Corridor or Admin Corridor North (ladder not placed) -- all give the movement-failure message, never the death`
 
 RiftLocationBase.RespondToSimpleInteraction (Planetfall/Location/Kalamontee/Admin/RiftLocationBase.cs:31-34) has a deliberate death branch for verb=jump/leap + rift-noun, but it is unreachable in live play. Confirmed on prod in both play and quiet mode, from both AdminCorridor and AdminCorridorNorth: 'jump into rift', 'jump over rift', 'jump rift' (bare noun, no preposition), and 'enter rift' all produce the generic 'The rift is too wide to jump across.' movement-failure message instead. That string only exists as AdminCorridor.Map()/AdminCorridorNorth.Map()'s Direction.N/S CustomFailureMessage, proving these inputs are being classified as MoveIntent{Direction=N/S} by the AI complex-intent parser and routed through MoveEngine, never reaching RiftLocationBase's SimpleIntent handler at all. Bare 'jump' (no noun) correctly does NOT trigger death, confirming the misroute is specific to verb+rift-noun combos. Zero test coverage anywhere exercises the jump+rift death branch; the existing 'too wide to jump' test (AdminCorridorTests.CannotGoNorth_WithoutLadder) uses bare 'n' input, not 'jump', so the suite doesn't codify this as intended. No ZIL access this session to confirm original JUMP handling, but the C# itself proves the intent (a full DeathProcessor call sits there unreachable) - this is a routing/parsing defect, not a faithful-cruelty judgment call.
+
+## AB-055 [MEDIUM] Opening an empty canteen gives a completely blank response - no player feedback  · _filed#370_
+
+- game `planetfall` · area `Kitchen / Canteen (canteen-filling mechanic)` · category `container` · target_sha `unknown`
+- command: `take canteen (Mess Hall); open canteen -- blank response, no feedback at all, in both play and quiet mode`
+
+Canteen.cs:31-34 overrides NowOpen to unconditionally return string.Empty, and OnOpening (Canteen.cs:36-42) only returns text when the canteen has contents (if Items.Any()) -- for an empty canteen both halves of OpenAndCloseInteractionProcessor.OpenMe's concatenation (NowOpen + OnOpening) are empty, so the response is totally blank even though IsOpen correctly flips to true underneath. Confirmed on prod, reproducible 3x in both play and quiet mode: 'open canteen' on the canteen exactly as taken from Mess Hall (its natural pristine state) returns nothing at all -- the harness oracle auto-flagged it as an empty narrator response. Contrast: opening the SAME canteen once filled with protein liquid correctly shows 'Opening the canteen reveals a quantity of protein-rich liquid.' A sibling container, SurvivalKit.cs:14-20, has the correct pattern (NowOpen returns 'Opened. ' when empty, custom text only when there's something to describe) that Canteen.cs should have followed but doesn't.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
