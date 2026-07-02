@@ -223,16 +223,30 @@ repo's current dev branch.
   changed state → diverges, inventory/score reset). Always `spine-run` from a **fresh**
   session with **no** manual commands interleaved before it. To probe-then-continue,
   use `save`/`restore` instead of interleaving.
-- **Survival clocks (Planetfall):** sleep/hunger will kill you mid-probe. `restore`
-  resets the clock — checkpoint and restore rather than waiting. Stay black-box; do not
-  reach for god-mode survival toggles during exploration.
+- **Survival clocks (Planetfall):** sleep/hunger will kill you mid-probe. For long deep
+  positioning runs, use the controlled setup command `quiet "god mode no survival"`
+  immediately after a fresh `new` to disable both clocks, then `spine-run`. Record the
+  run as controlled setup, and do not use the toggle if the bug being judged involves
+  survival-clock behavior. Re-enable with `quiet "god mode survival"`; fine-grained
+  forms are `god mode no sleep`, `god mode sleep`, `god mode no hunger`, and
+  `god mode hunger`. The toggle consumes one Planetfall turn. If you run it at Deck Nine
+  before replaying the spine, set `runs/<run>/state.json` `spine_pos` to `1` and reduce
+  the replay count by one; otherwise the opening explosion fires one command earlier
+  than the spine expects and the route can desync before the escape pod.
+- **Chronometer gate (Planetfall Alfie):** the walkthrough uses a test-only `ResetTime`
+  setup before `slide shuttle access card through slot`. In prod, use
+  `quiet "god mode reset time"` at that point. It should respond
+  `God mode: chronometer reset to 2000.`; verify with `score` if needed, then run the
+  exact shuttle-card command and advance `spine_pos` past that manual step before
+  continuing. This is separate from `god mode no survival`.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
 - **god mode is white-box** (a debug cheat: `god mode take <item>` / `go <place>` /
-  `where <item>`; see `_reference.md` §7 for the full verb syntax). Don't use it during
-  black-box play. `take`/`go` rebuild the Repository **without `Init()`**, which
-  **deactivates Floyd** and empties containers — so after any god-mode grab, re-check
-  `state` and `activate floyd` before show/give/conversation tests.
+  `where <item>` / `no survival`; see `_reference.md` §7 for the full verb syntax).
+  Use it only for controlled setup, never as evidence for a player-visible bug.
+  `take`/`go` rebuild the Repository **without `Init()`**, which **deactivates Floyd**
+  and empties containers — so after any god-mode grab, re-check `state` and
+  `activate floyd` before show/give/conversation tests.
 - **If chasing a fix or tooling workaround balloons, stop.** Write the remaining detail
   into the GitHub issue and abandon the side-quest (delete any scratch artifact). The job
   is *find bugs, not fix them* — rabbit-holing into a fix violates it.

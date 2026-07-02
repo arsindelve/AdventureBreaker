@@ -125,6 +125,32 @@ python3 -m adventurebreaker.harness state                     # confirm position
 python3 -m adventurebreaker.harness play  "<repro>"           # narrator on  (player view)
 python3 -m adventurebreaker.harness quiet "<repro>"           # narrator off (engine truth)
 ```
+- **Planetfall long-run setup:** after a fresh `new` and before a deep `spine-run`, you
+  may disable the sleep+hunger clocks with
+  `quiet "god mode no survival"` for deterministic positioning. This is a white-box
+  setup affordance from ZorkAI Issue #277, not player-visible behavior. Record that the
+  run used controlled setup, then verify the actual release behavior with ordinary
+  `play`/`quiet` commands. Re-enable with `quiet "god mode survival"` when testing
+  survival-clock behavior itself. Fine-grained toggles also exist:
+  `god mode no sleep`, `god mode sleep`, `god mode no hunger`, `god mode hunger`.
+  **Important:** the god-mode toggle is still a game command and consumes one
+  Planetfall turn. If you run it at Deck Nine before replaying the spine, compensate by
+  treating it as the first padding `wait`: set the run's `spine_pos` to `1` and run
+  `spine-run --count (N-1)`. Otherwise the opening explosion timing shifts by one turn
+  and the route can desync before the escape pod. Example:
+  ```bash
+  python3 -c "import json,pathlib; p=pathlib.Path('runs/<run>/state.json'); d=json.loads(p.read_text()); d['spine_pos']=1; p.write_text(json.dumps(d, indent=2))"
+  python3 -m adventurebreaker.harness --run <run> spine-run --count $((N-1))
+  ```
+- **Planetfall `ResetTime` setup:** the walkthrough spine includes a test-only
+  `ResetTime` setup before `slide shuttle access card through slot` in Alfie Control
+  East. In prod, use the deployed equivalent:
+  `quiet "god mode reset time"`. It should respond
+  `God mode: chronometer reset to 2000.` and `score` should show Current Galactic
+  Standard Time `2000` before you swipe the shuttle card. Then run the exact spine
+  command `quiet "slide shuttle access card through slot"` and set `spine_pos` to the
+  next step before resuming. This is controlled setup for the chronometer gate, separate
+  from `god mode no survival`.
 - **Finding `<N>` (the step count for an area):** the walkthrough is
   `adventurebreaker/spine/<game>.json` — an ordered list of `{"cmd", "expect"}` steps;
   `spine-run --count N` replays steps `0..N-1`. Grep the spine for a landmark command or
@@ -189,8 +215,18 @@ git push -u origin "$(git rev-parse --abbrev-ref HEAD)"     # retry w/ backoff 2
 - **Spine-desync trap:** manual commands before `spine-run` desync the walkthrough
   (state diverges, inventory/score reset). Start **fresh** per position; use
   `save`/`restore` to fork instead of interleaving.
-- **Survival clocks (Planetfall):** sleep/hunger kill you mid-test; `restore` resets the
-  clock. Stay black-box (no god-mode survival toggles) during verification.
+- **Survival clocks (Planetfall):** sleep/hunger can kill you mid-test. For long deep
+  positioning runs, use the controlled setup command `quiet "god mode no survival"`
+  immediately after a fresh `new` to disable both clocks, then `spine-run`; document this
+  in the report. `quiet "god mode survival"` re-enables them. Do not use the toggle when
+  the item under test is survival-clock behavior. The toggle consumes a turn, so for the
+  opening Deck Nine spine set `spine_pos=1` before replaying; otherwise timed events are
+  one turn ahead of the spine expectations.
+- **Chronometer gate (Planetfall Alfie):** sleep/hunger toggles do not affect
+  `CurrentTime`. If the spine reaches Alfie after `CurrentTime > 6000`, the shuttle card
+  is rejected with the evening-hours authorization message. Use
+  `quiet "god mode reset time"` at the walkthrough's `ResetTime` point; prod should set
+  the chronometer to `2000`, after which the shuttle card activates Alfie.
 - **NPCs wander (Floyd):** `wait` for "Floyd back!" / confirm presence in `state` before
   show/give/conversation checks.
 - **god mode is white-box** and can transiently reset live state (e.g. deactivate Floyd)
