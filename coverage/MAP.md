@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-02T20:20:06Z · target_sha `unknown`_
+_Generated 2026-07-02T21:15:35Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -9,7 +9,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Area | Covered | Worst | Last sha | Findings |
 |---|---|---|---|---|
 | Alfie Control East | 4/16 | low | `unknown` | - |
-| Alfie Control West | 0/16 | clean | `-` | - |  ⬅ untouched
+| Alfie Control West | 2/16 | clean | `unknown` | - |
 | Auxiliary Booth | 0/16 | clean | `-` | - |  ⬅ untouched
 | Balcony | 1/16 | clean | `unknown` | - |
 | Betty Control East | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -35,7 +35,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | In Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Infirmary | 2/16 | clean | `unknown` | - |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
-| Kalamontee Platform | 5/16 | low | `unknown` | - |
+| Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 5/16 | medium | `unknown` | - |
 | Lawanda Platform | 1/16 | clean | `unknown` | - |
 | Library | 4/16 | clean | `unknown` | - |
@@ -55,14 +55,14 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Project Corridor West | 1/16 | clean | `unknown` | - |
 | Reactor Lobby | 6/16 | low | `unknown` | - |
 | Rec Area | 0/16 | clean | `-` | - |  ⬅ untouched
-| Rec Corridor | 1/16 | clean | `unknown` | - |
+| Rec Corridor | 2/16 | low | `unknown` | - |
 | Repair Room | 5/16 | clean | `unknown` | - |
 | Robot Shop | 5/16 | clean | `unknown` | - |
 | Sanfac F | 3/16 | clean | `c31e9ec` | - |
 | Shuttle Car Alfie | 3/16 | low | `unknown` | - |
 | Shuttle Car Betty | 0/16 | clean | `-` | - |  ⬅ untouched
 | Station 384 | 3/16 | clean | `unknown` | - |
-| Storage West | 2/16 | low | `unknown` | - |
+| Storage West | 3/16 | low | `unknown` | - |
 | Strip Near Relay | 7/16 | low | `unknown` | - |
 | Strip Near Station | 2/16 | clean | `unknown` | - |
 | Systems Corridor | 1/16 | clean | `unknown` | - |
