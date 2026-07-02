@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T15:28:19Z · 48 finding(s)_
+_Generated 2026-07-02T15:40:17Z · 51 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -36,6 +36,20 @@ ConversationHandler.CollectTalkableEntities only gathers ICanBeTalkedTo characte
 - command: `score (or look, or inventory) — any location, narrator off or on`
 
 In authentic Infocom parsers, SCORE, LOOK, and INVENTORY are free meta-verbs that never advance the in-game clock or move counter. In this engine, every one of these commands advances moves by exactly 1 and the in-game time field by exactly 54 ticks, identical to a real action (take/open/movement). Reproduced cleanly in an isolated fresh session (narrator OFF, ruling out narrator involvement): moves=0 time=4558 at game start; after 'score' -> moves=1 time=4671; after 'look' -> moves=2 time=4725 (+54); after 'inventory' -> moves=3 time=4779 (+54); after 'score' again -> moves=4 time=4833 (+54). The in-game clock is confirmed turn-based (fixed +54/turn), not wall-clock, so this directly desyncs pacing from the intended design. Concretely observed harm: replaying the engine's own verified golden walkthrough (extracted from its NUnit test fixtures) command-for-command on live prod, the walkthrough calls 'score' 7 times before a certain point (completely normal player behavior) -- those 7 'free' checks silently burned 7 extra turns (378 extra clock ticks) the golden path never accounts for. The very next scripted command (moving W into the Large Office, which the golden path expects to be safe) instead triggered an unavoidable sleep/hunger death ('...you awake as several ferocious beasts...You have died') that does not occur in the verified walkthrough. A real player who does nothing wrong beyond periodically checking their score/inventory/surroundings can be killed by survival-clock drift entirely outside their control.
+
+## AB-049 [HIGH] Floyd unresponsive to examine/search/oil/social verbs whenever holding an item  · _filed#352_
+
+- game `planetfall` · area `Robot Shop / Floyd (ItemBeingHeld interaction short-circuit)` · category `character-break` · target_sha `094a1ed`
+- command: `give brush to floyd; examine floyd`
+
+Floyd.cs:230-235 short-circuits on 'result is not null' when delegating simple interactions to ItemBeingHeld, but ItemBase.RespondToSimpleInteraction returns a non-null NoNounMatchInteractionResult (InteractionHappened=false) when the noun doesn't match the held item. Floyd treats that negative result as final, skipping his own social responses, search, and ICanBeExamined description. Confirmed by toggling: give item -> broken; take item back -> fixed.
+
+## AB-051 [HIGH] Floyd's 'already did that' fromitz-board line lies - re-asking teleports the board back regardless of location  · _filed#360_
+
+- game `planetfall` · area `Repair Room / Floyd fromitz board retrieval (unconditional re-grant)` · category `puzzle-step` · target_sha `094a1ed`
+- command: `floyd, take board (twice, after dropping the board in a different room between asks)`
+
+FloydLocationBehaviors.HandleFromitzBoardRetrieval calls context.ItemPlacedHere<ShinyFromitzBoard>() unconditionally, gated only on the narration text, not the state mutation. Take()'s only duplicate guard checks context.Items, not the item's actual CurrentLocation, so if the board was dropped elsewhere it silently teleports back into inventory the moment Floyd is re-asked, while the narration ('Floyd already did that') implies nothing happened. Confirmed live: dropped the board in Systems Corridor West, returned to Repair Room, re-asked Floyd -> inv= shows the board back immediately in the same response as the no-op narration. Same unconditional call path is plausibly reachable even after the board is later installed into the FromitzAccessPanel puzzle, which would silently un-solve it (not live-tested, code-supported only).
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
@@ -190,6 +204,13 @@ look at <single-word noun> collapses to bare room look. look at <two-word noun> 
 - command: `drop board / drop fromitz board / drop shiny fromitz board (while holding ShinyFromitzBoard); drop all works`
 
 TakeOrDropInteractionProcessor.GetItemsToDrop falls back to the global unscoped Repository.GetItem(noun) (FirstOrDefault across every item ever instantiated, no accessibility/possession/precision awareness), unlike GetItemsToTake which correctly uses Repository.GetItemInScope. At least 6 FromitzBoardBase-derived items (First/Cracked/Third/Fourth/Shiny/Fried) share generic 'board'/'fromitz board'/'fromitz' nouns; once more than one is lazily instantiated, single-item drop can resolve to a different board instance than the one held, producing a false 'You don't have that!' while inventory/examine/drop-all all confirm the item is genuinely held. Related latent bug in the same file: FromitzBoardBase.NounsForPreciseMatching excepts ['card','access card'] (strings not present in any board's noun list) instead of ['board','fromitz board'] per its own comment, making it a no-op.
+
+## AB-050 [MEDIUM] GIVE/SHOW falsely say 'You don't have the X!' for items nested in a worn container  · _filed#353_
+
+- game `planetfall` · area `Robot Shop / Floyd SHOW + general GIVE (nested-container possession check)` · category `character-break` · target_sha `094a1ed`
+- command: `show id card to floyd; give id card to floyd (ID card still inside worn uniform)`
+
+GiveSomethingToSomeoneDecisionEngine.cs:49 and Floyd.cs:377 (RespondToShow) both re-check possession with the flat 'context.Items.Contains(thing)' after Repository.GetItemInScope already resolved the item via the recursive/accessibility-aware GetAllItemsRecursively + IsItemAccessible walk. Any item nested one level inside a worn/carried container (e.g. the starting ID card inside the Patrol uniform) resolves fine for examine/take/read but GIVE/SHOW falsely deny possession. General engine bug (shared GiveSomethingToSomeoneDecisionEngine<T>), most visible via Floyd since he is the primary give/show target.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
