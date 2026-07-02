@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T14:01:38Z · 46 finding(s)_
+_Generated 2026-07-02T14:34:25Z · 46 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -23,7 +23,7 @@ Black-box: against Planetfall prod (6kvs9n5pj4...), the single input 'look exami
 
 ConversationHandler.CollectTalkableEntities only gathers ICanBeTalkedTo characters from inventory + current room. When the named NPC is absent, FindTargetCharacter returns null, the whole input falls through to normal command parsing, and the PLAYER executes the command. State-affecting: 'floyd/blather/ambassador, go up' moves the PLAYER; 'X, drop diary' drops the PLAYER's item; 'X, take brush' -> 'You already have that!'; 'floyd, sing' even hallucinates Floyd singing while absent. The game should always know these named characters and, if addressed while absent, say 'X isn't here.' This is the absent-case gap left by #182 (which handles direct-address only when present). Confirmed for all three ICanBeTalkedTo NPCs.
 
-## AB-046 [HIGH] Meta-verbs (score/look/inventory) incorrectly consume a game turn, accelerating the survival clock into unwarranted deaths  · _open_
+## AB-046 [HIGH] Meta-verbs (score/look/inventory) incorrectly consume a game turn, accelerating the survival clock into unwarranted deaths  · _filed#354_
 
 - game `planetfall` · area `Engine-wide / turn-clock daemon (affects every room)` · category `turn-accounting` · target_sha `unknown`
 - command: `score (or look, or inventory) — any location, narrator off or on`
