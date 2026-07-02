@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T14:01:13Z · 46 finding(s)_
+_Generated 2026-07-02T14:32:12Z · 47 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -176,6 +176,13 @@ Bat NPC description doubled on movement entry. look with narrator ON shows once 
 - command: `look at mailbox`
 
 look at <single-word noun> collapses to bare room look. look at <two-word noun> works. examine always works. Same root cause as #283 (Planetfall).
+
+## AB-047 [MEDIUM] GIVE/SHOW falsely say 'You don't have the X!' for items nested in a worn container  · _filed#353_
+
+- game `planetfall` · area `Robot Shop / Floyd SHOW + general GIVE (nested-container possession check)` · category `character-break` · target_sha `094a1ed`
+- command: `show id card to floyd; give id card to floyd (ID card still inside worn uniform)`
+
+GiveSomethingToSomeoneDecisionEngine.cs:49 and Floyd.cs:377 (RespondToShow) both re-check possession with the flat 'context.Items.Contains(thing)' after Repository.GetItemInScope already resolved the item via the recursive/accessibility-aware GetAllItemsRecursively + IsItemAccessible walk. Any item nested one level inside a worn/carried container (e.g. the starting ID card inside the Patrol uniform) resolves fine for examine/take/read but GIVE/SHOW falsely deny possession. General engine bug (shared GiveSomethingToSomeoneDecisionEngine<T>), most visible via Floyd since he is the primary give/show target.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
