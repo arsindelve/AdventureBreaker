@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-24T22:23:42Z · 45 finding(s)_
+_Generated 2026-07-02T14:01:13Z · 46 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -22,6 +22,13 @@ Black-box: against Planetfall prod (6kvs9n5pj4...), the single input 'look exami
 - command: `floyd|blather|ambassador, <go up|drop diary|take brush> while absent`
 
 ConversationHandler.CollectTalkableEntities only gathers ICanBeTalkedTo characters from inventory + current room. When the named NPC is absent, FindTargetCharacter returns null, the whole input falls through to normal command parsing, and the PLAYER executes the command. State-affecting: 'floyd/blather/ambassador, go up' moves the PLAYER; 'X, drop diary' drops the PLAYER's item; 'X, take brush' -> 'You already have that!'; 'floyd, sing' even hallucinates Floyd singing while absent. The game should always know these named characters and, if addressed while absent, say 'X isn't here.' This is the absent-case gap left by #182 (which handles direct-address only when present). Confirmed for all three ICanBeTalkedTo NPCs.
+
+## AB-046 [HIGH] Floyd unresponsive to examine/search/oil/social verbs whenever holding an item  · _filed#352_
+
+- game `planetfall` · area `Robot Shop / Floyd (ItemBeingHeld interaction short-circuit)` · category `character-break` · target_sha `094a1ed`
+- command: `give brush to floyd; examine floyd`
+
+Floyd.cs:230-235 short-circuits on 'result is not null' when delegating simple interactions to ItemBeingHeld, but ItemBase.RespondToSimpleInteraction returns a non-null NoNounMatchInteractionResult (InteractionHappened=false) when the noun doesn't match the held item. Floyd treats that negative result as final, skipping his own social responses, search, and ICanBeExamined description. Confirmed by toggling: give item -> broken; take item back -> fixed.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
