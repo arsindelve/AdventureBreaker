@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T19:18:10Z · 53 finding(s)_
+_Generated 2026-07-02T19:46:57Z · 54 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -218,6 +218,13 @@ look at <single-word noun> collapses to bare room look. look at <two-word noun> 
 - command: `show id card to floyd; give id card to floyd (ID card still inside worn uniform)`
 
 GiveSomethingToSomeoneDecisionEngine.cs:49 and Floyd.cs:377 (RespondToShow) both re-check possession with the flat 'context.Items.Contains(thing)' after Repository.GetItemInScope already resolved the item via the recursive/accessibility-aware GetAllItemsRecursively + IsItemAccessible walk. Any item nested one level inside a worn/carried container (e.g. the starting ID card inside the Patrol uniform) resolves fine for examine/take/read but GIVE/SHOW falsely deny possession. General engine bug (shared GiveSomethingToSomeoneDecisionEngine<T>), most visible via Floyd since he is the primary give/show target.
+
+## AB-054 [MEDIUM] Jumping into the rift never triggers the written death - always misrouted to the generic movement-failure message  · _filed#369_
+
+- game `planetfall` · area `Admin Corridor / Admin Corridor North (rift, RiftLocationBase)` · category `puzzle-step` · target_sha `unknown`
+- command: `jump into rift / jump over rift / jump rift / enter rift at Admin Corridor or Admin Corridor North (ladder not placed) -- all give the movement-failure message, never the death`
+
+RiftLocationBase.RespondToSimpleInteraction (Planetfall/Location/Kalamontee/Admin/RiftLocationBase.cs:31-34) has a deliberate death branch for verb=jump/leap + rift-noun, but it is unreachable in live play. Confirmed on prod in both play and quiet mode, from both AdminCorridor and AdminCorridorNorth: 'jump into rift', 'jump over rift', 'jump rift' (bare noun, no preposition), and 'enter rift' all produce the generic 'The rift is too wide to jump across.' movement-failure message instead. That string only exists as AdminCorridor.Map()/AdminCorridorNorth.Map()'s Direction.N/S CustomFailureMessage, proving these inputs are being classified as MoveIntent{Direction=N/S} by the AI complex-intent parser and routed through MoveEngine, never reaching RiftLocationBase's SimpleIntent handler at all. Bare 'jump' (no noun) correctly does NOT trigger death, confirming the misroute is specific to verb+rift-noun combos. Zero test coverage anywhere exercises the jump+rift death branch; the existing 'too wide to jump' test (AdminCorridorTests.CannotGoNorth_WithoutLadder) uses bare 'n' input, not 'jump', so the suite doesn't codify this as intended. No ZIL access this session to confirm original JUMP handling, but the C# itself proves the intent (a full DeathProcessor call sits there unreachable) - this is a routing/parsing defect, not a faithful-cruelty judgment call.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
