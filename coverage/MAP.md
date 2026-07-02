@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-02T12:56:28Z · target_sha `unknown`_
+_Generated 2026-07-02T14:42:29Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -57,7 +57,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Rec Area | 0/16 | clean | `-` | - |  ⬅ untouched
 | Rec Corridor | 1/16 | clean | `unknown` | - |
 | Repair Room | 4/16 | clean | `unknown` | - |
-| Robot Shop | 5/16 | clean | `unknown` | - |
+| Robot Shop | 7/16 | clean | `unknown` | - |
 | Sanfac F | 3/16 | clean | `c31e9ec` | - |
 | Shuttle Car Alfie | 3/16 | low | `unknown` | - |
 | Shuttle Car Betty | 0/16 | clean | `-` | - |  ⬅ untouched

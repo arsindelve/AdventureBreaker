@@ -1,6 +1,13 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T14:32:12Z · 47 finding(s)_
+_Generated 2026-07-02T14:42:29Z · 49 finding(s)_
+
+## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
+
+- game `planetfall` · area `MECH:consecutive-wait-session-reset` · category `other` · target_sha `unknown`
+- command: `new --game planetfall --target prod; then quiet wait x14 (any idle command repeated)`
+
+Black-box against Planetfall prod (6kvs9n5pj4...): sending consecutive wait-type (idle, no state-changing) commands to a session causes the server to silently and completely reset that session's authoritative state back to near-initial values -- moves reverts to 0, time= drops back close to its session-start value, and any acquired ambient item (the ship's 'brochure', normally picked up automatically a few turns in) disappears from inv=. The response is still HTTP 200 with plausible flavor text ('Time passes...'), so nothing signals to a client/player that a reset occurred. Reproduced deterministically 3 times on independent fresh sessions: (1) 300x identical 'wait' (quiet/noGeneratedResponses) -> resets at request #14, 28, 42, 56 ... 294, i.e. every single multiple of 14 with zero exceptions across 21 cycles; (2) 60x alternating 'wait'/'z' (different literal text, same in-fiction effect) -> resets again at exactly 14, 28, 42, 56, ruling out a naive identical-text dedup/idempotency-key explanation; (3) 24x 'wait' with a forced 4-second gap between every call -> reset still lands at exactly request #14 (72s elapsed, vs ~15-20s elapsed to reach #14 in the unpaced tests), ruling out a simple wall-clock TTL/cache-expiry explanation -- the trigger is the COUNT of consecutive idle commands, not elapsed time. Contrast case: sessions replaying the real walkthrough (movement, taking items, puzzle actions, with only short wait streaks of <=10 interspersed with substantive actions) reached move ~150+ cleanly with no reset anywhere near move 14, so this is not simply 'every Nth HTTP request to any session' -- it specifically implicates long streaks of consecutive wait/no-op commands. This directly collides with legitimate gameplay: Planetfall's own walkthrough requires riding the Alfie/Betty shuttle to reach the Lawanda Complex, which is a scripted sequence of ~20 consecutive 'wait' commands (spine steps ~179-200 in adventurebreaker/spine/planetfall.json) with no opportunity to interleave other actions without breaking the shuttle sequence. Every attempt this session to spine-run through that exact stretch reset back to Deck Nine (score 0, starting inventory) partway through the wait run, consistent with this bug being the root cause of that navigation failure.
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -23,7 +30,14 @@ Black-box: against Planetfall prod (6kvs9n5pj4...), the single input 'look exami
 
 ConversationHandler.CollectTalkableEntities only gathers ICanBeTalkedTo characters from inventory + current room. When the named NPC is absent, FindTargetCharacter returns null, the whole input falls through to normal command parsing, and the PLAYER executes the command. State-affecting: 'floyd/blather/ambassador, go up' moves the PLAYER; 'X, drop diary' drops the PLAYER's item; 'X, take brush' -> 'You already have that!'; 'floyd, sing' even hallucinates Floyd singing while absent. The game should always know these named characters and, if addressed while absent, say 'X isn't here.' This is the absent-case gap left by #182 (which handles direct-address only when present). Confirmed for all three ICanBeTalkedTo NPCs.
 
-## AB-046 [HIGH] Floyd unresponsive to examine/search/oil/social verbs whenever holding an item  · _filed#352_
+## AB-046 [HIGH] Meta-verbs (score/look/inventory) incorrectly consume a game turn, accelerating the survival clock into unwarranted deaths  · _open_
+
+- game `planetfall` · area `Engine-wide / turn-clock daemon (affects every room)` · category `turn-accounting` · target_sha `unknown`
+- command: `score (or look, or inventory) — any location, narrator off or on`
+
+In authentic Infocom parsers, SCORE, LOOK, and INVENTORY are free meta-verbs that never advance the in-game clock or move counter. In this engine, every one of these commands advances moves by exactly 1 and the in-game time field by exactly 54 ticks, identical to a real action (take/open/movement). Reproduced cleanly in an isolated fresh session (narrator OFF, ruling out narrator involvement): moves=0 time=4558 at game start; after 'score' -> moves=1 time=4671; after 'look' -> moves=2 time=4725 (+54); after 'inventory' -> moves=3 time=4779 (+54); after 'score' again -> moves=4 time=4833 (+54). The in-game clock is confirmed turn-based (fixed +54/turn), not wall-clock, so this directly desyncs pacing from the intended design. Concretely observed harm: replaying the engine's own verified golden walkthrough (extracted from its NUnit test fixtures) command-for-command on live prod, the walkthrough calls 'score' 7 times before a certain point (completely normal player behavior) -- those 7 'free' checks silently burned 7 extra turns (378 extra clock ticks) the golden path never accounts for. The very next scripted command (moving W into the Large Office, which the golden path expects to be safe) instead triggered an unavoidable sleep/hunger death ('...you awake as several ferocious beasts...You have died') that does not occur in the verified walkthrough. A real player who does nothing wrong beyond periodically checking their score/inventory/surroundings can be killed by survival-clock drift entirely outside their control.
+
+## AB-048 [HIGH] Floyd unresponsive to examine/search/oil/social verbs whenever holding an item  · _filed#352_
 
 - game `planetfall` · area `Robot Shop / Floyd (ItemBeingHeld interaction short-circuit)` · category `character-break` · target_sha `094a1ed`
 - command: `give brush to floyd; examine floyd`
@@ -177,7 +191,7 @@ Bat NPC description doubled on movement entry. look with narrator ON shows once 
 
 look at <single-word noun> collapses to bare room look. look at <two-word noun> works. examine always works. Same root cause as #283 (Planetfall).
 
-## AB-047 [MEDIUM] GIVE/SHOW falsely say 'You don't have the X!' for items nested in a worn container  · _filed#353_
+## AB-049 [MEDIUM] GIVE/SHOW falsely say 'You don't have the X!' for items nested in a worn container  · _filed#353_
 
 - game `planetfall` · area `Robot Shop / Floyd SHOW + general GIVE (nested-container possession check)` · category `character-break` · target_sha `094a1ed`
 - command: `show id card to floyd; give id card to floyd (ID card still inside worn uniform)`
