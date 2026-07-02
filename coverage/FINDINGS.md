@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-02T15:40:17Z · 51 finding(s)_
+_Generated 2026-07-02T15:46:49Z · 51 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -44,12 +44,12 @@ In authentic Infocom parsers, SCORE, LOOK, and INVENTORY are free meta-verbs tha
 
 Floyd.cs:230-235 short-circuits on 'result is not null' when delegating simple interactions to ItemBeingHeld, but ItemBase.RespondToSimpleInteraction returns a non-null NoNounMatchInteractionResult (InteractionHappened=false) when the noun doesn't match the held item. Floyd treats that negative result as final, skipping his own social responses, search, and ICanBeExamined description. Confirmed by toggling: give item -> broken; take item back -> fixed.
 
-## AB-051 [HIGH] Floyd's 'already did that' fromitz-board line lies - re-asking teleports the board back regardless of location  · _filed#360_
+## AB-051 [HIGH] Asking Floyd for the fromitz board again rips it back out of an already-solved planetary-defense panel  · _filed#360_
 
-- game `planetfall` · area `Repair Room / Floyd fromitz board retrieval (unconditional re-grant)` · category `puzzle-step` · target_sha `094a1ed`
-- command: `floyd, take board (twice, after dropping the board in a different room between asks)`
+- game `planetfall` · area `Repair Room + Planetary Defense / Floyd fromitz board retrieval (unconditional re-grant, confirmed un-installs a solved puzzle)` · category `puzzle-step` · target_sha `094a1ed`
+- command: `put shiny in panel (solve puzzle, score 42->48); floyd, take board (re-ask) -> board yanked from panel, panel empty, score still 48`
 
-FloydLocationBehaviors.HandleFromitzBoardRetrieval calls context.ItemPlacedHere<ShinyFromitzBoard>() unconditionally, gated only on the narration text, not the state mutation. Take()'s only duplicate guard checks context.Items, not the item's actual CurrentLocation, so if the board was dropped elsewhere it silently teleports back into inventory the moment Floyd is re-asked, while the narration ('Floyd already did that') implies nothing happened. Confirmed live: dropped the board in Systems Corridor West, returned to Repair Room, re-asked Floyd -> inv= shows the board back immediately in the same response as the no-op narration. Same unconditional call path is plausibly reachable even after the board is later installed into the FromitzAccessPanel puzzle, which would silently un-solve it (not live-tested, code-supported only).
+FloydLocationBehaviors.HandleFromitzBoardRetrieval calls context.ItemPlacedHere<ShinyFromitzBoard>() unconditionally, gated only on the narration text, not the state mutation. Take()'s only duplicate guard checks context.Items, not the item's actual CurrentLocation, so it silently relocates the board from wherever it currently is the moment Floyd is re-asked, while the narration ('Floyd already did that') implies nothing happened. CONFIRMED escalation: installed the board into FromitzAccessPanel (put shiny in panel -> puzzle solved, score 42->48), then re-asked Floyd -> the installed board was ripped back into inventory; returning to Planetary Defense confirmed the panel socket now empty (second fromitz board gone from actions@loc) while score stayed at 48 (not reverted) -- a solved, scored puzzle silently un-solved by an ordinary companion interaction. Originally also confirmed for the simpler case: board dropped in a different room teleports back on re-ask.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
