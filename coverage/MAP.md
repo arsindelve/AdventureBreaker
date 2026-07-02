@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-02T19:18:11Z · target_sha `unknown`_
+_Generated 2026-07-02T20:20:06Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -48,7 +48,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Miniaturization Booth | 5/16 | clean | `unknown` | - |
 | Physical Plant | 5/16 | low | `unknown` | - |
 | Plain Hall | 1/16 | clean | `unknown` | - |
-| Planetary Defense | 0/16 | clean | `-` | - |  ⬅ untouched
+| Planetary Defense | 5/16 | medium | `unknown` | - |
 | ProjCon Office | 3/16 | clean | `unknown` | - |
 | Project Corridor | 2/16 | clean | `unknown` | - |
 | Project Corridor East | 1/16 | clean | `unknown` | - |
