@@ -189,6 +189,27 @@ re-extraction command + source fixtures are in the README "Usage" section:
   you become a **spirit/ghost at the Entrance to Hades** (always-lit, so no grue death;
   movement still works) and resurrect by walking back to the altar and praying; if not,
   the familiar **forest** reincarnation.
+- **Troll Room gates the Maze, Cyclops Room, and everything past them (≈step 33-34 on
+  the golden spine).** The troll blocks both the east and west exits until defeated, and
+  registers as a turn-based actor on room entry (attacks you the same turn you walk in,
+  before you act). Don't grind the fight for RNG luck to get past it — `quiet "god mode
+  kill troll"` right after entering puts him straight into the same dead state a real
+  kill leaves him in (axe drops, he vanishes), no combat needed. Same command works for
+  `thief` and `cyclops` later in the game. Only fight for real when combat/death behavior
+  is what you're actually testing (see §7).
+- **The Maze itself (`MECH:maze` in the coverage ledger)** checked out clean on a prior
+  sweep: room-identity/revisit tracking (drop a marker item, loop back via a different
+  path — it's still there; "BRIEF mode" correctly suppresses the room description only on
+  already-visited rooms, verified via A/B against `look`), the deliberately self-looping
+  exits (some maze rooms exit back to themselves or to already-seen rooms — faithful
+  classic-Zork design, not a bug), cross-room item scope (drop an item in one room, walk
+  away, `take <item>` from a different room by both its primary and alternate noun —
+  correctly rejected), and the grue-death-in-the-dark mechanic (faithful). Untested as of
+  that sweep: the Grating Room / skeleton-key exit, and take-all/give/put edge cases on
+  the skeleton-room treasures (skeleton, burned-out lantern, rusty knife, skeleton key,
+  bag of coins) — note the burned-out lantern and your own lit brass lantern both show as
+  generic "lantern" in inventory, but `turn off lantern` correctly disambiguates by
+  asking which one, so that's not a bug either.
 
 ## 6. `save` / `restore` gotchas
 
@@ -232,16 +253,29 @@ re-extraction command + source fixtures are in the README "Usage" section:
 - **god mode** is a white-box debug cheat. `take`/`go`/`where` (teleport/inventory
   cheats) are **never** used during black-box play — only for `/test` setup. The
   survival-clock toggles (`god mode [no] sleep|hunger|survival [on|off]`, `god mode
-  reset time`) are the one narrow exception: both `/play` and `/test` may use them for
-  **controlled long-run positioning setup** (record the run as controlled setup, and
-  never use them for a bug you're actually judging survival-clock behavior on — see each
-  skill's Gotchas). Verbs: `god mode take <item>` (→ "I hope you enjoy your <item>";
-  unresolvable → "Invalid use of God mode. Bad adventurer!"), `god mode go <place>`,
-  `god mode where <item>`, `god mode [no] sleep|hunger|survival [on|off]`, `god mode
-  reset time`. **Trap:** `take`/`go` route through `LoadAllItems`/`LoadAllLocations`,
-  which rebuild the Repository **without `Init()`** — this **resets Floyd to
-  deactivated** and empties containers. After a god-mode grab in Planetfall, re-check
-  `state` and `activate floyd` before testing show/give/conversation.
+  reset time`) and `god mode kill <creature>` are the narrow exceptions: both `/play` and
+  `/test` may use them for **controlled setup** (record the run as controlled setup, and
+  never use them for a bug/behavior you're actually judging — see each skill's Gotchas).
+  Verbs: `god mode take <item>` (→ "I hope you enjoy your <item>"; unresolvable →
+  "Invalid use of God mode. Bad adventurer!"), `god mode go <place>`, `god mode where
+  <item>`, `god mode kill <creature>` (Zork I only, added in release 2.0.0 — → "God mode:
+  <name> is dead."; supports `troll`, `thief`, `cyclops` via `ICanBeAttacked.GodModeKill`;
+  unresolvable/non-combat target → the same generic "Invalid use of God mode" fallback),
+  `god mode [no] sleep|hunger|survival [on|off]`, `god mode reset time`. **Trap:**
+  `take`/`go` route through `LoadAllItems`/`LoadAllLocations`, which rebuild the
+  Repository **without `Init()`** — this **resets Floyd to deactivated** and empties
+  containers. After a god-mode grab in Planetfall, re-check `state` and `activate floyd`
+  before testing show/give/conversation.
+- **Use `god mode kill troll` to get past Zork I's Troll Room, don't grind the fight.**
+  The troll registers as a turn-based actor **on room entry** (`TrollRoom.cs`'s
+  `BeforeEnterLocation`), so it gets a free, unprovoked attack the instant you walk in,
+  before your first action — and the combat tables give it a real (~15-16%) instant-kill
+  chance per swing even while you're armed. A session that needed to reach the Maze
+  learned this the hard way (multiple deaths in a row just entering the room), which is
+  exactly why `god mode kill <creature>` (above) exists now. Reach for it whenever the
+  troll (or thief, or cyclops) is merely a gate you need to get past to test something
+  else, and save the real fight for when combat/death behavior is what you're actually
+  testing.
 - To extract just the narrator text from harness output, filter the envelope/markers,
   e.g. `grep -vE '^$|oracles@|actions@loc|^> .*HTTP|^---'`.
 - Commit through the signing-server 503 with

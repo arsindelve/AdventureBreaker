@@ -147,7 +147,8 @@ probes along the way:
   matching category from the list in **Reference**).
 
 **Worked example — do the reckless thing on purpose, ride it to its natural end, then
-A/B-isolate the variable.** (AB-056, `zorkai#373`.) The canonical Planetfall shuttle
+A/B-isolate the variable.** (AB-056, `zorkai#373` — fixed in release 2.0.0; this is kept
+as a methodology example, not an open bug to re-verify.) The canonical Planetfall shuttle
 walkthrough decelerates *immediately*: `push lever` then `pull lever` right back to
 center. A real, careless player wouldn't — so instead of following that timing, the
 probe deliberately did the wrong thing on purpose and then **kept going instead of
@@ -302,11 +303,24 @@ repo's `main` branch, landed immediately via a short-lived branch + self-merged 
   continuing. This is separate from `god mode no survival`.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
+- **Zork I combat gates (troll/thief/cyclops): use `god mode kill <creature>`, don't
+  grind the RNG.** `quiet "god mode kill troll"` (also `thief`, `cyclops`) puts the
+  creature straight into its dead/removed state — same end state a lucky real kill
+  leaves it in (axe dropped, thief's stash placed at your location, cyclops gate opened)
+  — without playing out combat. Use this immediately after any spine step that would
+  normally require winning a fight (e.g. right after entering `The Troll Room`, before
+  attempting the maze), rather than repeatedly `play "kill troll with sword"` and hoping.
+  This exists *because* an earlier playtesting session found the troll fight genuinely
+  brutal for automated positioning (several deaths in a row just trying to reach the
+  Maze) — filed as a tooling request and shipped in release 2.0.0. If you still choose to
+  fight it out (e.g. because the run is specifically about combat/death behavior), know
+  that the creature registers as a turn-based actor **on room entry**, so it gets an
+  unprovoked attack the same turn you walk in, before your first real action.
 - **god mode is white-box** (a debug cheat: `god mode take <item>` / `go <place>` /
-  `where <item>` / `no survival`; see `_reference.md` §7 for the full verb syntax).
-  Use it only for controlled setup, never as evidence for a player-visible bug.
-  `take`/`go` rebuild the Repository **without `Init()`**, which **deactivates Floyd**
-  and empties containers — so after any god-mode grab, re-check `state` and
+  `where <item>` / `kill <creature>` / `no survival`; see `_reference.md` §7 for the full
+  verb syntax). Use it only for controlled setup, never as evidence for a player-visible
+  bug. `take`/`go` rebuild the Repository **without `Init()`**, which **deactivates
+  Floyd** and empties containers — so after any god-mode grab, re-check `state` and
   `activate floyd` before show/give/conversation tests.
 - **If chasing a fix or tooling workaround balloons, stop.** Write the remaining detail
   into the GitHub issue and abandon the side-quest (delete any scratch artifact). The job
