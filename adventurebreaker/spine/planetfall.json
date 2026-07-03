@@ -1,10 +1,10 @@
 {
   "game": "planetfall",
   "source": [
-    "/home/user/ZorkAI/Planetfall.Tests/Walkthrough/WalkthroughTestOne.cs"
+    "../ZorkAI/Planetfall.Tests/Walkthrough/WalkthroughTestOne.cs"
   ],
-  "count": 358,
-  "replayable_count": 357,
+  "count": 382,
+  "replayable_count": 381,
   "steps": [
     {
       "cmd": "wait",
@@ -320,6 +320,55 @@
     },
     {
       "cmd": "S",
+      "setup": null,
+      "expect": [
+        "Mech Corridor"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "E",
+      "setup": null,
+      "expect": [
+        "Reactor Control"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "E",
+      "setup": null,
+      "expect": [
+        "Reactor Elevator",
+        "an Up button, a Down button, and a small slot"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "press up button",
+      "setup": null,
+      "expect": [
+        "Nothing happens"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "examine slot",
+      "setup": null,
+      "expect": [
+        "small slot"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "W",
+      "setup": null,
+      "expect": [
+        "Reactor Control"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "W",
       "setup": null,
       "expect": [
         "Mech Corridor"
@@ -1827,6 +1876,72 @@
       "http_replayable": true
     },
     {
+      "cmd": "activate terminal",
+      "setup": null,
+      "expect": [
+        "The screen gives off a green flash",
+        "1. Histooree"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "key 4 on the terminal",
+      "setup": null,
+      "expect": [
+        "0. Maan Menyuu",
+        "1. Planit Landmasiz"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "press 0 on the terminal",
+      "setup": null,
+      "expect": [
+        "1. Histooree"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "type 6",
+      "setup": null,
+      "expect": [
+        "1. Zoork"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "type 1",
+      "setup": null,
+      "expect": [
+        "adventshur klasik"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "type 0",
+      "setup": null,
+      "expect": [
+        "1. Zoork"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "type 0",
+      "setup": null,
+      "expect": [
+        "1. Histooree"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "deactivate terminal",
+      "setup": null,
+      "expect": [
+        "The screen goes dark"
+      ],
+      "http_replayable": true
+    },
+    {
       "cmd": "S",
       "setup": null,
       "expect": [
@@ -2673,7 +2788,88 @@
       "cmd": "S",
       "setup": null,
       "expect": [
-        "Middle of Strip"
+        "Middle of Strip",
+        "giant elephant-sized monster lands on the strip"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "set laser to 2",
+      "setup": null,
+      "expect": [
+        "The dial is now set to 2."
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "shoot microbe with laser",
+      "setup": null,
+      "expect": [
+        "The laser beam strikes the microbe"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "shoot microbe with laser",
+      "setup": null,
+      "expect": [
+        "The laser beam strikes the microbe"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "shoot microbe with laser",
+      "setup": null,
+      "expect": [
+        "The laser beam strikes the microbe"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "shoot microbe with laser",
+      "setup": null,
+      "expect": [
+        "The laser beam strikes the microbe"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "shoot microbe with laser",
+      "setup": null,
+      "expect": [
+        "The laser beam strikes the microbe"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "shoot microbe with laser",
+      "setup": null,
+      "expect": [
+        "The laser beam strikes the microbe"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "shoot microbe with laser",
+      "setup": null,
+      "expect": [
+        "The laser beam strikes the microbe"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "shoot microbe with laser",
+      "setup": null,
+      "expect": [
+        "The laser beam strikes the microbe"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "throw laser off strip",
+      "setup": null,
+      "expect": [
+        "Both the laser and the microbe plummet into the void"
       ],
       "http_replayable": true
     },
