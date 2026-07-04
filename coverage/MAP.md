@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-04T00:46:07Z · target_sha `unknown`_
+_Generated 2026-07-04T02:05:18Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -16,18 +16,18 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Betty Control West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Booth 1 | 0/16 | clean | `-` | - |  ⬅ untouched
 | Booth 2 | 4/16 | low | `unknown` | - |
-| Booth 3 | 2/16 | clean | `unknown` | - |
+| Booth 3 | 2/16 | low | `unknown` | - |
 | Brig | 6/16 | high | `unknown` | - |
-| Computer Room | 6/16 | clean | `unknown` | - |
+| Computer Room | 6/16 | low | `unknown` | - |
 | Conference Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Corridor Junction | 3/16 | low | `unknown` | - |
-| Course Control | 5/16 | clean | `341a64b` | - |
+| Course Control | 5/16 | low | `unknown` | - |
 | Courtyard | 1/16 | clean | `unknown` | - |
 | Crag | 2/16 | clean | `unknown` | - |
 | Deck Eight | 1/16 | low | `unknown` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
 | Dorm Corridor | 1/16 | clean | `unknown` | - |
-| Elevator Lobby | 3/16 | low | `unknown` | - |
+| Elevator Lobby | 4/16 | low | `unknown` | - |
 | Escalator | 1/16 | clean | `unknown` | - |
 | Escape Pod | 5/16 | low | `unknown` | - |
 | Fork | 3/16 | clean | `unknown` | - |
@@ -38,25 +38,25 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 5/16 | medium | `unknown` | - |
 | Lawanda Platform | 1/16 | clean | `unknown` | - |
-| Library | 4/16 | clean | `unknown` | - |
-| Library Lobby | 2/16 | clean | `unknown` | - |
+| Library | 5/16 | low | `unknown` | - |
+| Library Lobby | 3/16 | low | `unknown` | - |
 | Lower Elevator | 5/16 | low | `unknown` | - |
 | Machine Shop | 5/16 | low | `unknown` | - |
 | Mess Corridor | 4/16 | low | `unknown` | - |
 | Mess Hall | 5/16 | low | `unknown` | - |
 | Middle of Strip | 1/16 | clean | `unknown` | - |
-| Miniaturization Booth | 5/16 | clean | `unknown` | - |
+| Miniaturization Booth | 6/16 | low | `unknown` | - |
 | Physical Plant | 5/16 | low | `unknown` | - |
 | Plain Hall | 1/16 | clean | `unknown` | - |
-| Planetary Defense | 5/16 | medium | `unknown` | - |
+| Planetary Defense | 6/16 | medium | `unknown` | - |
 | ProjCon Office | 3/16 | clean | `unknown` | - |
 | Project Corridor | 2/16 | clean | `unknown` | - |
-| Project Corridor East | 1/16 | clean | `unknown` | - |
+| Project Corridor East | 1/16 | low | `unknown` | - |
 | Project Corridor West | 1/16 | clean | `unknown` | - |
 | Reactor Lobby | 6/16 | low | `unknown` | - |
 | Rec Area | 0/16 | clean | `-` | - |  ⬅ untouched
 | Rec Corridor | 2/16 | low | `unknown` | - |
-| Repair Room | 5/16 | clean | `unknown` | - |
+| Repair Room | 5/16 | low | `unknown` | - |
 | Robot Shop | 5/16 | clean | `unknown` | - |
 | Sanfac F | 3/16 | clean | `c31e9ec` | - |
 | Shuttle Car Alfie | 3/16 | low | `unknown` | - |
@@ -66,7 +66,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Strip Near Relay | 7/16 | low | `unknown` | - |
 | Strip Near Station | 2/16 | clean | `unknown` | - |
 | Systems Corridor | 1/16 | clean | `unknown` | - |
-| Systems Corridor East | 1/16 | clean | `unknown` | - |
+| Systems Corridor East | 1/16 | low | `unknown` | - |
 | Systems Corridor West | 2/16 | clean | `unknown` | - |
 | Underwater | 1/16 | clean | `unknown` | - |
 | Upper Elevator | 6/16 | low | `unknown` | - |
