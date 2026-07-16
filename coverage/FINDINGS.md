@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-06-28T14:56:32Z · 52 finding(s)_
+_Generated 2026-07-16T14:41:14Z · 53 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -309,6 +309,13 @@ Room description says 'a keyboard with numeric keys' is there. Narrator says 'th
 - command: `read diary (then press button x13 for Bug A; x14 for Bug B)`
 
 Bug A: _messages[13] has 'when I was when I was' (dup), 'andassigned', 'evenabandon' (missing spaces). Bug B: Read() appends button-flash footer to the final END OF DIARY message which itself says the button flickers off.
+
+## AB-053 [LOW] Cellar: 'climb ramp' returns trap-door message instead of ramp message  · _filed#386_
+
+- game `zork` · area `Cellar` · category `movement` · target_sha `unknown`
+- command: `climb ramp`
+
+Parser maps 'climb' → Direction.Up (trap door); ramp is at Direction.W. Cellar.cs Map has ramp at W with correct failure message but climb verb routes to trap door passage.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 

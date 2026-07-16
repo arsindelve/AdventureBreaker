@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-06-28T02:12:07Z · target_sha `unknown`_
+_Generated 2026-07-16T14:29:37Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -97,9 +97,9 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Altar | 1/16 | clean | `unknown` | - |
 | Aragain Falls | 0/16 | clean | `-` | - |  ⬅ untouched
 | Atlantis Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Attic | 2/16 | low | `unknown` | - |
+| Attic | 5/16 | low | `unknown` | - |
 | Bat Room | 6/16 | medium | `unknown` | AB-042, AB-043 |
-| Behind House | 4/16 | low | `unknown` | - |
+| Behind House | 6/16 | low | `unknown` | - |
 | Canyon Bottom | 6/16 | medium | `unknown` | - |
 | Canyon View | 5/16 | medium | `unknown` | - |
 | Cave | 1/16 | low | `unknown` | - |
@@ -145,7 +145,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Torch Room | 1/16 | clean | `unknown` | - |
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | Up A Tree | 4/16 | low | `unknown` | - |
-| West Of House | 6/16 | low | `unknown` | - |
+| West Of House | 6/16 | medium | `unknown` | AB-052 |
 | White Cliffs Beach | 6/16 | low | `unknown` | - |
 | Winding Stair | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched
