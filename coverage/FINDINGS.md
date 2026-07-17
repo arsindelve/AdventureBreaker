@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-17T16:55:17Z · 55 finding(s)_
+_Generated 2026-07-17T20:46:10Z · 56 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -205,6 +205,13 @@ GoUp() returns NoEffect because leaf MenuItem.Parent is null. Computed Children 
 - command: `open mailbox. examine mailbox`
 
 Mailbox.ExaminationDescription returns 'It''s open.' without calling ItemListDescription; coffin correctly lists contents.
+
+## AB-056 [MEDIUM] Exorcism: spirits banished without lighting the candles (read book only checks bell)  · _filed#391_
+
+- game `zork` · area `Entrance to Hades` · category `puzzle-step` · target_sha `unknown`
+- command: `ring bell. read book`
+
+BlackBook.cs read handler banishes spirits when spirits.Stunned (bell rung) with NO check that candles are lit. Original (1actions.zil:1102-1119) gates read-book banish on XC, set only when CANDLES held+ONBIT (lit). Port skips the candle-lighting step of the exorcism.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
