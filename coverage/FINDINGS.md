@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-16T14:41:14Z · 53 finding(s)_
+_Generated 2026-07-17T15:30:16Z · 54 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -316,6 +316,13 @@ Bug A: _messages[13] has 'when I was when I was' (dup), 'andassigned', 'evenaban
 - command: `climb ramp`
 
 Parser maps 'climb' → Direction.Up (trap door); ramp is at Direction.W. Cellar.cs Map has ramp at W with correct failure message but climb verb routes to trap door passage.
+
+## AB-054 [LOW] Bottle ignores throw/break/shake — verbs the original handles  · _filed#388_
+
+- game `zork` · area `Kitchen` · category `other` · target_sha `unknown`
+- command: `throw bottle | break bottle | shake bottle`
+
+Bottle.cs implements only container/examine/take-drop; no THROW/MUNG/SHAKE handler. Original BOTTLE-FUNCTION (1actions.zil:1491-1507) shatters the bottle (throw/mung) and spills water (throw/mung/shake-when-open). Port falls through to narrator; bottle survives, water not spilled.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 

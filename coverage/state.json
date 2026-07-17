@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-16T14:29:37Z",
+  "generated": "2026-07-17T14:38:53Z",
   "target_sha": "unknown",
   "cells": {
     "planetfall|Course Control|other": {
@@ -1988,9 +1988,9 @@
       "game": "zork",
       "area": "Behind House",
       "category": "container",
-      "count": 27,
+      "count": 28,
       "best_severity": "clean",
-      "last_ts": "2026-07-16T14:28:07Z",
+      "last_ts": "2026-07-16T14:31:11Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -1999,9 +1999,9 @@
       "game": "zork",
       "area": "Kitchen",
       "category": "movement",
-      "count": 99,
+      "count": 100,
       "best_severity": "low",
-      "last_ts": "2026-07-16T14:28:08Z",
+      "last_ts": "2026-07-16T14:31:12Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -2010,9 +2010,9 @@
       "game": "zork",
       "area": "Living Room",
       "category": "movement",
-      "count": 157,
+      "count": 158,
       "best_severity": "low",
-      "last_ts": "2026-07-16T14:28:10Z",
+      "last_ts": "2026-07-16T14:31:14Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -2021,9 +2021,9 @@
       "game": "zork",
       "area": "Living Room",
       "category": "take-drop-scope",
-      "count": 63,
+      "count": 65,
       "best_severity": "medium",
-      "last_ts": "2026-07-16T14:08:18Z",
+      "last_ts": "2026-07-16T14:31:16Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -2032,9 +2032,9 @@
       "game": "zork",
       "area": "Living Room",
       "category": "container",
-      "count": 122,
+      "count": 124,
       "best_severity": "low",
-      "last_ts": "2026-07-16T14:28:36Z",
+      "last_ts": "2026-07-16T14:31:21Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -2078,9 +2078,9 @@
       "game": "zork",
       "area": "Living Room",
       "category": "other",
-      "count": 23,
+      "count": 25,
       "best_severity": "clean",
-      "last_ts": "2026-07-16T14:08:20Z",
+      "last_ts": "2026-07-16T14:31:19Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -2089,9 +2089,9 @@
       "game": "zork",
       "area": "Living Room",
       "category": "light-dark",
-      "count": 33,
+      "count": 35,
       "best_severity": "low",
-      "last_ts": "2026-07-16T14:08:24Z",
+      "last_ts": "2026-07-16T14:31:23Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -2100,12 +2100,14 @@
       "game": "zork",
       "area": "Cellar",
       "category": "movement",
-      "count": 78,
+      "count": 85,
       "best_severity": "low",
-      "last_ts": "2026-07-16T14:08:26Z",
+      "last_ts": "2026-07-16T14:41:14Z",
       "last_target_sha": "unknown",
-      "last_result": "clean",
-      "finding_ids": []
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-053"
+      ]
     },
     "zork|East of Chasm|movement": {
       "game": "zork",
@@ -4658,9 +4660,9 @@
       "game": "zork",
       "area": "Cellar",
       "category": "other",
-      "count": 13,
+      "count": 17,
       "best_severity": "low",
-      "last_ts": "2026-06-25T02:39:40Z",
+      "last_ts": "2026-07-16T14:32:03Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []
@@ -4669,11 +4671,11 @@
       "game": "zork",
       "area": "Cellar",
       "category": "container",
-      "count": 2,
+      "count": 3,
       "best_severity": "low",
-      "last_ts": "2026-06-25T02:32:08Z",
+      "last_ts": "2026-07-16T14:30:38Z",
       "last_target_sha": "unknown",
-      "last_result": "hit",
+      "last_result": "clean",
       "finding_ids": []
     },
     "zork|Cellar|take-drop-scope": {
@@ -5430,6 +5432,17 @@
       "count": 1,
       "best_severity": "clean",
       "last_ts": "2026-07-16T14:27:41Z",
+      "last_target_sha": "unknown",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "zork|Cellar|examine-scenery": {
+      "game": "zork",
+      "area": "Cellar",
+      "category": "examine-scenery",
+      "count": 3,
+      "best_severity": "clean",
+      "last_ts": "2026-07-16T14:30:32Z",
       "last_target_sha": "unknown",
       "last_result": "clean",
       "finding_ids": []

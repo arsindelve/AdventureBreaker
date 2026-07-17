@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-16T14:29:37Z · target_sha `unknown`_
+_Generated 2026-07-17T14:38:53Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -103,7 +103,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Canyon Bottom | 6/16 | medium | `unknown` | - |
 | Canyon View | 5/16 | medium | `unknown` | - |
 | Cave | 1/16 | low | `unknown` | - |
-| Cellar | 4/16 | low | `unknown` | - |
+| Cellar | 5/16 | low | `unknown` | AB-053 |
 | Chasm | 1/16 | low | `unknown` | - |
 | Clearing | 6/16 | low | `unknown` | - |
 | Cold Passage | 1/16 | clean | `unknown` | - |
