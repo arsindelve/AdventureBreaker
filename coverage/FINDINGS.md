@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-17T15:30:16Z · 54 finding(s)_
+_Generated 2026-07-17T16:55:17Z · 55 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -323,6 +323,13 @@ Parser maps 'climb' → Direction.Up (trap door); ramp is at Direction.W. Cellar
 - command: `throw bottle | break bottle | shake bottle`
 
 Bottle.cs implements only container/examine/take-drop; no THROW/MUNG/SHAKE handler. Original BOTTLE-FUNCTION (1actions.zil:1491-1507) shatters the bottle (throw/mung) and spills water (throw/mung/shake-when-open). Port falls through to narrator; bottle survives, water not spilled.
+
+## AB-055 [LOW] 'squeeze tube' (of toothpaste) does nothing — verb the original handles  · _filed#390_
+
+- game `zork` · area `Maintenance Room` · category `other` · target_sha `unknown`
+- command: `squeeze tube`
+
+Tube.cs has no SQUEEZE handler (only open/close/examine/read/take-drop). Original TUBE-FUNCTION (1actions.zil:1386-1398) handles squeeze: open+material→'oozes into your hand' (moves gunk to hand); open+empty→'apparently empty'; closed→'The tube is closed.' Port falls through to narrator; material never extracted. Workaround: open tube + take gunk.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
