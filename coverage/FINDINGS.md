@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-19T18:51:36Z · 57 finding(s)_
+_Generated 2026-07-19T20:52:29Z · 58 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -219,6 +219,13 @@ BlackBook.cs read handler banishes spirits when spirits.Stunned (bell rung) with
 - command: `open panel. look in panel`
 
 NormalizeLookAt (GameEngine.cs:360) only rewrites 'look at X'->'examine X'; 'look in X' intentionally left to AI parser, which misclassifies it as 'in' movement or bare LOOK. examine/look at work. Cross-game (Zork mailbox too). Original: planetfall syntax.zil:201 LOOK IN OBJECT = V-LOOK-INSIDE.
+
+## AB-058 [MEDIUM] Container 'examine' (open) hides contents — systemic; several items omit ItemListDescription  · _filed#398_
+
+- game `planetfall` · area `Course Control` · category `container` · target_sha `unknown`
+- command: `open cube. examine cube`
+
+LargeMetalCube.ExaminationDescription hardcodes 'is open/closed' without ItemListDescription; same as Mailbox (#331). Panel/Coffin do it right. Original V-EXAMINE (verbs.zil:56-62) defers open container to V-LOOK-INSIDE (lists contents); CUBE-F doesn't intercept examine. Fix: default ExaminationDescription in OpenAndCloseContainerBase.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
