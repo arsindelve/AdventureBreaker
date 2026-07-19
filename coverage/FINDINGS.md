@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-19T20:52:29Z · 58 finding(s)_
+_Generated 2026-07-19T21:12:31Z · 59 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -351,6 +351,13 @@ Bottle.cs implements only container/examine/take-drop; no THROW/MUNG/SHAKE handl
 - command: `squeeze tube`
 
 Tube.cs has no SQUEEZE handler (only open/close/examine/read/take-drop). Original TUBE-FUNCTION (1actions.zil:1386-1398) handles squeeze: open+material→'oozes into your hand' (moves gunk to hand); open+empty→'apparently empty'; closed→'The tube is closed.' Port falls through to narrator; material never extracted. Workaround: open tube + take gunk.
+
+## AB-059 [LOW] Card-activated devices never time out (teleport/mini booths, lower elevator) — missing expiry timers  · _filed#399_
+
+- game `planetfall` · area `Booth 3` · category `puzzle-step` · target_sha `unknown`
+- command: `slide teleportation card through slot. wait x33. press 1`
+
+BoothBase.IsEnabled cleared only on teleport; TeleportationSlot sets IsEnabled=true with no expiry timer. Original queues I-TURNOFF-TELEPORTATION at 30 turns (globals.zil:1414); same for mini booth (1424, 30) and lower elevator (1407, 200). Port keeps activation forever.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
