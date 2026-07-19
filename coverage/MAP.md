@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-17T16:32:26Z · target_sha `unknown`_
+_Generated 2026-07-19T18:16:52Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -94,7 +94,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 
 | Area | Covered | Worst | Last sha | Findings |
 |---|---|---|---|---|
-| Altar | 1/16 | clean | `unknown` | - |
+| Altar | 3/16 | clean | `unknown` | - |
 | Aragain Falls | 0/16 | clean | `-` | - |  ⬅ untouched
 | Atlantis Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Attic | 5/16 | low | `unknown` | - |
@@ -107,9 +107,9 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Chasm | 1/16 | low | `unknown` | - |
 | Clearing | 6/16 | low | `unknown` | - |
 | Cold Passage | 1/16 | clean | `unknown` | - |
-| Dam | 3/16 | low | `unknown` | - |
+| Dam | 6/16 | low | `unknown` | - |
 | Dam Base | 5/16 | low | `unknown` | - |
-| Dam Lobby | 2/16 | clean | `unknown` | - |
+| Dam Lobby | 3/16 | clean | `unknown` | - |
 | Damp Cave | 5/16 | low | `unknown` | - |
 | Deep Canyon | 6/16 | low | `unknown` | - |
 | Dome Room | 2/16 | clean | `unknown` | - |
@@ -118,13 +118,13 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Egyptian Room | 2/16 | clean | `unknown` | - |
 | End of Rainbow | 7/16 | low | `unknown` | - |
 | Engravings Cave | 1/16 | clean | `unknown` | - |
-| Entrance to Hades | 6/16 | low | `unknown` | - |
+| Entrance to Hades | 7/16 | medium | `unknown` | AB-056 |
 | Gallery | 3/16 | low | `unknown` | - |
 | Kitchen | 6/16 | low | `unknown` | AB-054 |
 | Land of the Dead | 0/16 | clean | `-` | - |  ⬅ untouched
 | Living Room | 6/16 | medium | `unknown` | - |
 | Loud Room | 7/16 | low | `unknown` | - |
-| Maintenance Room | 4/16 | clean | `unknown` | - |
+| Maintenance Room | 7/16 | low | `unknown` | AB-055 |
 | Mirror Room | 4/16 | low | `unknown` | - |
 | Narrow Passage | 3/16 | low | `unknown` | - |
 | North of House | 5/16 | low | `unknown` | - |
@@ -140,7 +140,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Shore | 0/16 | clean | `-` | - |  ⬅ untouched
 | South of House | 4/16 | low | `unknown` | - |
 | Studio | 4/16 | low | `unknown` | - |
-| Temple | 1/16 | clean | `unknown` | - |
+| Temple | 4/16 | clean | `unknown` | - |
 | The Troll Room | 3/16 | low | `unknown` | - |
 | Torch Room | 1/16 | clean | `unknown` | - |
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched

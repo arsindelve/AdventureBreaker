@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-17T20:46:10Z · 56 finding(s)_
+_Generated 2026-07-19T18:51:36Z · 57 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -212,6 +212,13 @@ Mailbox.ExaminationDescription returns 'It''s open.' without calling ItemListDes
 - command: `ring bell. read book`
 
 BlackBook.cs read handler banishes spirits when spirits.Stunned (bell rung) with NO check that candles are lit. Original (1actions.zil:1102-1119) gates read-book banish on XC, set only when CANDLES held+ONBIT (lit). Port skips the candle-lighting step of the exorcism.
+
+## AB-057 [MEDIUM] 'look in <container>' never shows contents (parsed as movement/room-look) — both games  · _filed#396_
+
+- game `planetfall` · area `Planetary Defense` · category `parser-pronoun` · target_sha `unknown`
+- command: `open panel. look in panel`
+
+NormalizeLookAt (GameEngine.cs:360) only rewrites 'look at X'->'examine X'; 'look in X' intentionally left to AI parser, which misclassifies it as 'in' movement or bare LOOK. examine/look at work. Cross-game (Zork mailbox too). Original: planetfall syntax.zil:201 LOOK IN OBJECT = V-LOOK-INSIDE.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
