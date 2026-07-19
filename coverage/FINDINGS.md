@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-19T21:12:31Z · 59 finding(s)_
+_Generated 2026-07-19T21:35:27Z · 60 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -226,6 +226,13 @@ NormalizeLookAt (GameEngine.cs:360) only rewrites 'look at X'->'examine X'; 'loo
 - command: `open cube. examine cube`
 
 LargeMetalCube.ExaminationDescription hardcodes 'is open/closed' without ItemListDescription; same as Mailbox (#331). Panel/Coffin do it right. Original V-EXAMINE (verbs.zil:56-62) defers open container to V-LOOK-INSIDE (lists contents); CUBE-F doesn't intercept examine. Fix: default ExaminationDescription in OpenAndCloseContainerBase.
+
+## AB-060 [MEDIUM] Planetfall Library: microfilm reader can be picked up (should be a fixed machine)  · _filed#401_
+
+- game `planetfall` · area `Library` · category `take-drop-scope` · target_sha `unknown`
+- command: `take reader`
+
+SpoolReader.cs implements ICanBeTakenAndDropped, so 'take reader' -> 'Taken' and the machine enters inventory. Original SPOOL-READER (comptwo.zil:1173-1185) has FLAGS LIGHTBIT CONTBIT SEARCHBIT OPENBIT with NO TAKEBIT - a fixed desk machine. Fix: drop ICanBeTakenAndDropped.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
