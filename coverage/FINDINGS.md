@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-19T21:35:27Z · 60 finding(s)_
+_Generated 2026-07-19T22:03:02Z · 61 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -365,6 +365,13 @@ Tube.cs has no SQUEEZE handler (only open/close/examine/read/take-drop). Origina
 - command: `slide teleportation card through slot. wait x33. press 1`
 
 BoothBase.IsEnabled cleared only on teleport; TeleportationSlot sets IsEnabled=true with no expiry timer. Original queues I-TURNOFF-TELEPORTATION at 30 turns (globals.zil:1414); same for mini booth (1424, 30) and lower elevator (1407, 200). Port keeps activation forever.
+
+## AB-061 [LOW] Planetfall lock doors: 'examine door' prints doubled noun ('radiation-lock door door')  · _filed#404_
+
+- game `planetfall` · area `Radiation Lock East` · category `examine-scenery` · target_sha `unknown`
+- command: `examine door`
+
+SimpleDoor.ExaminationDescription appends ' door' to NounsForMatching[0], which already contains 'door' for radiation-lock inner/outer + bio-lock inner/outer -> 'radiation-lock door door is closed.' Original: 'The <door> is closed.' no doubling.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
