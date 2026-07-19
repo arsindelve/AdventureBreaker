@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-19T22:03:02Z · 61 finding(s)_
+_Generated 2026-07-19T23:55:43Z · 62 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -372,6 +372,13 @@ BoothBase.IsEnabled cleared only on teleport; TeleportationSlot sets IsEnabled=t
 - command: `examine door`
 
 SimpleDoor.ExaminationDescription appends ' door' to NounsForMatching[0], which already contains 'door' for radiation-lock inner/outer + bio-lock inner/outer -> 'radiation-lock door door is closed.' Original: 'The <door> is closed.' no doubling.
+
+## AB-062 [LOW] 'take celery' never shows its CannotBeTakenDescription (processor gated behind ICanBeTakenAndDropped)  · _filed#406_
+
+- game `planetfall` · area `Deck Nine` · category `take-drop-scope` · target_sha `unknown`
+- command: `take celery`
+
+Celery.cs sets CannotBeTakenDescription ('ambassador seems perturbed...') but implements only ItemBase/ICanBeEaten. ItemProcessorFactory adds CannotBeTakenProcessor only when item is ICanBeTakenAndDropped, so take celery -> no effect/narrator. eat celery (death) is faithful. Original globals.zil:791-798 handles both EAT and TAKE.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
