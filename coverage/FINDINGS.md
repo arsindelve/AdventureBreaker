@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-18T14:27:44Z · 57 finding(s)_
+_Generated 2026-07-20T12:44:25Z · 58 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -246,6 +246,13 @@ A player who pushes the lever once and never decelerates (ignoring the Limit 45 
 - command: `lie down (while WellRested) -> wait until weary -> sleep`
 
 If the player lies in a dorm bunk BEFORE getting tired ('You are now in bed'), then becomes weary in bed, the fatigue escalation emits the generic 'find a nice safe place to sleep' warning and never queues fall-asleep, so 'sleep' refuses with 'Civilized members of society usually sleep in beds' while the player is in the In Bed sublocation. A/B: get up + lie down while weary ('soft and comfortable') -> sleep works. Root cause: PlanetfallContext.cs:226-245 / SleepNotifications.GetNotification (SleepNotifications.cs:90-106) have no 'CurrentLocation is BedLocation' branch; SleepProcessor.cs:28-34 keys off FallAsleepQueued which this path never sets.
+
+## AB-058 [MEDIUM] Comm Room message-playback button only matches bare 'button'; label 'Mesij Plaabak' + descriptors fall to narrator, which falsely claims playback  · _filed#412_
+
+- game `planetfall` · area `Comm Room` · category `narrator-hallucination` · target_sha `68f90e8`
+- command: `press mesij plaabak`
+
+The Comm Room's glowing 'Message Playback' button (CommRoom.cs:109) matches only the bare noun 'button'. Its printed label 'Mesij Plaabak' (CommRoom.cs:131), plus 'playback button' / 'message playback button' / 'glowing button', all miss the handler and fall through to the AI narrator, which falsely narrates success ('The console obligingly plays back the message') without ever delivering the Feinstein transmission. Only 'press button' works. Contrast: the pour handler (CommRoom.cs:40-41) accepts rich synonyms, showing the intended pattern. ZIL sub-checkout absent -> internal-consistency bug provable from the engine's own presented text.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 

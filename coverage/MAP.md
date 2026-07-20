@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-20T12:23:57Z · target_sha `68f90e8`_
+_Generated 2026-07-20T12:44:32Z · target_sha `68f90e8`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -43,7 +43,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Lower Elevator | 5/16 | low | `unknown` | - |
 | Machine Shop | 5/16 | low | `unknown` | - |
 | Mess Corridor | 4/16 | low | `unknown` | - |
-| Mess Hall | 5/16 | low | `unknown` | - |
+| Mess Hall | 5/16 | low | `68f90e8` | - |
 | Middle of Strip | 1/16 | clean | `unknown` | - |
 | Miniaturization Booth | 5/16 | clean | `unknown` | - |
 | Physical Plant | 5/16 | low | `unknown` | - |
