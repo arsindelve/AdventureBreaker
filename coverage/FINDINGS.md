@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-19T23:55:43Z · 62 finding(s)_
+_Generated 2026-07-20T00:04:37Z · 63 finding(s)_
 
 ## AB-007 [HIGH] god mode (LoadAllItems/LoadAllLocations) rebuilds the repository without Init(), returning empty containers and discarding live state  · _open_
 
@@ -233,6 +233,13 @@ LargeMetalCube.ExaminationDescription hardcodes 'is open/closed' without ItemLis
 - command: `take reader`
 
 SpoolReader.cs implements ICanBeTakenAndDropped, so 'take reader' -> 'Taken' and the machine enters inventory. Original SPOOL-READER (comptwo.zil:1173-1185) has FLAGS LIGHTBIT CONTBIT SEARCHBIT OPENBIT with NO TAKEBIT - a fixed desk machine. Fix: drop ICanBeTakenAndDropped.
+
+## AB-063 [MEDIUM] Ensign Blather ignores attack/kick (should be death), salute, and take  · _filed#407_
+
+- game `planetfall` · area `Deck Eight` · category `npc-conversation` · target_sha `unknown`
+- command: `attack blather | salute blather | take blather`
+
+Blather.cs implements ExaminationDescription + throw (RespondToMultiNounInteraction/ThrowVerbs) but no RespondToSimpleInteraction for attack/kick/salute/take. Original BLATHER-F (globals.zil:751-772): ATTACK/KICK->death, SALUTE->'sneer softens... five demerits', TAKE->'brushes you away'. examine + throw are faithful.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
