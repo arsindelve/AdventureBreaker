@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-20T13:24:23Z · 59 finding(s)_
+_Generated 2026-07-20T23:58:45Z · 60 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -364,6 +364,13 @@ Room description says 'a keyboard with numeric keys' is there. Narrator says 'th
 - command: `N into Repair Room (Achilles reveal fires); examine damaged robot`
 
 BrokenRobot.cs (the Achilles corpse in Repair Room) implements NeverPickedUpDescription/GenericDescription (used for room-listing text) but does NOT implement ICanBeExamined at all, so 'examine damaged robot' / 'examine robot' / 'examine broken robot' falls through to the engine's generic default ('There is nothing special about the damaged robot.'). This is jarring because entering the room triggers Floyd's own scripted reaction (RepairRoom.cs's Act(), same pattern family as Infirmary's Lazarus scene) where he narrates a specific, named, emotionally-loaded backstory: 'That's Achilles. He was in charge of repairing machinery. He repaired Floyd once... Looks like he fell down the stairs... A Planner-person once told me that's why they named him Achilles.' A player who examines the very corpse Floyd just eulogized gets a completely generic non-answer instead of anything acknowledging what Floyd just said (limping foot, repair role, etc). Confirmed live on prod immediately after the Achilles reveal fired correctly.
+
+## AB-060 [LOW] Empty microfilm reader falsely says 'already a spool' when putting an oversized non-spool item (put checks room before type)  · _filed#417_
+
+- game `planetfall` · area `Library` · category `container` · target_sha `68f90e8`
+- command: `put brush in reader`
+
+With the microfilm reader EMPTY, 'put brush in reader' returns 'There's already a spool in the reader.' (false; brush not consumed). PutProcessor.cs:63-67 checks HaveRoomForItem (size) before the type check; SpoolReader SpaceForItems=1 (SpoolReader.cs:12), HaveRoomForItem=Items.Sum(Size)+item.Size<=SpaceForItems (ContainerBase.cs:107), so an oversized non-spool fails the size check even when empty and emits SpoolReader.NoRoomMessage (SpoolReader.cs:39) which hardcodes occupancy. Smaller non-spools (diary/chronometer) correctly get 'It doesn't fit in the circular opening.' Fix: type-check before room-check in PutProcessor. Also observed (NOT filed - could not root-cause): 'read reader' on empty reader falls to narrator while 'read screen'/'examine reader' say 'The screen is blank.'
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 

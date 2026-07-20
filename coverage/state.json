@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-20T13:24:33Z",
+  "generated": "2026-07-20T23:58:54Z",
   "target_sha": "68f90e8",
   "cells": {
     "planetfall|Course Control|other": {
@@ -723,9 +723,9 @@
       "game": "planetfall",
       "area": "Deck Nine",
       "category": "other",
-      "count": 225,
+      "count": 226,
       "best_severity": "medium",
-      "last_ts": "2026-07-20T12:50:32Z",
+      "last_ts": "2026-07-20T18:22:43Z",
       "last_target_sha": "68f90e8",
       "last_result": "clean",
       "finding_ids": []
@@ -942,9 +942,9 @@
       "game": "planetfall",
       "area": "Library",
       "category": "other",
-      "count": 5,
+      "count": 7,
       "best_severity": "clean",
-      "last_ts": "2026-07-20T00:39:12Z",
+      "last_ts": "2026-07-20T18:25:08Z",
       "last_target_sha": "68f90e8",
       "last_result": "clean",
       "finding_ids": []
@@ -953,10 +953,10 @@
       "game": "planetfall",
       "area": "Library",
       "category": "examine-scenery",
-      "count": 2,
+      "count": 19,
       "best_severity": "clean",
-      "last_ts": "2026-06-22T17:10:25Z",
-      "last_target_sha": "8175684",
+      "last_ts": "2026-07-20T18:33:33Z",
+      "last_target_sha": "68f90e8",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -964,12 +964,14 @@
       "game": "planetfall",
       "area": "Library",
       "category": "container",
-      "count": 1,
-      "best_severity": "clean",
-      "last_ts": "2026-06-22T17:10:18Z",
-      "last_target_sha": "8175684",
-      "last_result": "clean",
-      "finding_ids": []
+      "count": 13,
+      "best_severity": "low",
+      "last_ts": "2026-07-20T23:58:45Z",
+      "last_target_sha": "68f90e8",
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-060"
+      ]
     },
     "planetfall|MECH:computer-terminal|puzzle-step": {
       "game": "planetfall",
@@ -2759,10 +2761,10 @@
       "game": "planetfall",
       "area": "?",
       "category": "container",
-      "count": 1,
+      "count": 2,
       "best_severity": "high",
-      "last_ts": "2026-06-23T18:10:05Z",
-      "last_target_sha": "unknown",
+      "last_ts": "2026-07-20T18:25:54Z",
+      "last_target_sha": "68f90e8",
       "last_result": "hit",
       "finding_ids": []
     },
@@ -5637,9 +5639,9 @@
       "game": "planetfall",
       "area": "Library",
       "category": "take-drop-scope",
-      "count": 2,
+      "count": 5,
       "best_severity": "clean",
-      "last_ts": "2026-07-20T00:38:57Z",
+      "last_ts": "2026-07-20T18:33:23Z",
       "last_target_sha": "68f90e8",
       "last_result": "clean",
       "finding_ids": []
