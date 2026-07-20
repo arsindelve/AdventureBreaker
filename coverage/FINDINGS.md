@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-20T12:44:25Z · 58 finding(s)_
+_Generated 2026-07-20T13:24:23Z · 59 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -253,6 +253,13 @@ If the player lies in a dorm bunk BEFORE getting tired ('You are now in bed'), t
 - command: `press mesij plaabak`
 
 The Comm Room's glowing 'Message Playback' button (CommRoom.cs:109) matches only the bare noun 'button'. Its printed label 'Mesij Plaabak' (CommRoom.cs:131), plus 'playback button' / 'message playback button' / 'glowing button', all miss the handler and fall through to the AI narrator, which falsely narrates success ('The console obligingly plays back the message') without ever delivering the Feinstein transmission. Only 'press button' works. Contrast: the pour handler (CommRoom.cs:40-41) accepts rich synonyms, showing the intended pattern. ZIL sub-checkout absent -> internal-consistency bug provable from the engine's own presented text.
+
+## AB-059 [MEDIUM] Holding both elevator access cards: drop upper/lower card fails 'You don't have that!' (take/drop resolution ignores adjective)  · _filed#414_
+
+- game `planetfall` · area `Plan Room` · category `parser-pronoun` · target_sha `68f90e8`
+- command: `drop upper elevator access card`
+
+With both upper+lower elevator access cards in scope (a normal state per closed #119: upper from Small Office desk, lower from Floyd), 'drop upper elevator access card' AND 'drop lower elevator access card' both return 'You don't have that!' despite both being held; nothing drops. 'examine <full card name>' resolves correctly, so the take/drop path specifically mis-handles the ambiguous-but-specific noun. Cards share nouns incl. 'card'/'access card' (Upper/LowerElevatorAccessCard.cs:7-11); ElevatorAccessCard.cs:9-11 strips 'elevator access card' from NounsForPreciseMatching to force specificity, but retained 'card' still matches both; GetPreciseMatchInScope (Repository.cs:159-177) returns room-first wrong card, DropIt (TakeOrDropInteractionProcessor.cs:189-190) then says 'You don't have that!'. Did NOT test elevator-slide impact.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
