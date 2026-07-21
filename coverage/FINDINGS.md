@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-21T02:49:11Z · 61 finding(s)_
+_Generated 2026-07-21T21:37:04Z · 62 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -267,6 +267,13 @@ The Comm Room's glowing 'Message Playback' button (CommRoom.cs:109) matches only
 - command: `drop upper elevator access card`
 
 With both upper+lower elevator access cards in scope (a normal state per closed #119: upper from Small Office desk, lower from Floyd), 'drop upper elevator access card' AND 'drop lower elevator access card' both return 'You don't have that!' despite both being held; nothing drops. 'examine <full card name>' resolves correctly, so the take/drop path specifically mis-handles the ambiguous-but-specific noun. Cards share nouns incl. 'card'/'access card' (Upper/LowerElevatorAccessCard.cs:7-11); ElevatorAccessCard.cs:9-11 strips 'elevator access card' from NounsForPreciseMatching to force specificity, but retained 'card' still matches both; GetPreciseMatchInScope (Repository.cs:159-177) returns room-first wrong card, DropIt (TakeOrDropInteractionProcessor.cs:189-190) then says 'You don't have that!'. Did NOT test elevator-slide impact.
+
+## AB-062 [MEDIUM] Bio Lock East: 'look through window' shows the room instead of the Bio Lab view, though the handler explicitly tries to support it  · _filed#423_
+
+- game `planetfall` · area `Bio Lock East` · category `parser-pronoun` · target_sha `68f90e8`
+- command: `look through window`
+
+At Bio Lock East, 'look through window' (the natural window command + the walkthrough's step-301 command) shows the ROOM description instead of the view into the Bio Lab (mutants + magnetic-striped mini card). 'examine window'/'look at window'/'look in window' all correctly show the Bio Lab view. Root cause: BioLockEast.cs:23-30 explicitly tries to support 'look through window' (checks OriginalInput.Contains('through')) but gates it on action.Match(LookVerbs, ['window']), which the prod parse of 'look through window' doesn't satisfy (the 'through' preposition disrupts verb/noun extraction), so it falls to base -> bare look -> room. Second branch (ExamineVerbs) catches examine/look-at/look-in. Same pattern at RadiationLab.cs:36 (crack) -- possibly systemic. Setup note: navigation reached Bio Lock East legitimately (chronometer reset at 176 for Alfie); run ended at score 42 vs spine ~54 (a divergence during the long drive) but the window handler is unaffected -- examine window shows the correct view -- so the finding is not a state confound.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
