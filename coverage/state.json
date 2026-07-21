@@ -1,6 +1,6 @@
 {
-  "generated": "2026-07-21T21:37:12Z",
-  "target_sha": "68f90e8",
+  "generated": "2026-07-21T21:57:33Z",
+  "target_sha": "unknown",
   "cells": {
     "planetfall|Course Control|other": {
       "game": "planetfall",
@@ -723,9 +723,9 @@
       "game": "planetfall",
       "area": "Deck Nine",
       "category": "other",
-      "count": 230,
+      "count": 231,
       "best_severity": "medium",
-      "last_ts": "2026-07-21T18:09:55Z",
+      "last_ts": "2026-07-21T21:42:31Z",
       "last_target_sha": "68f90e8",
       "last_result": "clean",
       "finding_ids": []
@@ -837,10 +837,10 @@
       "game": "planetfall",
       "area": "Kitchen",
       "category": "other",
-      "count": 15,
+      "count": 21,
       "best_severity": "clean",
-      "last_ts": "2026-07-02T20:10:21Z",
-      "last_target_sha": "unknown",
+      "last_ts": "2026-07-21T21:46:51Z",
+      "last_target_sha": "68f90e8",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -859,10 +859,10 @@
       "game": "planetfall",
       "area": "Kitchen",
       "category": "examine-scenery",
-      "count": 11,
+      "count": 15,
       "best_severity": "medium",
-      "last_ts": "2026-07-02T20:08:22Z",
-      "last_target_sha": "unknown",
+      "last_ts": "2026-07-21T21:43:19Z",
+      "last_target_sha": "68f90e8",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -1703,10 +1703,10 @@
       "game": "planetfall",
       "area": "Kitchen",
       "category": "container",
-      "count": 13,
+      "count": 18,
       "best_severity": "medium",
-      "last_ts": "2026-07-02T20:10:35Z",
-      "last_target_sha": "unknown",
+      "last_ts": "2026-07-21T21:45:24Z",
+      "last_target_sha": "68f90e8",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -1747,10 +1747,10 @@
       "game": "planetfall",
       "area": "Reactor Control",
       "category": "other",
-      "count": 1,
+      "count": 3,
       "best_severity": "clean",
-      "last_ts": "2026-06-23T00:18:47Z",
-      "last_target_sha": "unknown",
+      "last_ts": "2026-07-21T21:50:41Z",
+      "last_target_sha": "68f90e8",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -6005,6 +6005,63 @@
       "finding_ids": [
         "AB-062"
       ]
+    },
+    "planetfall|Kitchen|parser-pronoun": {
+      "game": "planetfall",
+      "area": "Kitchen",
+      "category": "parser-pronoun",
+      "count": 1,
+      "best_severity": "low",
+      "last_ts": "2026-07-21T21:46:45Z",
+      "last_target_sha": "68f90e8",
+      "last_result": "hit",
+      "finding_ids": [
+        "AB-063"
+      ]
+    },
+    "planetfall|Observation Deck|other": {
+      "game": "planetfall",
+      "area": "Observation Deck",
+      "category": "other",
+      "count": 2,
+      "best_severity": "clean",
+      "last_ts": "2026-07-21T21:47:34Z",
+      "last_target_sha": "68f90e8",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Observation Deck|examine-scenery": {
+      "game": "planetfall",
+      "area": "Observation Deck",
+      "category": "examine-scenery",
+      "count": 5,
+      "best_severity": "clean",
+      "last_ts": "2026-07-21T21:48:03Z",
+      "last_target_sha": "68f90e8",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Observation Deck|movement": {
+      "game": "planetfall",
+      "area": "Observation Deck",
+      "category": "movement",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-07-21T21:48:05Z",
+      "last_target_sha": "68f90e8",
+      "last_result": "clean",
+      "finding_ids": []
+    },
+    "planetfall|Reactor Control|examine-scenery": {
+      "game": "planetfall",
+      "area": "Reactor Control",
+      "category": "examine-scenery",
+      "count": 4,
+      "best_severity": "clean",
+      "last_ts": "2026-07-21T21:57:13Z",
+      "last_target_sha": "unknown",
+      "last_result": "clean",
+      "finding_ids": []
     }
   }
 }

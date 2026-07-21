@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-21T21:37:04Z · 62 finding(s)_
+_Generated 2026-07-21T23:08:22Z · 72 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -275,6 +275,34 @@ With both upper+lower elevator access cards in scope (a normal state per closed 
 
 At Bio Lock East, 'look through window' (the natural window command + the walkthrough's step-301 command) shows the ROOM description instead of the view into the Bio Lab (mutants + magnetic-striped mini card). 'examine window'/'look at window'/'look in window' all correctly show the Bio Lab view. Root cause: BioLockEast.cs:23-30 explicitly tries to support 'look through window' (checks OriginalInput.Contains('through')) but gates it on action.Match(LookVerbs, ['window']), which the prod parse of 'look through window' doesn't satisfy (the 'through' preposition disrupts verb/noun extraction), so it falls to base -> bare look -> room. Second branch (ExamineVerbs) catches examine/look-at/look-in. Same pattern at RadiationLab.cs:36 (crack) -- possibly systemic. Setup note: navigation reached Bio Lock East legitimately (chronometer reset at 176 for Alfie); run ended at score 42 vs spine ~54 (a divergence during the long drive) but the window handler is unaffected -- examine window shows the correct view -- so the finding is not a state confound.
 
+## AB-064 [MEDIUM] Rift throw handler resolves target via global lookup: deletes out-of-scope items across the map + re-narrates already-lost items  · _filed#429_
+
+- game `planetfall` · area `Admin Corridor North (rift)` · category `state-scope` · target_sha `unknown`
+- command: `throw laser into rift`
+
+RiftLocationBase.cs:11-26 'throw <item> into rift' resolves nounOne via global Repository.GetItem with no possession/scope/state guard. Divergence A: 'throw laser into rift' (laser in Mech) / 'throw canteen into rift' (canteen in Kitchen) delete those items across the map with false success (softlock vector for critical items). Divergence B: re-throwing an already-lost item (diary, CurrentLocation=null) re-narrates 'sails gracefully into the rift'. Same bug class #297 fixed for the sibling ladder-place handler in AdminCorridor.cs, never applied to this shared throw routine. Prod-confirmed via harness.
+
+## AB-065 [MEDIUM] Cryo-Elevator button fires on push-verb alone: 'push wall'/'push floor' operates the elevator (instant death after arrival)  · _filed#430_
+
+- game `planetfall` · area `Cryo-Elevator (Lawanda LabOffice)` · category `noun-guard` · target_sha `unknown`
+- command: `push wall`
+
+CryoElevatorButton.cs:17-21 gates on MatchVerb(PushVerbs) only, no noun check. Room contains only this button; LocationBase offers the action to it regardless of noun, so 'push wall' starts the escape countdown ('The elevator door closes just as the monsters reach it!...') and 'push floor' reaches the same button (CountdownActive -> 'Nothing happens'). After AlreadyArrived, any push routes to the hilarious-death ending. Sibling RedButton/WhiteButton/BlackButton correctly guard with MatchNounAndAdjective(NounsForMatching). Prod-confirmed.
+
+## AB-070 [MEDIUM] Admin Corridor South: 'You don't have the curved metal bar' fires for ANY two-noun command when the magnet is on the floor there  · _filed#436_
+
+- game `planetfall` · area `Admin Corridor South` · category `match-on-text-not-state` · target_sha `unknown`
+- command: `put brush in uniform (magnet on floor here)`
+
+AdminCorridorSouth.cs:68-77 RespondToMultiNounInteraction returns 'You don't have the curved metal bar.' whenever !HasItem<Magnet> && Magnet.CurrentLocation==this, BEFORE and independent of the magnet/key-fishing match logic (lines 89+). No verb/noun gate, so every MultiNounIntent is swallowed. Prod-confirmed: hold magnet -> 'put brush in uniform' handled normally; drop magnet; 'put brush in uniform' -> 'You don't have the curved metal bar.' Multi-noun analog of already-fixed examine catch-all #291 (same file, RespondToSimpleInteraction).
+
+## AB-071 [MEDIUM] Laser depression accepts TWO batteries (SpaceForItems defaults to 2); firing uses FirstOrDefault so a fresh battery added without removing the old is ignored  · _filed#437_
+
+- game `planetfall` · area `Tool Room (laser capacity)` · category `container-false-capacity` · target_sha `unknown`
+- command: `put fresh battery in laser (old still inside)`
+
+Laser.cs has CanOnlyHoldTheseTypes=[BatteryBase] but no SpaceForItems override -> ContainerBase default 2; batteries are Size 1, so HaveRoomForItem admits a second. Prod-confirmed: put old battery in laser, put fresh battery in laser both 'resting in the depression'; inventory lists 'The laser contains: An old battery, A new battery'. TryFireLaser reads Items.FirstOrDefault (old, depleted in real play) so inserting fresh without removing old leaves the laser non-functional. Fix: SpaceForItems => 1. Sibling of #434 (same item, examine hardcode).
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -385,6 +413,48 @@ BrokenRobot.cs (the Achilles corpse in Repair Room) implements NeverPickedUpDesc
 - command: `put brush in reader`
 
 With the microfilm reader EMPTY, 'put brush in reader' returns 'There's already a spool in the reader.' (false; brush not consumed). PutProcessor.cs:63-67 checks HaveRoomForItem (size) before the type check; SpoolReader SpaceForItems=1 (SpoolReader.cs:12), HaveRoomForItem=Items.Sum(Size)+item.Size<=SpaceForItems (ContainerBase.cs:107), so an oversized non-spool fails the size check even when empty and emits SpoolReader.NoRoomMessage (SpoolReader.cs:39) which hardcodes occupancy. Smaller non-spools (diary/chronometer) correctly get 'It doesn't fit in the circular opening.' Fix: type-check before room-check in PutProcessor. Also observed (NOT filed - could not root-cause): 'read reader' on empty reader falls to narrator while 'read screen'/'examine reader' say 'The screen is blank.'
+
+## AB-063 [LOW] Kitchen dispenser: 'put canteen under spout' not handled (only 'put canteen in niche' works)  · _filed#424_
+
+- game `planetfall` · area `Kitchen` · category `parser-pronoun` · target_sha `68f90e8`
+- command: `put canteen under spout`
+
+Kitchen food dispenser accepts 'put canteen in niche' but not 'put canteen under spout' (room says 'octagonal niche beneath a spout'; Machine Shop dispenser supports 'put flask under spout'). KitchenMachine.cs has 'spout' absent from NounsForMatching and a '// TODO: put canteen under spout' marker (line 63).
+
+## AB-066 [LOW] Padlock 'unlock padlock with key' re-narrates 'springs open' when already unlocked (multi-noun path missing !Locked guard the simple path has)  · _filed#431_
+
+- game `planetfall` · area `Mess Corridor (padlock)` · category `state-guard` · target_sha `unknown`
+- command: `unlock padlock with key`
+
+Padlock.cs multi-noun RespondToMultiNounInteraction sets Locked=false unconditionally and returns 'The padlock springs open.' with no !Locked guard (lines 76-81). The simple-interaction path in the same class DOES guard: 'if (!Locked) return The padlock is already open.' (lines 53-54). So identical state (already unlocked) yields different responses by phrasing. Prod-confirmed: 'unlock padlock with key' twice -> both 'springs open'. Floyd comment does not double-fire (CommentOnAction guards).
+
+## AB-067 [LOW] Miniaturization Booth keyboard fires on type/press/push verb alone: 'push slot'/'press wall' hit booth logic instead of the noun  · _filed#433_
+
+- game `planetfall` · area `Miniaturization Booth (Lawanda)` · category `noun-guard` · target_sha `unknown`
+- command: `push slot`
+
+MiniaturizationBooth.cs:63-94 gates on MatchVerb(TypeVerbs + press/push/key) with no noun check, so any push/press/type on any noun enters the keyboard block. Not-activated: 'push slot'/'press wall' -> 'Internal computer repair booth not activated.'; activated: non-numeric noun -> 'The keyboard only has numeric keys.', shadowing the room's slot item. Same noun-guard omission class as #430 (Cryo-Elevator button), different room/item. Prod-confirmed.
+
+## AB-068 [LOW] Laser examine hardcodes 'depression contains an old battery' — stale after removing the battery or swapping in the fresh one  · _filed#434_
+
+- game `planetfall` · area `Tool Room (laser)` · category `description-vs-state` · target_sha `unknown`
+- command: `examine laser`
+
+Laser.cs:64-68 ExaminationDescription interpolates only the dial Setting; the battery clause 'which contains an old battery' is a constant that ignores Items. Prod-confirmed: examine laser -> 'contains an old battery'; take battery -> 'Taken.' (depression now empty); examine laser -> still 'contains an old battery'. Same staleness after the golden-path old->fresh swap (fresh battery still described as 'old'). Laser is a transparent ContainerBase; firing reads Items.FirstOrDefault but examine never consults it.
+
+## AB-069 [LOW] ProjCon Office description starts with doubled letter 'TThis office looks like a headquarters'  · _filed#435_
+
+- game `planetfall` · area `ProjCon Office (Lawanda)` · category `typo` · target_sha `unknown`
+- command: `look`
+
+ProjConOffice.cs:69, AnnouncmentHasBeenMade==false branch of GetContextBasedDescription has literal typo 'TThis office...' (doubled T); the true-branch line 66 correctly reads 'This office...'. Shown on entry/look; ProjCon Office is the only route to the Cryo-Elevator. Prod-confirmed.
+
+## AB-072 [LOW] Mess Hall description hardcodes 'A door to the south is closed' even when the kitchen door is open  · _filed#438_
+
+- game `planetfall` · area `Mess Hall` · category `description-vs-state` · target_sha `unknown`
+- command: `look (after sliding kitchen access card)`
+
+MessHall.cs:44-49 GetContextBasedDescription returns a constant string with 'A door to the south is closed.' — never consulting KitchenDoor.IsOpen. Prod-confirmed: slide kitchen access card through slot -> 'The kitchen door quietly slides open.'; look -> 'A door to the south is closed.'; examine kitchen door -> 'The door is open.' (contradiction). Sibling RecArea.cs:61 interpolates Door.IsOpen correctly. (Note: door auto-closes at TurnsOpen==3, so check within window.)
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
