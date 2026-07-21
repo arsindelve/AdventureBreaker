@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-20T23:58:54Z · target_sha `68f90e8`_
+_Generated 2026-07-21T02:49:20Z · target_sha `68f90e8`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -41,7 +41,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Library | 5/16 | low | `68f90e8` | AB-060 |
 | Library Lobby | 2/16 | clean | `unknown` | - |
 | Lower Elevator | 5/16 | low | `unknown` | - |
-| Machine Shop | 5/16 | low | `unknown` | - |
+| Machine Shop | 6/16 | high | `68f90e8` | AB-061 |
 | Mess Corridor | 4/16 | low | `unknown` | - |
 | Mess Hall | 5/16 | low | `68f90e8` | - |
 | Middle of Strip | 1/16 | clean | `unknown` | - |
