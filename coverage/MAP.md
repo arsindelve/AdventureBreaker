@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-21T21:37:12Z · target_sha `68f90e8`_
+_Generated 2026-07-21T21:57:33Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -36,7 +36,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Infirmary | 2/16 | clean | `unknown` | - |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
-| Kitchen | 5/16 | medium | `unknown` | - |
+| Kitchen | 6/16 | medium | `68f90e8` | AB-063 |
 | Lawanda Platform | 1/16 | clean | `68f90e8` | - |
 | Library | 5/16 | low | `68f90e8` | AB-060 |
 | Library Lobby | 3/16 | low | `68f90e8` | - |
