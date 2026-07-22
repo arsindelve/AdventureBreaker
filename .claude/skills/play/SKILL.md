@@ -278,6 +278,48 @@ puzzle-step, other`.
 repo's `main` branch, landed immediately via a short-lived branch + self-merged PR
 (`main` is branch-protected — no raw `git push` to it).
 
+## Highest-yield engine anti-patterns (probe for these)
+
+Six provable C# port divergences that account for most of what a hunt finds — each has a concrete
+`../ZorkAI` `file:line` from past runs and a one-line probe. Always confirm white-box before filing.
+
+1. **Verb-only firing (missing noun guard).** A `RespondToSimpleInteraction` gated on a verb alone —
+   `if (action.MatchVerb(Verbs.PushVerbs)) { …operate… }` with no `MatchNoun`/`MatchNounAndAdjective` —
+   fires for *any* noun, so in a single-control room `push wall` / `press floor` operates the control (or
+   trips its death branch). Seen: `CryoElevatorButton.cs` (`push wall` works the elevator; instant death
+   once arrived), `MiniaturizationBooth.cs`. Correct sibling: `RedButton`/`WhiteButton`/`BlackButton` guard
+   with `if (!action.MatchNounAndAdjective(NounsForMatching)) return new NoNounMatchInteractionResult();`.
+   **Probe:** in any one-control room, push/press an unrelated noun (wall, floor) and see if it operates.
+2. **Hardcoded description/examine that ignores live state.** A `GetContextBasedDescription`/
+   `ExaminationDescription` written as a plain string literal asserting a mutable fact ("contains an old
+   battery", "A door to the south is closed") goes stale and contradicts `examine <thing>` / the map. Seen:
+   `Laser.cs` (still "old battery" after removal/swap), `MessHall.cs` ("closed" while the door is open).
+   Correct: interpolate the state (`RecArea.cs`, `Flask.cs`, `CardboardBox.cs`). **Probe:** flip a state
+   (open a door, remove a battery), re-`look`/`examine`, check the prose caught up. Richest cheap seam — grep
+   room/item descriptions for literal state words that aren't interpolated.
+3. **Single-slot container missing `SpaceForItems => 1`.** A container type-locked via
+   `CanOnlyHoldTheseTypes` but with no `SpaceForItems` override inherits the `ContainerBase` default of **2**,
+   silently accepting a second item; a `Items.FirstOrDefault()` consumer then ignores it. Seen: `Laser.cs`
+   (the depression takes old + fresh battery; firing reads the old/dead one, so a fresh battery added
+   without removing the old no-ops). **Probe:** put two type-valid items into a "single-slot" fixture and
+   check `i` shows both.
+4. **Global lookup, no scope check.** Resolving a target with repository-wide `Repository.GetItem(nounOne)`
+   and no possession/scope/state guard lets you act on items anywhere on the map. Seen: `RiftLocationBase.cs`
+   (`throw <item> into rift` deletes items you never held — a softlock vector — and re-throw re-narrates).
+   **Probe:** act on a remote item you don't hold (`throw laser into rift` from the rift room) and see if it
+   "succeeds".
+5. **A guard the simple path has but the multi-noun path lacks.** The two handlers for one object disagree.
+   Seen: `Padlock.cs` — `RespondToSimpleInteraction` returns "already open" (`!Locked`) but
+   `RespondToMultiNounInteraction` re-narrates "springs open". **Probe:** do the already-done action via both
+   phrasings (`unlock padlock` vs `unlock padlock with key`) and compare.
+6. **Over-broad early-return before the match.** A possession/state check placed *ahead* of any verb/noun
+   gate swallows unrelated commands. Seen: `AdminCorridorSouth.cs` — "You don't have the curved metal bar"
+   for *every* two-noun command whenever the magnet is on the floor. **Probe:** with the special item present
+   but not held, issue an unrelated two-noun command and see if it's hijacked.
+
+(The baseline patterns — examine catch-all, one-shot flag double-fire, shared-instance scope corruption — live
+in `../ZorkAI/.claude/CLAUDE.md` "Engine Port Anti-Patterns"; these six extend that list.)
+
 ## Gotchas (learned the hard way)
 
 - **Spine-desync trap:** running manual `play`/`quiet` commands *between* spine
@@ -337,3 +379,35 @@ repo's `main` branch, landed immediately via a short-lived branch + self-merged 
   doing MCP-free work (prod play, drafting, committing the ledger).
 - **Don't over-claim:** if a test was confounded (desync, flake, missing item), say so
   and re-run clean rather than logging a dubious finding. Credible ledger > big ledger.
+- **god mode grabs need a UNIQUE token.** `god mode take <noun>` resolves the noun repository-wide and takes
+  the **first** match, so an ambiguous word grabs the wrong item: `god mode take kitchen card` takes the
+  starting **ID card** (both match "card"), and `take shiny fromitz board` grabbed a plain board (every board
+  matches "fromitz board"). Use a token only the target owns — `god mode take shiny`, `magnet`, `fresh`,
+  `kitchen access` (drop the ambiguous "card"). If a setup `no-effect`s or a `HasItem<T>` check seems wrong,
+  `examine` what you actually grabbed **before** concluding it's a bug.
+- **What god mode keeps vs destroys** (refines the rebuild-without-`Init()` bullet above): top-level
+  `StartWithItem` **room** items *survive* the rebuild (reactor door, Fromitz access panel, kitchen
+  door/slot are all present after `god mode go`), but `StartWithItemInside` **container contents are emptied**
+  and location **flags/timers never fire** (the Auxiliary-Booth announcement that gates the ProjCon mural
+  reveal won't trigger). So god mode cleanly verifies examine/label/verb-firing/global-lookup bugs, but
+  **cannot** reach container-contents, endgame-puzzle, timer-flag, or NPC-state positions — those need a
+  legit spine / `save-restore`. (Correction to a tempting assumption: a god-mode-*taken* typed item **does**
+  satisfy `HasItem<T>()` / `item is T` — the padlock key and fresh battery both worked; the failures above
+  are wrong-item resolution, not identity divergence.)
+- **Verify parser/label bugs on PROD — the AI parser both hides and invents gaps.** A "missing bare token"
+  that looks like a bug from the C# noun list is often a *false positive*: the prod AI parser normalizes
+  nouns (`push blue` → `blue button`), so it works even when the static matcher looks incomplete. The mirror
+  failure: the deterministic unit/walkthrough `TestParser` hard-codes the ideal parse
+  (`../ZorkAI/UnitTests/IntentMappings/base-mappings.json`), so a genuine prod parse-gap passes in CI and
+  breaks in prod (that's `zorkai#423` — see the comment there). Rule: **never file a parse/label bug on
+  static reading alone — reproduce it through `quiet`/`play` on prod first**; when a walkthrough test is
+  green but prod is red, suspect the fixture, not the handler.
+- **Timed objects: assert inside the window.** State that a timed actor resets must be observed *within* its
+  window. The Mess Hall kitchen door auto-closes at `TurnsOpen == 3`, so `slide card → look → examine door`
+  must land within ~2 turns or the door is already shut and the description-vs-state bug disappears. Minimize
+  turns between the state change and the assertion.
+- **Fragility triage — chase the reachable ones first.** Cleanly god-mode-verifiable in a few commands:
+  verb-only firing (push an unrelated noun), global-noun-lookup deletion, hardcoded examine/description on a
+  top-level item grabbed by a unique token, and anything driven by starting inventory. Needs legit state
+  (spine / `save-restore`), so deprioritize under time pressure: container capacity/contents, endgame beats
+  (Fromitz install, computer repair), timer-set flags (mural reveal), and Floyd/NPC-state.
