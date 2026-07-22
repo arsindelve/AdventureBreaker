@@ -8,8 +8,13 @@ name: Security Review
 # cannot read secrets; same-repo PRs fail fast if the secret is missing, so branch
 # protection can use this workflow as a real gate.
 
+# DISABLED (pending the CLAUDE_API_KEY secret): this review calls Anthropic's
+# claude-code-security-review action, which needs a repository secret named CLAUDE_API_KEY
+# (see SECURITY.md). That secret is not set, so the review failed on every pull request.
+# The PR trigger is removed at the maintainer's request. To re-enable: set CLAUDE_API_KEY
+# under Settings -> Secrets and variables -> Actions, then restore `pull_request:` under `on:`.
 on:
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
