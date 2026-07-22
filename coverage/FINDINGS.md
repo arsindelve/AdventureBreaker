@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-21T23:08:22Z · 72 finding(s)_
+_Generated 2026-07-22T16:52:22Z · 75 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -455,6 +455,27 @@ ProjConOffice.cs:69, AnnouncmentHasBeenMade==false branch of GetContextBasedDesc
 - command: `look (after sliding kitchen access card)`
 
 MessHall.cs:44-49 GetContextBasedDescription returns a constant string with 'A door to the south is closed.' — never consulting KitchenDoor.IsOpen. Prod-confirmed: slide kitchen access card through slot -> 'The kitchen door quietly slides open.'; look -> 'A door to the south is closed.'; examine kitchen door -> 'The door is open.' (contradiction). Sibling RecArea.cs:61 interpolates Door.IsOpen correctly. (Note: door auto-closes at TurnsOpen==3, so check within window.)
+
+## AB-073 [LOW] Radiation Lab 'look through crack' intermittently (5/8 prod) shows the room instead of the Bio Lab view  · _filed#447_
+
+- game `planetfall` · area `Radiation Lab` · category `parser-pronoun` · target_sha `68f90e8`
+- command: `look through crack`
+
+RadiationLab.cs:36 gates the Bio Lab view on Match(LookVerbs,[crack]) && OriginalInput.Contains(through) - the same fragile parse dependence #423 diagnosed for the BioLockEast window and explicitly flagged for RadiationLab.cs:36. Prod (68f90e8) 8-run measurement: 5/8 room (bug), 3/8 view. No fallback: examine/look-at/look-in crack all give 'too small', so the view is intermittently unreachable. origin/main still carries the fragile pattern in both files. Sibling of #423.
+
+## AB-074 [LOW] Escape pod 'sit on <object>' hijacked to 'You're already in the safety web' (SafetyWeb matches verb alone, no noun guard)  · _filed#448_
+
+- game `planetfall` · area `Escape Pod / safety web` · category `verb-only-firing` · target_sha `68f90e8`
+- command: `sit on the control panel`
+
+EscapePod.cs:50 (seated) & :53 (standing) MatchVerb([get,rest,sit] / [leave,exit,get]) with NO noun guard; SafetyWeb is a pod Item so its handler runs on every command. Prod 68f90e8: seated in web, 'sit on the control panel' and 'sit on the floor' both return 'You're already in the safety web.' (noun ignored). Contrast 'take brochure'->normal, 'get slime'->generic. Side effect of #376 web-entry fix. Parser masks get-branch; sit-on-X reliably reproduces. Anti-pattern #5. ZIL-independent.
+
+## AB-075 [LOW] Moving-elevator room description hardcodes 'sliding door which is open' while door is closed (contradicts 'door slides shut' same turn)  · _filed#450_
+
+- game `planetfall` · area `Upper/Lower Elevator (ElevatorBase)` · category `hardcoded-description-vs-state` · target_sha `68f90e8`
+- command: `press up button; look`
+
+ElevatorBase.cs:162 GetContextBasedDescription hardcodes '...which is open' ignoring GetItem<TDoor>().IsOpen, which Move() (:124) sets false when the car departs. Prod 68f90e8 (Lower Elevator): 'press up button'->'The elevator door slides shut...movement.'; 'look'->'...sliding door to the north which is open.'; 'examine lower elevator door'->'The door is closed.' Contradiction persists ~3 moving turns (reopens at TurnsSinceMoving==4). Affects both cars (shared base). Sibling of #438 (MessHall) / #430; RecArea.cs:61 is the correct interpolated pattern. god-mode used only to reach the car; contradiction is Move()-driven. Anti-pattern #6. ZIL-independent.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
