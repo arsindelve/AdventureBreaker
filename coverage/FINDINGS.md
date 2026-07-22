@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-22T16:52:22Z · 75 finding(s)_
+_Generated 2026-07-22T23:34:15Z · 78 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -303,6 +303,20 @@ AdminCorridorSouth.cs:68-77 RespondToMultiNounInteraction returns 'You don't hav
 
 Laser.cs has CanOnlyHoldTheseTypes=[BatteryBase] but no SpaceForItems override -> ContainerBase default 2; batteries are Size 1, so HaveRoomForItem admits a second. Prod-confirmed: put old battery in laser, put fresh battery in laser both 'resting in the depression'; inventory lists 'The laser contains: An old battery, A new battery'. TryFireLaser reads Items.FirstOrDefault (old, depleted in real play) so inserting fresh without removing old leaves the laser non-functional. Fix: SpaceForItems => 1. Sibling of #434 (same item, examine hardcode).
 
+## AB-077 [MEDIUM] Metal cube socket accepts a 2nd bedistor: good bedistor drops in beside the fused one, 'fixing' course control with the broken part still socketed (pliers step skipped)  · _filed#462_
+
+- game `planetfall` · area `Course Control (LargeMetalCube)` · category `container-capacity` · target_sha `e795f32`
+- command: `put fused bedistor in cube; put good bedistor in cube`
+
+LargeMetalCube.cs: CanOnlyHoldTheseTypes=[BedistorBase] but NO SpaceForItems override -> ContainerBase default 2; ships StartWithItemInside<FusedBedistor>; placing a GoodBedistor fires CourseControl.ItIsFixed. Both bedistors size 1 so fused(1)+good(1)<=2. Prod e795f32: re-seat fused, 'put good bedistor in cube'->'Done. The warning lights go out...'; examine cube shows BOTH fused+good. Course control reads fixed with the broken part still in; pliers-removal sub-puzzle skippable. Sibling FromitzAccessPanel caps at 4; laser #437 capped to 1. Fix: SpaceForItems=>1. Anti-pattern #6. ZIL-independent.
+
+## AB-078 [MEDIUM] 'Permanently broken' send console is recoverable: after wrong-color shutdown, correct black->gray pour still fixes it (+6, sends distress call)  · _filed#463_
+
+- game `planetfall` · area `Comm Room (coolant send console)` · category `matching-command-not-state` · target_sha `e795f32`
+- command: `pour flask into hole (wrong); then black; then gray`
+
+CommRoom.cs PourLiquid (~L54) has NO guard on SystemIsCritical/IsFixed; PermanentlyBroken (~L89) sets SystemIsCritical=true but never changes CurrentColor, so black->gray progression still runs NextColor->Fixed (+6, MarkCommunicationsFixed). Prod e795f32: pour red->'Shuteeng Down Awl Sistumz...send console shuts down' (room 'dark'); pour black->'all go off except one, a gray light'; pour gray->'help message is now being sent' (+6). Permanent shutdown recovers. Also: PermanentlyBroken re-narrates on repeat wrong pour (no guard); CriticalDescription('dark') vs 'gray light' progress contradiction. Anti-pattern #1/#2. ZIL-independent.
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -476,6 +490,13 @@ EscapePod.cs:50 (seated) & :53 (standing) MatchVerb([get,rest,sit] / [leave,exit
 - command: `press up button; look`
 
 ElevatorBase.cs:162 GetContextBasedDescription hardcodes '...which is open' ignoring GetItem<TDoor>().IsOpen, which Move() (:124) sets false when the car departs. Prod 68f90e8 (Lower Elevator): 'press up button'->'The elevator door slides shut...movement.'; 'look'->'...sliding door to the north which is open.'; 'examine lower elevator door'->'The door is closed.' Contradiction persists ~3 moving turns (reopens at TurnsSinceMoving==4). Affects both cars (shared base). Sibling of #438 (MessHall) / #430; RecArea.cs:61 is the correct interpolated pattern. god-mode used only to reach the car; contradiction is Move()-driven. Anti-pattern #6. ZIL-independent.
+
+## AB-076 [LOW] Shuttle Car Betty cabin says platform doorway is 'south' but the exit is Direction.N (north) — 'go south' fails  · _filed#461_
+
+- game `planetfall` · area `Shuttle Car Betty` · category `hardcoded-description-vs-state` · target_sha `e795f32`
+- command: `god mode go lawanda platform; north; south`
+
+ShuttleCabin.cs:17 renders '...platform to the {Exit}'; ShuttleCarBetty.cs:7 Exit='south' but Map:16 wires the platform exit to Direction.N. Prod e795f32: board Betty via 'north' from Lawanda Platform; cabin says 'platform to the south'; 'south'->'You cannot go that way.'; 'north'->Lawanda Platform. Platform maps N->Betty so platform is genuinely south of Betty => description correct, Map direction (N) is the bug (should be Direction.S). Alfie is the consistent control (Exit='north' + Direction.N). Non-Euclidean north-to-board + north-to-leave. Anti-pattern #4. ZIL-independent internal contradiction.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
