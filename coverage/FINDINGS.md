@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-23T14:54:11Z · 81 finding(s)_
+_Generated 2026-07-23T14:57:42Z · 82 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -518,6 +518,13 @@ ElevatorBase.cs:162 GetContextBasedDescription hardcodes '...which is open' igno
 - command: `god mode go lawanda platform; north; south`
 
 ShuttleCabin.cs:17 renders '...platform to the {Exit}'; ShuttleCarBetty.cs:7 Exit='south' but Map:16 wires the platform exit to Direction.N. Prod e795f32: board Betty via 'north' from Lawanda Platform; cabin says 'platform to the south'; 'south'->'You cannot go that way.'; 'north'->Lawanda Platform. Platform maps N->Betty so platform is genuinely south of Betty => description correct, Map direction (N) is the bug (should be Direction.S). Alfie is the consistent control (Exit='north' + Direction.N). Non-Euclidean north-to-board + north-to-leave. Anti-pattern #4. ZIL-independent internal contradiction.
+
+## AB-082 [LOW] Three connector rooms drop first-visit description: BeforeEnterLocation returns transition text without base (VisitCount never increments)  · _filed#473_
+
+- game `planetfall` · area `Kalamontee corridors (Dorm/Junction/Admin)` · category `lifecycle-base-not-called` · target_sha `e795f32`
+- command: `god mode go corridor junction; west; look`
+
+DormCorridor.cs:24, CorridorJunction.cs:39, AdminCorridor.cs:45 early-return the walk-transition string without base.BeforeEnterLocation, so VisitCount++ (and OnFirstTimeEnterLocation) never fire; LookProcessor shows the full desc only when VisitCount==1 in Brief (default). Prod e795f32: go corridor junction -> west -> 'You walk down...' + title 'Dorm Corridor' but NO description; 'look' then shows 'wide, east-west hallway'. AdminCorridorNorth.cs:49 does it right (prepend + base). Fix: prepend transition to base return. ZIL-independent.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
