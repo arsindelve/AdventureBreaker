@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-23T15:55:49Z · 84 finding(s)_
+_Generated 2026-07-23T16:24:23Z · 85 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -539,6 +539,13 @@ BioLockEast.cs:28-30 returns the card sentence unconditionally (no state guard).
 - command: `put teleportation card in lab pocket`
 
 LabUniformPocket.cs:10 SpaceForItems=>1 but Init (:25-29) seeds TeleportationAccessCard + PieceOfPaper (both size 1). ContainerBase.HaveRoomForItem (:107) size-sum <= 1 rejects the 2nd. ContainerBase default is 2; the =>1 override is the bug (copied from PatrolUniformPocket which seeds 1). ZIL comptwo.zil:1657 original holds both. Reproduced live prod e795f32.
+
+## AB-085 [LOW] Shuttle cabin "station ahead" window view is dead code (gated on unreachable TunnelPosition 190/195; should be 23)  · _filed#479_
+
+- game `planetfall` · area `Shuttle control cabin (window view)` · category `dead-code-threshold` · target_sha `e795f32`
+- command: `look (in shuttle control cabin at tunnel position 23)`
+
+ShuttleControl.cs:75-81 OutTheWindow gates the "brightly-lit station ahead" view on TunnelPosition==190 or 195, but TunnelPosition runs 0..24 (EndOfTunnel=24), so it is unreachable. Original globals.zil:1701 DESCRIBE-VIEW shows it at SHUTTLE-COUNTER==23 (moving); the C# landmark table already uses 23. Reproduced live prod e795f32 by driving Alfie to pos 23.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
