@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-23T14:57:42Z · 82 finding(s)_
+_Generated 2026-07-23T15:55:49Z · 84 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -525,6 +525,20 @@ ShuttleCabin.cs:17 renders '...platform to the {Exit}'; ShuttleCarBetty.cs:7 Exi
 - command: `god mode go corridor junction; west; look`
 
 DormCorridor.cs:24, CorridorJunction.cs:39, AdminCorridor.cs:45 early-return the walk-transition string without base.BeforeEnterLocation, so VisitCount++ (and OnFirstTimeEnterLocation) never fire; LookProcessor shows the full desc only when VisitCount==1 in Brief (default). Prod e795f32: go corridor junction -> west -> 'You walk down...' + title 'Dorm Corridor' but NO description; 'look' then shows 'wide, east-west hallway'. AdminCorridorNorth.cs:49 does it right (prepend + base). Fix: prepend transition to base return. ZIL-independent.
+
+## AB-083 [LOW] Bio Lock East window reports magnetic-striped card on floor after it is retrieved (missing MINI-CARD guard)  · _filed#477_
+
+- game `planetfall` · area `Bio Lock East (window)` · category `hardcoded-description-vs-state` · target_sha `e795f32`
+- command: `examine window`
+
+BioLockEast.cs:28-30 returns the card sentence unconditionally (no state guard). Original globals.zil WINDOW-F guards it on <NOT <FSET? MINI-CARD TOUCHBIT>>, omitting it once the card is taken. Reproduced live on prod e795f32: card confirmed in inventory (read miniaturization card) while window still says it is on the floor. Distinct from #423 (through-parsing). Same class as #438.
+
+## AB-084 [LOW] Lab uniform pocket seeded with 2 items but SpaceForItems=1 (cannot re-insert a removed item)  · _filed#478_
+
+- game `planetfall` · area `Lab Storage (lab uniform pocket)` · category `container-capacity` · target_sha `e795f32`
+- command: `put teleportation card in lab pocket`
+
+LabUniformPocket.cs:10 SpaceForItems=>1 but Init (:25-29) seeds TeleportationAccessCard + PieceOfPaper (both size 1). ContainerBase.HaveRoomForItem (:107) size-sum <= 1 rejects the 2nd. ContainerBase default is 2; the =>1 override is the bug (copied from PatrolUniformPocket which seeds 1). ZIL comptwo.zil:1657 original holds both. Reproduced live prod e795f32.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 

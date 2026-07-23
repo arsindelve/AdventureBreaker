@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-21T21:57:33Z · target_sha `unknown`_
+_Generated 2026-07-23T15:18:21Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -10,8 +10,8 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 |---|---|---|---|---|
 | Alfie Control East | 4/16 | low | `unknown` | - |
 | Alfie Control West | 2/16 | clean | `unknown` | - |
-| Auxiliary Booth | 0/16 | clean | `-` | - |  ⬅ untouched
-| Balcony | 1/16 | clean | `68f90e8` | - |
+| Auxiliary Booth | 2/16 | clean | `unknown` | - |
+| Balcony | 3/16 | clean | `e795f32` | - |
 | Betty Control East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Betty Control West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Booth 1 | 1/16 | clean | `68f90e8` | - |
@@ -20,13 +20,13 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Brig | 6/16 | high | `unknown` | - |
 | Computer Room | 6/16 | low | `unknown` | - |
 | Conference Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Corridor Junction | 2/16 | clean | `unknown` | - |
+| Corridor Junction | 3/16 | low | `unknown` | - |
 | Course Control | 5/16 | low | `68f90e8` | - |
-| Courtyard | 1/16 | clean | `68f90e8` | - |
+| Courtyard | 1/16 | clean | `unknown` | - |
 | Crag | 2/16 | clean | `unknown` | - |
 | Deck Eight | 1/16 | low | `unknown` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
-| Dorm Corridor | 1/16 | clean | `68f90e8` | - |
+| Dorm Corridor | 2/16 | clean | `e795f32` | - |
 | Elevator Lobby | 3/16 | low | `unknown` | - |
 | Escalator | 1/16 | clean | `68f90e8` | - |
 | Escape Pod | 5/16 | low | `unknown` | - |
@@ -37,30 +37,30 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 6/16 | medium | `68f90e8` | AB-063 |
-| Lawanda Platform | 1/16 | clean | `68f90e8` | - |
+| Lawanda Platform | 2/16 | clean | `e795f32` | - |
 | Library | 5/16 | low | `68f90e8` | AB-060 |
 | Library Lobby | 3/16 | low | `68f90e8` | - |
 | Lower Elevator | 5/16 | low | `unknown` | - |
 | Machine Shop | 6/16 | high | `68f90e8` | AB-061 |
 | Mess Corridor | 4/16 | low | `unknown` | - |
-| Mess Hall | 5/16 | low | `68f90e8` | - |
+| Mess Hall | 6/16 | low | `unknown` | AB-072 |
 | Middle of Strip | 1/16 | clean | `unknown` | - |
-| Miniaturization Booth | 6/16 | low | `68f90e8` | - |
+| Miniaturization Booth | 6/16 | low | `unknown` | - |
 | Physical Plant | 5/16 | low | `unknown` | - |
-| Plain Hall | 1/16 | clean | `68f90e8` | - |
-| Planetary Defense | 6/16 | medium | `68f90e8` | - |
-| ProjCon Office | 3/16 | clean | `unknown` | - |
+| Plain Hall | 1/16 | clean | `unknown` | - |
+| Planetary Defense | 6/16 | medium | `e795f32` | - |
+| ProjCon Office | 3/16 | clean | `e795f32` | - |
 | Project Corridor | 2/16 | clean | `unknown` | - |
 | Project Corridor East | 1/16 | low | `68f90e8` | - |
 | Project Corridor West | 1/16 | clean | `unknown` | - |
-| Reactor Lobby | 6/16 | low | `unknown` | - |
-| Rec Area | 0/16 | clean | `-` | - |  ⬅ untouched
+| Reactor Lobby | 6/16 | low | `e795f32` | - |
+| Rec Area | 3/16 | clean | `e795f32` | - |
 | Rec Corridor | 2/16 | low | `unknown` | - |
 | Repair Room | 5/16 | low | `unknown` | - |
 | Robot Shop | 5/16 | clean | `unknown` | - |
 | Sanfac F | 3/16 | clean | `c31e9ec` | - |
 | Shuttle Car Alfie | 3/16 | low | `unknown` | - |
-| Shuttle Car Betty | 0/16 | clean | `-` | - |  ⬅ untouched
+| Shuttle Car Betty | 4/16 | medium | `e795f32` | AB-076, AB-079 |
 | Station 384 | 3/16 | clean | `unknown` | - |
 | Storage West | 3/16 | low | `unknown` | - |
 | Strip Near Relay | 7/16 | low | `unknown` | - |
@@ -68,11 +68,11 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Systems Corridor | 1/16 | clean | `68f90e8` | - |
 | Systems Corridor East | 1/16 | clean | `68f90e8` | - |
 | Systems Corridor West | 2/16 | clean | `unknown` | - |
-| Underwater | 1/16 | clean | `68f90e8` | - |
+| Underwater | 1/16 | clean | `unknown` | - |
 | Upper Elevator | 6/16 | low | `unknown` | - |
 | Waiting Area | 5/16 | low | `unknown` | - |
 | West Wing | 0/16 | clean | `-` | - |  ⬅ untouched
-| Winding Stair | 1/16 | clean | `68f90e8` | - |
+| Winding Stair | 2/16 | clean | `e795f32` | - |
 | MECH:floyd-conversation | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-follow-wander | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-scenes | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -118,7 +118,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Egyptian Room | 2/16 | clean | `unknown` | - |
 | End of Rainbow | 3/16 | low | `unknown` | - |
 | Engravings Cave | 1/16 | clean | `unknown` | - |
-| Entrance to Hades | 5/16 | low | `unknown` | - |
+| Entrance to Hades | 5/16 | low | `e795f32` | - |
 | Gallery | 2/16 | clean | `unknown` | - |
 | Kitchen | 6/16 | low | `68f90e8` | - |
 | Land of the Dead | 0/16 | clean | `-` | - |  ⬅ untouched
