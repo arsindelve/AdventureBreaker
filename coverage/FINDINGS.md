@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-22T23:34:15Z · 78 finding(s)_
+_Generated 2026-07-23T14:41:51Z · 80 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -316,6 +316,20 @@ LargeMetalCube.cs: CanOnlyHoldTheseTypes=[BedistorBase] but NO SpaceForItems ove
 - command: `pour flask into hole (wrong); then black; then gray`
 
 CommRoom.cs PourLiquid (~L54) has NO guard on SystemIsCritical/IsFixed; PermanentlyBroken (~L89) sets SystemIsCritical=true but never changes CurrentColor, so black->gray progression still runs NextColor->Fixed (+6, MarkCommunicationsFixed). Prod e795f32: pour red->'Shuteeng Down Awl Sistumz...send console shuts down' (room 'dark'); pour black->'all go off except one, a gray light'; pour gray->'help message is now being sent' (+6). Permanent shutdown recovers. Also: PermanentlyBroken re-narrates on repeat wrong pour (no guard); CriticalDescription('dark') vs 'gray light' progress contradiction. Anti-pattern #1/#2. ZIL-independent.
+
+## AB-079 [MEDIUM] Betty exit destination keyed off AlfieControlEast (wrong car) not BettyControlEast — exiting Betty after Alfie moves teleports you to the wrong station  · _filed#468_
+
+- game `planetfall` · area `Shuttle Car Betty` · category `disambiguation-wrong-target` · target_sha `e795f32`
+- command: `activate alfie east; nudge; go lawanda platform; north; north`
+
+ShuttleCarBetty.cs:17 reads AlfieControlEast.TunnelPosition (Alfie's control) to pick Lawanda/Kalamontee; should read BettyControlEast. Cars move independently; AlfieControlEast.Arrived resets only West so East stays non-zero after a trip. Prod e795f32: nudge Alfie East off 0, board Betty at Lawanda, exit north -> Kalamontee Platform (wrong, no ride). Alfie's own exit (ShuttleCarAlfie.cs:17) correctly reads AlfieControlEast. Copy-paste wiring error. Related #461. ZIL-independent.
+
+## AB-080 [MEDIUM] FlaskUnderSpout set once, never reset: after taking the flask back, room still shows it under the spout and pressing a button fills the flask in-hand  · _filed#469_
+
+- game `planetfall` · area `Machine Shop (flask/spout)` · category `state-flag-not-reset` · target_sha `e795f32`
+- command: `put flask under spout; take flask; look; press red button`
+
+MachineShop.cs FlaskUnderSpout written true only at :44 (put-under-spout handler), never set false anywhere (grep-confirmed); Flask.cs has no OnBeingTaken. So flag sticks true. Prod e795f32: put flask under spout -> take flask -> look still 'Sitting under the spout is a glass flask' while flask in inventory; press red button -> 'flask fills with red' in-hand (Click :162 gates on flag not flask position; desc :183 same). Reachable in normal play (put then take). Fix: reset flag on take, or check flask.CurrentLocation is MachineShop. ZIL-independent.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
