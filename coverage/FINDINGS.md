@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-23T14:41:51Z · 80 finding(s)_
+_Generated 2026-07-23T14:54:11Z · 81 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -71,6 +71,13 @@ Confirmed live on prod (session floyd-hunt8, continuous single session, no resto
 - command: `press acid button`
 
 Machine Shop chemical dispenser: the two white buttons the room labels 'BAAS' (base, square) and 'ASID' (acid, round) can only be pressed by SHAPE (press square/round button), not by their printed labels. 'press acid button'/'press base button'/'press asid'/'press baas'/'press white button' all -> 'no effect' (quiet); with narrator ON, 'press acid button' FALSELY narrates 'the dispenser obliges by releasing a stream of liquid into the flask' while the flask stays empty. Both white buttons map to Click('clear') so base and acid are indistinguishable. 'white' is miswired to the brown button. Root cause: MachineShop.cs:97-109 noun switch (no acid/base/asid/baas cases; line 103 'brown button' or 'white' => Click('brown'); lines 106-107 both square+round => Click('clear')). Same false-narration pattern as AB-058/#412, distinct instance. Also (god-mode artifact, NOT a bug): 'set laser to N' gave no effect under a god-mode-contaminated laser; spine confirms it works in normal play.
+
+## AB-081 [HIGH] Disambiguation 'Which X do you mean?' is unanswerable in prod — pending DisambiguationProcessor not persisted across stateless per-request boundary  · _filed#472_
+
+- game `planetfall` · area `Engine / disambiguation (all games)` · category `disambiguation-unanswerable` · target_sha `e795f32`
+- command: `examine bedistor; good bedistor`
+
+GameEngine.cs:54 _processorInProgress is an in-memory field (set :908), never serialized into session state (grep: no save/restore). Deployed game is stateless (base64 session, engine rebuilt per request) so the pending disambiguation is null on the answer request -> answer parsed as fresh command. Prod e795f32: 'examine bedistor' prompts, then good/good bedistor/good ninety-ohm bedistor all -> 'no effect'; cards: id/id card/kitchen access card fail, kitchen/shuttle -> movement hijack. Control: white-button 'square' identical with/without prompt (processor never consulted). Direct full command works. Affects cards/bedistors/megafuses/'it'-clarification, both games. Fix: persist pending disambiguation in session. ZIL-independent.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
