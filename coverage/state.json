@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-24T18:08:57Z",
+  "generated": "2026-07-24T18:19:20Z",
   "target_sha": "7e942f2",
   "cells": {
     "planetfall|Course Control|other": {
@@ -116,11 +116,11 @@
       "game": "planetfall",
       "area": "Reactor Lobby",
       "category": "other",
-      "count": 88,
+      "count": 89,
       "best_severity": "low",
-      "last_ts": "2026-07-21T22:36:27Z",
-      "last_target_sha": "unknown",
-      "last_result": "hit",
+      "last_ts": "2026-07-24T18:16:26Z",
+      "last_target_sha": "7e942f2",
+      "last_result": "clean",
       "finding_ids": []
     },
     "planetfall|Reactor Lobby|examine-scenery": {
@@ -193,11 +193,11 @@
       "game": "planetfall",
       "area": "Brig",
       "category": "other",
-      "count": 49,
+      "count": 50,
       "best_severity": "high",
-      "last_ts": "2026-07-23T15:34:13Z",
-      "last_target_sha": "e795f32",
-      "last_result": "hit",
+      "last_ts": "2026-07-24T18:18:55Z",
+      "last_target_sha": "7e942f2",
+      "last_result": "clean",
       "finding_ids": []
     },
     "planetfall|Brig|examine-scenery": {
@@ -272,10 +272,10 @@
       "game": "planetfall",
       "area": "Deck Nine",
       "category": "movement",
-      "count": 2401,
+      "count": 2402,
       "best_severity": "medium",
-      "last_ts": "2026-07-24T14:19:17Z",
-      "last_target_sha": "128cae8",
+      "last_ts": "2026-07-24T18:15:25Z",
+      "last_target_sha": "7e942f2",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -701,10 +701,10 @@
       "game": "planetfall",
       "area": "Reactor Lobby",
       "category": "movement",
-      "count": 355,
+      "count": 356,
       "best_severity": "low",
-      "last_ts": "2026-07-24T13:53:35Z",
-      "last_target_sha": "128cae8",
+      "last_ts": "2026-07-24T18:16:21Z",
+      "last_target_sha": "7e942f2",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -723,10 +723,10 @@
       "game": "planetfall",
       "area": "Deck Nine",
       "category": "other",
-      "count": 305,
+      "count": 307,
       "best_severity": "medium",
-      "last_ts": "2026-07-24T14:19:08Z",
-      "last_target_sha": "128cae8",
+      "last_ts": "2026-07-24T18:15:49Z",
+      "last_target_sha": "7e942f2",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -778,10 +778,10 @@
       "game": "planetfall",
       "area": "Deck Nine",
       "category": "examine-scenery",
-      "count": 54,
+      "count": 55,
       "best_severity": "medium",
-      "last_ts": "2026-07-23T14:50:06Z",
-      "last_target_sha": "e795f32",
+      "last_ts": "2026-07-24T18:15:39Z",
+      "last_target_sha": "7e942f2",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -1413,10 +1413,10 @@
       "game": "planetfall",
       "area": "Machine Shop",
       "category": "other",
-      "count": 75,
+      "count": 77,
       "best_severity": "clean",
-      "last_ts": "2026-07-24T14:22:02Z",
-      "last_target_sha": "128cae8",
+      "last_ts": "2026-07-24T18:18:51Z",
+      "last_target_sha": "7e942f2",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -1782,10 +1782,10 @@
       "game": "planetfall",
       "area": "Deck Nine",
       "category": "npc-conversation",
-      "count": 7,
+      "count": 8,
       "best_severity": "medium",
-      "last_ts": "2026-07-21T22:35:02Z",
-      "last_target_sha": "unknown",
+      "last_ts": "2026-07-24T18:15:51Z",
+      "last_target_sha": "7e942f2",
       "last_result": "hit",
       "finding_ids": []
     },
@@ -6421,10 +6421,10 @@
       "game": "planetfall",
       "area": "Lawanda Platform",
       "category": "other",
-      "count": 5,
+      "count": 7,
       "best_severity": "medium",
-      "last_ts": "2026-07-24T14:35:43Z",
-      "last_target_sha": "128cae8",
+      "last_ts": "2026-07-24T18:18:17Z",
+      "last_target_sha": "7e942f2",
       "last_result": "clean",
       "finding_ids": []
     },
@@ -6713,6 +6713,28 @@
       "finding_ids": [
         "AB-086"
       ]
+    },
+    "planetfall|Deck Nine|multi-sentence": {
+      "game": "planetfall",
+      "area": "Deck Nine",
+      "category": "multi-sentence",
+      "count": 1,
+      "best_severity": "medium",
+      "last_ts": "2026-07-24T18:14:19Z",
+      "last_target_sha": "7e942f2",
+      "last_result": "hit",
+      "finding_ids": []
+    },
+    "planetfall|Lawanda Platform|npc-conversation": {
+      "game": "planetfall",
+      "area": "Lawanda Platform",
+      "category": "npc-conversation",
+      "count": 1,
+      "best_severity": "clean",
+      "last_ts": "2026-07-24T18:17:17Z",
+      "last_target_sha": "7e942f2",
+      "last_result": "clean",
+      "finding_ids": []
     }
   }
 }

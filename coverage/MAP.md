@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-24T18:08:57Z · target_sha `7e942f2`_
+_Generated 2026-07-24T18:19:20Z · target_sha `7e942f2`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -25,7 +25,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Courtyard | 1/16 | clean | `128cae8` | - |
 | Crag | 2/16 | clean | `unknown` | - |
 | Deck Eight | 1/16 | low | `unknown` | - |
-| Deck Nine | 6/16 | medium | `unknown` | - |
+| Deck Nine | 7/16 | medium | `7e942f2` | - |
 | Dorm Corridor | 2/16 | clean | `e795f32` | - |
 | Elevator Lobby | 3/16 | low | `unknown` | - |
 | Escalator | 1/16 | clean | `128cae8` | - |
@@ -37,7 +37,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 6/16 | medium | `68f90e8` | AB-063 |
-| Lawanda Platform | 2/16 | medium | `128cae8` | - |
+| Lawanda Platform | 3/16 | medium | `7e942f2` | - |
 | Library | 5/16 | low | `128cae8` | AB-060 |
 | Library Lobby | 3/16 | low | `128cae8` | - |
 | Lower Elevator | 5/16 | low | `unknown` | - |
