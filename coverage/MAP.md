@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-23T16:12:15Z · target_sha `e795f32`_
+_Generated 2026-07-24T13:57:39Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -8,7 +8,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 
 | Area | Covered | Worst | Last sha | Findings |
 |---|---|---|---|---|
-| Alfie Control East | 4/16 | low | `e795f32` | - |
+| Alfie Control East | 5/16 | low | `128cae8` | - |
 | Alfie Control West | 2/16 | clean | `unknown` | - |
 | Auxiliary Booth | 2/16 | clean | `unknown` | - |
 | Balcony | 3/16 | clean | `e795f32` | - |
@@ -22,7 +22,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Conference Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Corridor Junction | 3/16 | low | `e795f32` | - |
 | Course Control | 5/16 | low | `68f90e8` | - |
-| Courtyard | 1/16 | clean | `e795f32` | - |
+| Courtyard | 1/16 | clean | `128cae8` | - |
 | Crag | 2/16 | clean | `unknown` | - |
 | Deck Eight | 1/16 | low | `unknown` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
@@ -47,13 +47,13 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Middle of Strip | 1/16 | clean | `unknown` | - |
 | Miniaturization Booth | 6/16 | low | `unknown` | - |
 | Physical Plant | 5/16 | low | `unknown` | - |
-| Plain Hall | 1/16 | clean | `e795f32` | - |
+| Plain Hall | 1/16 | clean | `128cae8` | - |
 | Planetary Defense | 6/16 | medium | `e795f32` | - |
 | ProjCon Office | 3/16 | clean | `e795f32` | - |
 | Project Corridor | 2/16 | clean | `unknown` | - |
 | Project Corridor East | 1/16 | low | `68f90e8` | - |
 | Project Corridor West | 1/16 | clean | `unknown` | - |
-| Reactor Lobby | 6/16 | low | `e795f32` | - |
+| Reactor Lobby | 6/16 | low | `128cae8` | - |
 | Rec Area | 3/16 | clean | `e795f32` | - |
 | Rec Corridor | 2/16 | low | `unknown` | - |
 | Repair Room | 5/16 | low | `unknown` | - |
@@ -68,7 +68,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Systems Corridor | 1/16 | clean | `68f90e8` | - |
 | Systems Corridor East | 1/16 | clean | `68f90e8` | - |
 | Systems Corridor West | 2/16 | clean | `unknown` | - |
-| Underwater | 1/16 | clean | `e795f32` | - |
+| Underwater | 1/16 | clean | `128cae8` | - |
 | Upper Elevator | 6/16 | low | `unknown` | - |
 | Waiting Area | 5/16 | low | `unknown` | - |
 | West Wing | 0/16 | clean | `-` | - |  ⬅ untouched

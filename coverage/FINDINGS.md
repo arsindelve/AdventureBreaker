@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-23T16:24:23Z · 85 finding(s)_
+_Generated 2026-07-24T13:57:39Z · 85 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -72,7 +72,7 @@ Confirmed live on prod (session floyd-hunt8, continuous single session, no resto
 
 Machine Shop chemical dispenser: the two white buttons the room labels 'BAAS' (base, square) and 'ASID' (acid, round) can only be pressed by SHAPE (press square/round button), not by their printed labels. 'press acid button'/'press base button'/'press asid'/'press baas'/'press white button' all -> 'no effect' (quiet); with narrator ON, 'press acid button' FALSELY narrates 'the dispenser obliges by releasing a stream of liquid into the flask' while the flask stays empty. Both white buttons map to Click('clear') so base and acid are indistinguishable. 'white' is miswired to the brown button. Root cause: MachineShop.cs:97-109 noun switch (no acid/base/asid/baas cases; line 103 'brown button' or 'white' => Click('brown'); lines 106-107 both square+round => Click('clear')). Same false-narration pattern as AB-058/#412, distinct instance. Also (god-mode artifact, NOT a bug): 'set laser to N' gave no effect under a god-mode-contaminated laser; spine confirms it works in normal play.
 
-## AB-081 [HIGH] Disambiguation 'Which X do you mean?' is unanswerable in prod — pending DisambiguationProcessor not persisted across stateless per-request boundary  · _filed#472_
+## AB-081 [HIGH] Disambiguation 'Which X do you mean?' is unanswerable in prod — pending DisambiguationProcessor not persisted across stateless per-request boundary  · _fixed#472_
 
 - game `planetfall` · area `Engine / disambiguation (all games)` · category `disambiguation-unanswerable` · target_sha `e795f32`
 - command: `examine bedistor; good bedistor`
@@ -310,7 +310,7 @@ AdminCorridorSouth.cs:68-77 RespondToMultiNounInteraction returns 'You don't hav
 
 Laser.cs has CanOnlyHoldTheseTypes=[BatteryBase] but no SpaceForItems override -> ContainerBase default 2; batteries are Size 1, so HaveRoomForItem admits a second. Prod-confirmed: put old battery in laser, put fresh battery in laser both 'resting in the depression'; inventory lists 'The laser contains: An old battery, A new battery'. TryFireLaser reads Items.FirstOrDefault (old, depleted in real play) so inserting fresh without removing old leaves the laser non-functional. Fix: SpaceForItems => 1. Sibling of #434 (same item, examine hardcode).
 
-## AB-077 [MEDIUM] Metal cube socket accepts a 2nd bedistor: good bedistor drops in beside the fused one, 'fixing' course control with the broken part still socketed (pliers step skipped)  · _filed#462_
+## AB-077 [MEDIUM] Metal cube socket accepts a 2nd bedistor: good bedistor drops in beside the fused one, 'fixing' course control with the broken part still socketed (pliers step skipped)  · _fixed#462_
 
 - game `planetfall` · area `Course Control (LargeMetalCube)` · category `container-capacity` · target_sha `e795f32`
 - command: `put fused bedistor in cube; put good bedistor in cube`
@@ -331,7 +331,7 @@ CommRoom.cs PourLiquid (~L54) has NO guard on SystemIsCritical/IsFixed; Permanen
 
 ShuttleCarBetty.cs:17 reads AlfieControlEast.TunnelPosition (Alfie's control) to pick Lawanda/Kalamontee; should read BettyControlEast. Cars move independently; AlfieControlEast.Arrived resets only West so East stays non-zero after a trip. Prod e795f32: nudge Alfie East off 0, board Betty at Lawanda, exit north -> Kalamontee Platform (wrong, no ride). Alfie's own exit (ShuttleCarAlfie.cs:17) correctly reads AlfieControlEast. Copy-paste wiring error. Related #461. ZIL-independent.
 
-## AB-080 [MEDIUM] FlaskUnderSpout set once, never reset: after taking the flask back, room still shows it under the spout and pressing a button fills the flask in-hand  · _filed#469_
+## AB-080 [MEDIUM] FlaskUnderSpout set once, never reset: after taking the flask back, room still shows it under the spout and pressing a button fills the flask in-hand  · _fixed#469_
 
 - game `planetfall` · area `Machine Shop (flask/spout)` · category `state-flag-not-reset` · target_sha `e795f32`
 - command: `put flask under spout; take flask; look; press red button`
@@ -512,14 +512,14 @@ EscapePod.cs:50 (seated) & :53 (standing) MatchVerb([get,rest,sit] / [leave,exit
 
 ElevatorBase.cs:162 GetContextBasedDescription hardcodes '...which is open' ignoring GetItem<TDoor>().IsOpen, which Move() (:124) sets false when the car departs. Prod 68f90e8 (Lower Elevator): 'press up button'->'The elevator door slides shut...movement.'; 'look'->'...sliding door to the north which is open.'; 'examine lower elevator door'->'The door is closed.' Contradiction persists ~3 moving turns (reopens at TurnsSinceMoving==4). Affects both cars (shared base). Sibling of #438 (MessHall) / #430; RecArea.cs:61 is the correct interpolated pattern. god-mode used only to reach the car; contradiction is Move()-driven. Anti-pattern #6. ZIL-independent.
 
-## AB-076 [LOW] Shuttle Car Betty cabin says platform doorway is 'south' but the exit is Direction.N (north) — 'go south' fails  · _filed#461_
+## AB-076 [LOW] Shuttle Car Betty cabin says platform doorway is 'south' but the exit is Direction.N (north) — 'go south' fails  · _fixed#461_
 
 - game `planetfall` · area `Shuttle Car Betty` · category `hardcoded-description-vs-state` · target_sha `e795f32`
 - command: `god mode go lawanda platform; north; south`
 
 ShuttleCabin.cs:17 renders '...platform to the {Exit}'; ShuttleCarBetty.cs:7 Exit='south' but Map:16 wires the platform exit to Direction.N. Prod e795f32: board Betty via 'north' from Lawanda Platform; cabin says 'platform to the south'; 'south'->'You cannot go that way.'; 'north'->Lawanda Platform. Platform maps N->Betty so platform is genuinely south of Betty => description correct, Map direction (N) is the bug (should be Direction.S). Alfie is the consistent control (Exit='north' + Direction.N). Non-Euclidean north-to-board + north-to-leave. Anti-pattern #4. ZIL-independent internal contradiction.
 
-## AB-082 [LOW] Three connector rooms drop first-visit description: BeforeEnterLocation returns transition text without base (VisitCount never increments)  · _filed#473_
+## AB-082 [LOW] Three connector rooms drop first-visit description: BeforeEnterLocation returns transition text without base (VisitCount never increments)  · _fixed#473_
 
 - game `planetfall` · area `Kalamontee corridors (Dorm/Junction/Admin)` · category `lifecycle-base-not-called` · target_sha `e795f32`
 - command: `god mode go corridor junction; west; look`
@@ -533,14 +533,14 @@ DormCorridor.cs:24, CorridorJunction.cs:39, AdminCorridor.cs:45 early-return the
 
 BioLockEast.cs:28-30 returns the card sentence unconditionally (no state guard). Original globals.zil WINDOW-F guards it on <NOT <FSET? MINI-CARD TOUCHBIT>>, omitting it once the card is taken. Reproduced live on prod e795f32: card confirmed in inventory (read miniaturization card) while window still says it is on the floor. Distinct from #423 (through-parsing). Same class as #438.
 
-## AB-084 [LOW] Lab uniform pocket seeded with 2 items but SpaceForItems=1 (cannot re-insert a removed item)  · _filed#478_
+## AB-084 [LOW] Lab uniform pocket seeded with 2 items but SpaceForItems=1 (cannot re-insert a removed item)  · _fixed#478_
 
 - game `planetfall` · area `Lab Storage (lab uniform pocket)` · category `container-capacity` · target_sha `e795f32`
 - command: `put teleportation card in lab pocket`
 
 LabUniformPocket.cs:10 SpaceForItems=>1 but Init (:25-29) seeds TeleportationAccessCard + PieceOfPaper (both size 1). ContainerBase.HaveRoomForItem (:107) size-sum <= 1 rejects the 2nd. ContainerBase default is 2; the =>1 override is the bug (copied from PatrolUniformPocket which seeds 1). ZIL comptwo.zil:1657 original holds both. Reproduced live prod e795f32.
 
-## AB-085 [LOW] Shuttle cabin "station ahead" window view is dead code (gated on unreachable TunnelPosition 190/195; should be 23)  · _filed#479_
+## AB-085 [LOW] Shuttle cabin "station ahead" window view is dead code (gated on unreachable TunnelPosition 190/195; should be 23)  · _fixed#479_
 
 - game `planetfall` · area `Shuttle control cabin (window view)` · category `dead-code-threshold` · target_sha `e795f32`
 - command: `look (in shuttle control cabin at tunnel position 23)`
