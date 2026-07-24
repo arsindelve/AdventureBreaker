@@ -44,7 +44,7 @@ session that merely *adopts* the identity to read a checkpoint.
 | `ed97022e-f237-4c0a-8b92-a4738cbb3348` | `kalamontee-preshuttle` | Kalamontee Platform | Pre-shuttle, all elevators done, Floyd present, wander disabled. Board Alfie (S), `god mode reset time`, slide shuttle card, drive to Lawanda. |
 | `8a671f3b-9b4d-49ae-b11b-61c02c2611c6` | `lawanda-arrival` | Lawanda Platform | Post-shuttle (coolant/Tower detour skipped — safe, nothing later needs it), Floyd present, score 32. Spine-resume point = step 204. |
 | `72349f45-b175-4f0d-a620-5ad5ea1e5bff` | `biolock-east-arrived` | Bio Lock East | First arrival at the sacrifice room, Floyd present+on, mini card visible through the window (`examine window`). |
-| `3fa32db0-9310-4beb-a634-cb80a977f837` | `biolock-presacrifice` | Bio Lock East | **Reproduces AB-086 / zorkai#493.** Floyd present+on, Computer-Room concern set, mini card in the lab. `wait` never produces `NeedToGetCard`; `open door` → instant death. Restore here to verify the sacrifice/StateMachine-serialization fix. |
+| `3fa32db0-9310-4beb-a634-cb80a977f837` | `biolock-presacrifice` | Bio Lock East | AB-086 / zorkai#493 — **fixed in 2.0.5 (PR #495)** and verified: restoring here on 2.0.5, Floyd now offers his plan and open/close/wait/open/close completes the sacrifice (+2, `take mini card` → Taken; window then omits the card, confirming #477's after-state). On 2.0.4 the state machine was silent forever and `open door` → death. Kept as the fast re-test path. |
 
 _Note: `lawanda-arrival` skips the Tower coolant puzzle, so its score (32) runs ~10 below
 the golden walkthrough — cosmetic; no later step depends on the coolant/distress state.
