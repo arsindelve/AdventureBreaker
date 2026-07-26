@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-26T15:18:18Z · 94 finding(s)_
+_Generated 2026-07-26T16:18:53Z · 97 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -78,6 +78,13 @@ Machine Shop chemical dispenser: the two white buttons the room labels 'BAAS' (b
 - command: `examine bedistor; good bedistor`
 
 GameEngine.cs:54 _processorInProgress is an in-memory field (set :908), never serialized into session state (grep: no save/restore). Deployed game is stateless (base64 session, engine rebuilt per request) so the pending disambiguation is null on the answer request -> answer parsed as fresh command. Prod e795f32: 'examine bedistor' prompts, then good/good bedistor/good ninety-ohm bedistor all -> 'no effect'; cards: id/id card/kitchen access card fail, kitchen/shuttle -> movement hijack. Control: white-button 'square' identical with/without prompt (processor never consulted). Direct full command works. Affects cards/bedistors/megafuses/'it'-clarification, both games. Fix: persist pending disambiguation in session. ZIL-independent.
+
+## AB-095 [HIGH] SPECK object never ported: 'shoot speck with laser' (canonical solve + walkthrough tests' own command) fails in prod with 'You don't see any speck here.'  · _filed#517_
+
+- game `planetfall` · area `Strip Near Relay (MECH:computer-repair)` · category `parser-pronoun` · target_sha `42fbf0d`
+- command: `god mode go strip near relay; god mode take laser; examine relay; shoot speck with laser`
+
+Relay description names the speck/impurity/blue boulder; all three nouns unresolvable in prod. Only 'shoot relay with laser' works. Masked in CI by base-mappings.json:320-321 which rewrites nounOne speck->relay, so WalkthroughTestOne.cs:348/350 pass while prod fails (same shape as #423).
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
@@ -366,6 +373,13 @@ Planetfall/Location/Kalamontee/ElevatorLobby.cs:76-80 GetContextBasedDescription
 
 look reports 'A closed door to the west' while exits=['S','W'], 'examine door' says open, and the room's own M-END text says 'Through the open doorway'. LabOffice.cs:11-19 GetContextBasedDescription is a plain literal; Map() and OfficeDoor.ExaminationDescription both use the live flag.
 
+## AB-096 [MEDIUM] Helipad has no Scenery at all: vehicle/helicopter, fence, staircase, rotor blades all unrecognized; 'enter vehicle' fails while 'enter helicopter' works  · _filed#519_
+
+- game `planetfall` · area `Helipad (Tower)` · category `examine-scenery` · target_sha `42fbf0d`
+- command: `god mode go helipad; look; examine helicopter; examine fence; examine staircase; examine rotor blades; fly helicopter; enter vehicle`
+
+All four nouns in the room's own description return the no-effect sentinel. Sibling Helicopter.cs (interior) DOES define Scenery + examine controls, so the pattern was understood and the Helipad missed. ZIL attaches HELICOPTER-OBJECT and STAIRS as local-globals and FENCE as a pseudo.
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -609,6 +623,13 @@ Prod returns 'The card clicks neatly into the socket. The card clicks neatly int
 - command: `god mode go infirmary; take bottle; open bottle; look in bottle; drink medicine; look in bottle; i`
 
 look in/look inside bottle returns the label both before and after drinking; 'i' proves the bottle is empty. Control: 'look in cube' correctly lists contents, so look-in works engine-wide. NOTE: 'examine bottle' returning the label IS faithful (V-EXAMINE prefers P?TEXT); only the look-in route diverges.
+
+## AB-097 [LOW] Teleporting leaves booth-floor items behind: BoothBase.Go<T> moves only player+Floyd; ZIL TELEPORT does <ROB ,HERE .BOOTH>  · _filed#520_
+
+- game `planetfall` · area `Teleportation booths (MECH:booth-teleport)` · category `take-drop-scope` · target_sha `42fbf0d`
+- command: `god mode take teleportation; god mode go booth 1; push beige button; drop brush; slide teleportation card through slot; push brown button; look`
+
+Brush dropped in Booth 2 stays there after teleporting to Booth 1 (actions@loc shows only the slot). Booth 3 is in Lawanda vs Booths 1/2 in Kalamontee, so items can be stranded across the shuttle. Also noted in issue: stray backslash-n mid-sentence in BoothOne.cs:25 and BoothTwo.cs:20 renders as a line break on prod.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
