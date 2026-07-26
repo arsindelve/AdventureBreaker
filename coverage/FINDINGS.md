@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-26T01:50:20Z · 88 finding(s)_
+_Generated 2026-07-26T02:25:16Z · 91 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -345,6 +345,20 @@ MachineShop.cs FlaskUnderSpout written true only at :44 (put-under-spout handler
 
 GameEngine/Item/ItemProcessor/TakeOrDropInteractionProcessor.cs:144-170 GetItemsToTake delegates noun->item resolution to the AI list-parser scoped to the room description, then acts on a single returned candidate with no check that it matches the noun the player typed. With one takeable item present the parser returns it for any noun. Zero and 2+ candidates behave correctly only incidentally. GetItemsToDrop has the same shape. NOT TakeOnlyAvailableItemProcessor - that path echoes the chosen item.
 
+## AB-089 [MEDIUM] Sliding an access card fails silently when the card is in a carried container (SlotBase HasItem<T> is top-level only)  · _filed#503_
+
+- game `planetfall` · area `MECH:access-cards / SlotBase (all six card devices)` · category `MECH:access-cards` · target_sha `b8dc239`
+- command: `put kitchen access card in pocket ; slide kitchen access card through slot`
+
+Planetfall/Item/Kalamontee/Admin/SlotBase.cs:45-46 gates the success path on context.HasItem<TAccessCard>(), which is Items.OfType<T>().Any() (GameEngine/Context.cs:294-297) - top level only. The wrong-card branch at SlotBase.cs:67 uses context.HasMatchingNoun(...) which defaults lookInsideContainers:true. The two possession checks in one method disagree; the stricter one guards the path that matters. Falls through to NoNounMatchInteractionResult -> narrator, so the failure is silent.
+
+## AB-091 [MEDIUM] Elevator Lobby description and 'examine door' report the raw door flag: lobby says a door is open while going that way answers 'The door is closed.'  · _filed#505_
+
+- game `planetfall` · area `Elevator Lobby (MECH:elevators)` · category `examine-scenery` · target_sha `b8dc239`
+- command: `press blue button ; ride upper elevator to Tower Core ; return to lobby ; look ; n`
+
+Planetfall/Location/Kalamontee/ElevatorLobby.cs:76-80 GetContextBasedDescription uses only Door.IsOpen, while Map (:26-43, added by #456) requires IsOpen && InLobby - and its own comment says the shared door flag cannot say which floor the car is on. ElevatorBase.cs:62-64 sets InLobby=!InLobby AND IsOpen=true on arrival, so a car parked at its far end leaves the flag open with the car away. The 'also' clause and ElevatorDoorBase.ExaminationDescription share the same raw-flag defect. Third surface of the split fixed one side at a time by #450 and #456.
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -567,6 +581,13 @@ Planetfall/Location/Kalamontee/Dorm/SanfacBase.cs:9 declares a second 'SanfacBas
 - command: `set dial to <code> ; look`
 
 Planetfall/Location/Kalamontee/RecArea.cs:59-63 interpolates the door open/closed word conditionally but concatenates 'A dial on the door is currently set to {Door.Code}.' outside the conditional. ZIL compone.zil:214-226 puts the dial clause inside the closed (T) branch only. Same family as #438 but the earlier fix would not catch it - the door word is already correct, the clause boundary is wrong.
+
+## AB-090 [LOW] examine machine never mentions the canteen resting in the niche; contradicts the room listing in the same turn  · _filed#504_
+
+- game `planetfall` · area `Kitchen (dispenser unit)` · category `examine-scenery` · target_sha `b8dc239`
+- command: `put canteen in niche ; look ; examine machine`
+
+Planetfall/Item/Kalamontee/KitchenMachine.cs:15-17 ExaminationDescription is a plain constant with no reference to Items, while GenericDescription (:19-22) interpolates them correctly - so 'look' reports the canteen and 'examine machine' does not. IsTransparent=true is set, and 'look in niche'/'examine niche' route to the same constant, so no phrasing reveals the contents. Same family as #438.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 

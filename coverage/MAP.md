@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-26T01:50:38Z · target_sha `b8dc239`_
+_Generated 2026-07-26T02:25:16Z · target_sha `b8dc239`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -24,10 +24,10 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Course Control | 5/16 | low | `68f90e8` | - |
 | Courtyard | 3/16 | clean | `b8dc239` | - |
 | Crag | 3/16 | clean | `b8dc239` | - |
-| Deck Eight | 1/16 | low | `unknown` | - |
+| Deck Eight | 3/16 | low | `b8dc239` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
 | Dorm Corridor | 2/16 | clean | `e795f32` | - |
-| Elevator Lobby | 3/16 | low | `unknown` | - |
+| Elevator Lobby | 3/16 | low | `b8dc239` | - |
 | Escalator | 1/16 | clean | `68f90e8` | - |
 | Escape Pod | 5/16 | low | `unknown` | - |
 | Fork | 3/16 | clean | `unknown` | - |
@@ -36,13 +36,13 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Infirmary | 6/16 | clean | `b8dc239` | - |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
-| Kitchen | 6/16 | medium | `68f90e8` | AB-063 |
+| Kitchen | 7/16 | medium | `b8dc239` | AB-063 |
 | Lawanda Platform | 2/16 | clean | `e795f32` | - |
 | Library | 5/16 | low | `68f90e8` | AB-060 |
 | Library Lobby | 3/16 | low | `68f90e8` | - |
 | Lower Elevator | 5/16 | low | `unknown` | - |
 | Machine Shop | 6/16 | high | `68f90e8` | AB-061 |
-| Mess Corridor | 4/16 | low | `unknown` | - |
+| Mess Corridor | 5/16 | low | `b8dc239` | - |
 | Mess Hall | 6/16 | low | `unknown` | AB-072 |
 | Middle of Strip | 1/16 | clean | `unknown` | - |
 | Miniaturization Booth | 6/16 | low | `unknown` | - |
@@ -69,7 +69,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Systems Corridor East | 1/16 | clean | `68f90e8` | - |
 | Systems Corridor West | 2/16 | clean | `unknown` | - |
 | Underwater | 3/16 | clean | `b8dc239` | - |
-| Upper Elevator | 6/16 | low | `unknown` | - |
+| Upper Elevator | 6/16 | low | `b8dc239` | - |
 | Waiting Area | 5/16 | low | `unknown` | - |
 | West Wing | 0/16 | clean | `-` | - |  ⬅ untouched
 | Winding Stair | 3/16 | clean | `b8dc239` | - |
