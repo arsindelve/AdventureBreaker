@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-26T02:25:16Z · target_sha `b8dc239`_
+_Generated 2026-07-26T15:18:26Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -38,7 +38,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 7/16 | medium | `b8dc239` | AB-063 |
 | Lawanda Platform | 2/16 | clean | `e795f32` | - |
-| Library | 5/16 | low | `68f90e8` | AB-060 |
+| Library | 5/16 | low | `189edc2` | AB-060 |
 | Library Lobby | 3/16 | low | `68f90e8` | - |
 | Lower Elevator | 5/16 | low | `unknown` | - |
 | Machine Shop | 6/16 | high | `68f90e8` | AB-061 |
@@ -48,7 +48,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Miniaturization Booth | 6/16 | low | `unknown` | - |
 | Physical Plant | 5/16 | low | `unknown` | - |
 | Plain Hall | 3/16 | clean | `b8dc239` | - |
-| Planetary Defense | 6/16 | medium | `e795f32` | - |
+| Planetary Defense | 6/16 | medium | `189edc2` | - |
 | ProjCon Office | 3/16 | clean | `e795f32` | - |
 | Project Corridor | 2/16 | clean | `unknown` | - |
 | Project Corridor East | 1/16 | low | `68f90e8` | - |

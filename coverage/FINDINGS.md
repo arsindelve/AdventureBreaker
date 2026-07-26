@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-26T02:25:16Z · 91 finding(s)_
+_Generated 2026-07-26T15:18:18Z · 94 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -359,6 +359,13 @@ Planetfall/Item/Kalamontee/Admin/SlotBase.cs:45-46 gates the success path on con
 
 Planetfall/Location/Kalamontee/ElevatorLobby.cs:76-80 GetContextBasedDescription uses only Door.IsOpen, while Map (:26-43, added by #456) requires IsOpen && InLobby - and its own comment says the shared door flag cannot say which floor the car is on. ElevatorBase.cs:62-64 sets InLobby=!InLobby AND IsOpen=true on arrival, so a car parked at its far end leaves the flag open with the car away. The 'also' clause and ElevatorDoorBase.ExaminationDescription share the same raw-flag defect. Third surface of the split fixed one side at a time by #450 and #456.
 
+## AB-092 [MEDIUM] Lab Office description hardcodes 'A closed door to the west' — never reflects OfficeDoor.IsOpen; ZIL branches on OPENBIT  · _filed#512_
+
+- game `planetfall` · area `Lab Office (Lawanda endgame)` · category `examine-scenery` · target_sha `189edc2`
+- command: `god mode go lab office; press red button; open door; look; examine door`
+
+look reports 'A closed door to the west' while exits=['S','W'], 'examine door' says open, and the room's own M-END text says 'Through the open doorway'. LabOffice.cs:11-19 GetContextBasedDescription is a plain literal; Map() and OfficeDoor.ExaminationDescription both use the live flag.
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -588,6 +595,20 @@ Planetfall/Location/Kalamontee/RecArea.cs:59-63 interpolates the door open/close
 - command: `put canteen in niche ; look ; examine machine`
 
 Planetfall/Item/Kalamontee/KitchenMachine.cs:15-17 ExaminationDescription is a plain constant with no reference to Items, while GenericDescription (:19-22) interpolates them correctly - so 'look' reports the canteen and 'examine machine' does not. IsTransparent=true is set, and 'look in niche'/'examine niche' route to the same constant, so no phrasing reveals the contents. Same family as #438.
+
+## AB-093 [LOW] Installing shiny fromitz board prints 'The card clicks neatly into the socket.' twice — shiny branch re-appends the base sentence  · _filed#513_
+
+- game `planetfall` · area `Planetary Defense (MECH:reactor-fromitz)` · category `puzzle-step` · target_sha `189edc2`
+- command: `god mode go planetary defense; open panel; take second fromitz board; god mode take shiny; put shiny fromitz board in panel`
+
+Prod returns 'The card clicks neatly into the socket. The card clicks neatly into the socket. The warning lights stop flashing.' on the scored solve step (+6, score 0->6). ZIL calls PUT-BOARD once then appends only the warning-lights clause. Sibling LargeMetalCube.ItemPlacedHereResult does it correctly.
+
+## AB-094 [LOW] look in bottle prints the label instead of contents — full and empty bottle give identical output (ExaminationDescription => ReadDescription)  · _filed#514_
+
+- game `planetfall` · area `Infirmary (medicine bottle)` · category `container` · target_sha `189edc2`
+- command: `god mode go infirmary; take bottle; open bottle; look in bottle; drink medicine; look in bottle; i`
+
+look in/look inside bottle returns the label both before and after drinking; 'i' proves the bottle is empty. Control: 'look in cube' correctly lists contents, so look-in works engine-wide. NOTE: 'examine bottle' returning the label IS faithful (V-EXAMINE prefers P?TEXT); only the look-in route diverges.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
