@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-23T16:12:15Z · target_sha `e795f32`_
+_Generated 2026-07-26T01:50:38Z · target_sha `b8dc239`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -8,22 +8,22 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 
 | Area | Covered | Worst | Last sha | Findings |
 |---|---|---|---|---|
-| Alfie Control East | 4/16 | low | `e795f32` | - |
+| Alfie Control East | 5/16 | low | `e795f32` | - |
 | Alfie Control West | 2/16 | clean | `unknown` | - |
 | Auxiliary Booth | 2/16 | clean | `unknown` | - |
-| Balcony | 3/16 | clean | `e795f32` | - |
+| Balcony | 5/16 | clean | `b8dc239` | - |
 | Betty Control East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Betty Control West | 0/16 | clean | `-` | - |  ⬅ untouched
-| Booth 1 | 1/16 | clean | `68f90e8` | - |
-| Booth 2 | 4/16 | low | `unknown` | - |
+| Booth 1 | 5/16 | clean | `b8dc239` | - |
+| Booth 2 | 5/16 | low | `b8dc239` | - |
 | Booth 3 | 4/16 | low | `68f90e8` | - |
 | Brig | 6/16 | high | `e795f32` | - |
 | Computer Room | 6/16 | low | `unknown` | - |
-| Conference Room | 0/16 | clean | `-` | - |  ⬅ untouched
+| Conference Room | 4/16 | clean | `b8dc239` | - |
 | Corridor Junction | 3/16 | low | `e795f32` | - |
 | Course Control | 5/16 | low | `68f90e8` | - |
-| Courtyard | 1/16 | clean | `e795f32` | - |
-| Crag | 2/16 | clean | `unknown` | - |
+| Courtyard | 3/16 | clean | `b8dc239` | - |
+| Crag | 3/16 | clean | `b8dc239` | - |
 | Deck Eight | 1/16 | low | `unknown` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
 | Dorm Corridor | 2/16 | clean | `e795f32` | - |
@@ -33,7 +33,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Fork | 3/16 | clean | `unknown` | - |
 | Gangway | 4/16 | low | `unknown` | - |
 | In Bed | 4/16 | clean | `68f90e8` | - |
-| Infirmary | 2/16 | clean | `unknown` | - |
+| Infirmary | 6/16 | clean | `b8dc239` | - |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 6/16 | medium | `68f90e8` | AB-063 |
@@ -47,14 +47,14 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Middle of Strip | 1/16 | clean | `unknown` | - |
 | Miniaturization Booth | 6/16 | low | `unknown` | - |
 | Physical Plant | 5/16 | low | `unknown` | - |
-| Plain Hall | 1/16 | clean | `e795f32` | - |
+| Plain Hall | 3/16 | clean | `b8dc239` | - |
 | Planetary Defense | 6/16 | medium | `e795f32` | - |
 | ProjCon Office | 3/16 | clean | `e795f32` | - |
 | Project Corridor | 2/16 | clean | `unknown` | - |
 | Project Corridor East | 1/16 | low | `68f90e8` | - |
 | Project Corridor West | 1/16 | clean | `unknown` | - |
 | Reactor Lobby | 6/16 | low | `e795f32` | - |
-| Rec Area | 3/16 | clean | `e795f32` | - |
+| Rec Area | 5/16 | low | `b8dc239` | - |
 | Rec Corridor | 2/16 | low | `unknown` | - |
 | Repair Room | 5/16 | low | `unknown` | - |
 | Robot Shop | 5/16 | clean | `unknown` | - |
@@ -68,11 +68,11 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Systems Corridor | 1/16 | clean | `68f90e8` | - |
 | Systems Corridor East | 1/16 | clean | `68f90e8` | - |
 | Systems Corridor West | 2/16 | clean | `unknown` | - |
-| Underwater | 1/16 | clean | `e795f32` | - |
+| Underwater | 3/16 | clean | `b8dc239` | - |
 | Upper Elevator | 6/16 | low | `unknown` | - |
 | Waiting Area | 5/16 | low | `unknown` | - |
 | West Wing | 0/16 | clean | `-` | - |  ⬅ untouched
-| Winding Stair | 2/16 | clean | `e795f32` | - |
+| Winding Stair | 3/16 | clean | `b8dc239` | - |
 | MECH:floyd-conversation | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-follow-wander | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:floyd-scenes | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -84,7 +84,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | MECH:bio-lock | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:miniaturization | 1/16 | low | `unknown` | AB-045 |
 | MECH:survival-hunger-thirst | 0/16 | clean | `-` | - |  ⬅ untouched
-| MECH:survival-sleep | 0/16 | clean | `-` | - |  ⬅ untouched
+| MECH:survival-sleep | 1/16 | clean | `b8dc239` | - |
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:death-resurrection | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:get-post-parity | 0/16 | clean | `-` | - |  ⬅ untouched
