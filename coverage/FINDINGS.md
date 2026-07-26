@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-23T16:24:23Z · 85 finding(s)_
+_Generated 2026-07-26T01:50:20Z · 88 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -338,6 +338,13 @@ ShuttleCarBetty.cs:17 reads AlfieControlEast.TunnelPosition (Alfie's control) to
 
 MachineShop.cs FlaskUnderSpout written true only at :44 (put-under-spout handler), never set false anywhere (grep-confirmed); Flask.cs has no OnBeingTaken. So flag sticks true. Prod e795f32: put flask under spout -> take flask -> look still 'Sitting under the spout is a glass flask' while flask in inventory; press red button -> 'flask fills with red' in-hand (Click :162 gates on flag not flask position; desc :183 same). Reachable in normal play (put then take). Fix: reset flag on take, or check flask.CurrentLocation is MachineShop. ZIL-independent.
 
+## AB-088 [MEDIUM] take <unresolvable noun> silently takes the room's only takeable item and reports a bare 'Taken.'  · _filed#502_
+
+- game `planetfall` · area `Engine / take resolution (all games)` · category `take-drop-scope` · target_sha `b8dc239`
+- command: `take xyzzy (in a room with exactly one takeable item)`
+
+GameEngine/Item/ItemProcessor/TakeOrDropInteractionProcessor.cs:144-170 GetItemsToTake delegates noun->item resolution to the AI list-parser scoped to the room description, then acts on a single returned candidate with no check that it matches the noun the player typed. With one takeable item present the parser returns it for any noun. Zero and 2+ candidates behave correctly only incidentally. GetItemsToDrop has the same shape. NOT TakeOnlyAvailableItemProcessor - that path echoes the chosen item.
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -546,6 +553,20 @@ LabUniformPocket.cs:10 SpaceForItems=>1 but Init (:25-29) seeds TeleportationAcc
 - command: `look (in shuttle control cabin at tunnel position 23)`
 
 ShuttleControl.cs:75-81 OutTheWindow gates the "brightly-lit station ahead" view on TunnelPosition==190 or 195, but TunnelPosition runs 0..24 (EndOfTunnel=24), so it is unreachable. Original globals.zil:1701 DESCRIBE-VIEW shows it at SHUTTLE-COUNTER==23 (moving); the C# landmark table already uses 23. Reproduced live prod e795f32 by driving Alfie to pos 23.
+
+## AB-086 [LOW] Two rival SanfacBase classes split the Sanfacs: A-D lost bathroom/restroom/toilet navigation synonyms, E/F lost the fixtures scenery  · _filed#500_
+
+- game `planetfall` · area `Sanfac A-F (SanfacBase namespace shadowing)` · category `parser-pronoun` · target_sha `b8dc239`
+- command: `go to bathroom (from Dorm A) / examine fixtures (at SanFac E)`
+
+Planetfall/Location/Kalamontee/Dorm/SanfacBase.cs:9 declares a second 'SanfacBase' in the same namespace as SanfacA-D, extending LocationWithNoStartingItems instead of Planetfall.Location.SanfacBase:10. C# binds the nearer type, so A-D never inherit NounsForMatching=[bathroom,restroom,washroom,toilet] (issue #268) and E/F never inherit the fixtures SceneryItem (issue #315). Complementary halves, one root cause.
+
+## AB-087 [LOW] Rec Area description keeps reporting the combination dial after the conference door is open (original drops that clause once open)  · _filed#501_
+
+- game `planetfall` · area `Rec Area (conference door dial)` · category `examine-scenery` · target_sha `b8dc239`
+- command: `set dial to <code> ; look`
+
+Planetfall/Location/Kalamontee/RecArea.cs:59-63 interpolates the door open/closed word conditionally but concatenates 'A dial on the door is currently set to {Door.Code}.' outside the conditional. ZIL compone.zil:214-226 puts the dial clause inside the closed (T) branch only. Same family as #438 but the earlier fix would not catch it - the door word is already correct, the clause boundary is wrong.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
