@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-26T16:18:53Z · 97 finding(s)_
+_Generated 2026-07-26T16:34:45Z · 98 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -379,6 +379,13 @@ look reports 'A closed door to the west' while exits=['S','W'], 'examine door' s
 - command: `god mode go helipad; look; examine helicopter; examine fence; examine staircase; examine rotor blades; fly helicopter; enter vehicle`
 
 All four nouns in the room's own description return the no-effect sentinel. Sibling Helicopter.cs (interior) DOES define Scenery + examine controls, so the pattern was understood and the Helipad missed. ZIL attaches HELICOPTER-OBJECT and STAIRS as local-globals and FENCE as a pseudo.
+
+## AB-098 [MEDIUM] Floyd conversationally denies he can give back/drop an item he's holding; take <item> already works  · _filed#521_
+
+- game `planetfall` · area `Mech Corridor (Floyd conversation)` · category `npc-conversation` · target_sha `95e610d`
+- command: `activate floyd; give brush to floyd; floyd, give me the brush; floyd, drop the brush; take brush`
+
+give brush to floyd -> he holds it. 'floyd, give me the brush' / 'floyd, drop the brush' both decline in-character, the second asserting he 'cannot drop things' as a general claim. 'take brush' (direct command) succeeds instantly, proving the claim false. Root cause: Floyd.OnBeingTalkedTo routes conversation straight to the external chat service with no visibility into Floyd.ItemBeingHeld or the take-from-Floyd mechanic; only the Repair Room bridges conversational intent to real state changes (fromitz board fetch, small door), via FloydLocationBehaviors.cs. Scope: specifically the give-back/drop-held-item case, not a request for every conversational Floyd command to map to a mechanic -- 'open yourself'/'shut yourself down' are reasonable to decline in-character and were NOT filed.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
