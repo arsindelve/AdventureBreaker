@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-26T16:34:45Z · 98 finding(s)_
+_Generated 2026-07-28T00:47:22Z · 101 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -85,6 +85,13 @@ GameEngine.cs:54 _processorInProgress is an in-memory field (set :908), never se
 - command: `god mode go strip near relay; god mode take laser; examine relay; shoot speck with laser`
 
 Relay description names the speck/impurity/blue boulder; all three nouns unresolvable in prod. Only 'shoot relay with laser' works. Masked in CI by base-mappings.json:320-321 which rewrites nounOne speck->relay, so WalkthroughTestOne.cs:348/350 pass while prod fails (same shape as #423).
+
+## AB-101 [HIGH] Chronometer advances flat 54/turn (original pod-trip-only rate): in-game day ~2.7x too short; shuttle locked out on canonical walkthrough route  · _filed#533_
+
+- game `planetfall` · area `MECH:shuttle-alfie-betty / chronometer clock rate` · category `puzzle-step` · target_sha `92a1e22`
+- command: `spine to Kalamontee Platform; S; E; slide shuttle access card through slot -> 'evening hours requires special authorization' at time=16758 on Day 1`
+
+PlanetfallContext.TurnTimeIncrement=54 is added unconditionally every turn. In ZIL, 54 applies only while the I-POD-TRIP interrupt is enabled; ordinary movement charges the room's per-direction C-MOVE cost (DEFAULT-MOVE=20) and timeless verbs cost 0. Threshold 6000 and the morning-reset table are both faithfully ported, so only the rate diverges. Day-1 budget is ~25 turns in the port vs ~70+ in the original. Walkthrough CI hides it via the test-only ResetTime hook at WalkthroughTestOne.cs:189 (added in #333). Recoverable by sleeping (ResetToMorning) but undiscoverable, and compounded by #392.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
@@ -386,6 +393,20 @@ All four nouns in the room's own description return the no-effect sentinel. Sibl
 - command: `activate floyd; give brush to floyd; floyd, give me the brush; floyd, drop the brush; take brush`
 
 give brush to floyd -> he holds it. 'floyd, give me the brush' / 'floyd, drop the brush' both decline in-character, the second asserting he 'cannot drop things' as a general claim. 'take brush' (direct command) succeeds instantly, proving the claim false. Root cause: Floyd.OnBeingTalkedTo routes conversation straight to the external chat service with no visibility into Floyd.ItemBeingHeld or the take-from-Floyd mechanic; only the Repair Room bridges conversational intent to real state changes (fromitz board fetch, small door), via FloydLocationBehaviors.cs. Scope: specifically the give-back/drop-held-item case, not a request for every conversational Floyd command to map to a mechanic -- 'open yourself'/'shut yourself down' are reasonable to decline in-character and were NOT filed.
+
+## AB-099 [MEDIUM] 'Crash shut' emergency bulkheads don't block Deck Nine Up/East; walking out causes a death the original prevents  · _filed#529_
+
+- game `planetfall` · area `Deck Nine (Feinstein explosion sequence)` · category `movement` · target_sha `92a1e22`
+- command: `new planetfall prod; wait x11; then 'east' (or 'up')`
+
+At TurnWhenFeinsteinBlowsUp+1 the game narrates both emergency bulkheads crashing shut, but DeckNine.Map uses unconditional Go<Gangway>()/Go<ReactorLobby>() with no gating item. CorridorDoor/GangwayDoor were never ported to C#. Player walks through the 'sealed' bulkhead and dies next turn. Control arm (wait) does not die, proving the death comes from leaving, not a timer.
+
+## AB-100 [MEDIUM] Death silently auto-restarts a fresh game instead of prompting RESTART/RESTORE/QUIT; player never gets a chance to RESTORE  · _filed#531_
+
+- game `planetfall` · area `MECH:death-resurrection (engine-wide)` · category `death` · target_sha `92a1e22`
+- command: `new planetfall prod; wait x11; east  (also: drown at Underwater; Crag->down)`
+
+On death the engine prints the death text + score + Gishen IV line, then immediately calls RestartAfterDeath, wiping Repository and Context and returning the new game's opening room in the SAME response. No prompt, no pause; the next command is processed as an ordinary command in the new game. Original ZIL FINISH blocks on a READ and branches RESTART/RESTORE/QUIT. Observed on 3 unrelated deaths, so it is the general death path. Complements open issue #206 (win side), whose premise that 'death already ends a run' is disproved.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 

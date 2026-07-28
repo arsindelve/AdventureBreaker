@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-26T16:35:17Z · target_sha `unknown`_
+_Generated 2026-07-28T00:47:50Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -20,10 +20,10 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Brig | 6/16 | high | `e795f32` | - |
 | Computer Room | 6/16 | low | `unknown` | - |
 | Conference Room | 4/16 | clean | `b8dc239` | - |
-| Corridor Junction | 3/16 | low | `e795f32` | - |
+| Corridor Junction | 4/16 | low | `unknown` | - |
 | Course Control | 5/16 | low | `68f90e8` | - |
 | Courtyard | 3/16 | clean | `b8dc239` | - |
-| Crag | 3/16 | clean | `b8dc239` | - |
+| Crag | 3/16 | clean | `unknown` | - |
 | Deck Eight | 3/16 | low | `b8dc239` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
 | Dorm Corridor | 2/16 | clean | `e795f32` | - |
@@ -46,7 +46,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Mess Hall | 6/16 | low | `unknown` | AB-072 |
 | Middle of Strip | 1/16 | clean | `unknown` | - |
 | Miniaturization Booth | 6/16 | low | `unknown` | - |
-| Physical Plant | 5/16 | low | `unknown` | - |
+| Physical Plant | 6/16 | low | `unknown` | - |
 | Plain Hall | 3/16 | clean | `b8dc239` | - |
 | Planetary Defense | 6/16 | medium | `189edc2` | - |
 | ProjCon Office | 3/16 | clean | `e795f32` | - |
@@ -65,10 +65,10 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Storage West | 3/16 | low | `unknown` | - |
 | Strip Near Relay | 7/16 | low | `unknown` | - |
 | Strip Near Station | 2/16 | clean | `unknown` | - |
-| Systems Corridor | 1/16 | clean | `68f90e8` | - |
+| Systems Corridor | 1/16 | clean | `unknown` | - |
 | Systems Corridor East | 1/16 | clean | `68f90e8` | - |
-| Systems Corridor West | 2/16 | clean | `unknown` | - |
-| Underwater | 3/16 | clean | `b8dc239` | - |
+| Systems Corridor West | 3/16 | clean | `unknown` | - |
+| Underwater | 3/16 | clean | `unknown` | - |
 | Upper Elevator | 6/16 | low | `b8dc239` | - |
 | Waiting Area | 5/16 | low | `unknown` | - |
 | West Wing | 0/16 | clean | `-` | - |  ⬅ untouched
