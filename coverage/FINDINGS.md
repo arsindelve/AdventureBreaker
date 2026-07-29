@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-29T18:07:22Z · 105 finding(s)_
+_Generated 2026-07-29T18:55:21Z · 105 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -408,14 +408,14 @@ At TurnWhenFeinsteinBlowsUp+1 the game narrates both emergency bulkheads crashin
 
 On death the engine prints the death text + score + Gishen IV line, then immediately calls RestartAfterDeath, wiping Repository and Context and returning the new game's opening room in the SAME response. No prompt, no pause; the next command is processed as an ordinary command in the new game. Original ZIL FINISH blocks on a READ and branches RESTART/RESTORE/QUIT. Observed on 3 unrelated deaths, so it is the general death path. Complements open issue #206 (win side), whose premise that 'death already ends a run' is disproved.
 
-## AB-103 [MEDIUM] take <noun> with no matching item in the room silently takes an item out of your own pocket  · _open_
+## AB-103 [MEDIUM] take <noun> with no matching item in the room silently takes an item out of your own pocket  · _open#536_
 
 - game `planetfall` · area `Kitchen` · category `take-drop-scope` · target_sha `unknown`
 - command: `take lower card`
 
 PR #508 (2.0.6) guards the SINGLE-candidate branch of TakeOrDropInteractionProcessor with ItemThePlayerActuallyNamed, but the ZERO-candidate fallback (GameEngine/Item/ItemProcessor/TakeOrDropInteractionProcessor.cs:159-163) still does a bare Repository.GetItemInScope(action.Noun, context) and takes whatever it returns. The ID card's bare noun 'card' (Planetfall/Item/Feinstein/IdCard.cs:7) matches any '<x> card' phrase, so in the Kitchen with no card on the floor (Floyd's RNG-gated reveal had not fired), 'take lower card' answered a bare 'Taken.' and pulled the ID card out of the worn uniform pocket. Score unchanged, no message identifying what was taken. Same defect family as issue #502; not a regression - the fallback predates #508.
 
-## AB-104 [MEDIUM] take <noun> in a multi-item room takes every item in the room, not the one named  · _open_
+## AB-104 [MEDIUM] take <noun> in a multi-item room takes every item in the room, not the one named  · _open#537_
 
 - game `planetfall` · area `Infirmary` · category `take-drop-scope` · target_sha `unknown`
 - command: `take medicine`
