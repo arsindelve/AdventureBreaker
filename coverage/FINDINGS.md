@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-29T18:55:21Z · 105 finding(s)_
+_Generated 2026-07-29T21:22:48Z · 105 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -92,6 +92,13 @@ Relay description names the speck/impurity/blue boulder; all three nouns unresol
 - command: `spine to Kalamontee Platform; S; E; slide shuttle access card through slot -> 'evening hours requires special authorization' at time=16758 on Day 1`
 
 PlanetfallContext.TurnTimeIncrement=54 is added unconditionally every turn. In ZIL, 54 applies only while the I-POD-TRIP interrupt is enabled; ordinary movement charges the room's per-direction C-MOVE cost (DEFAULT-MOVE=20) and timeless verbs cost 0. Threshold 6000 and the morning-reset table are both faithfully ported, so only the rate diverges. Day-1 budget is ~25 turns in the port vs ~70+ in the original. Walkthrough CI hides it via the test-only ResetTime hook at WalkthroughTestOne.cs:189 (added in #333). Recoverable by sleeping (ResetToMorning) but undiscoverable, and compounded by #392.
+
+## AB-105 [HIGH] Multi-noun commands (set <dial> to <n>, slide <card> through <slot>) nondeterministically reach no handler and fall through to the narrator  · _open#538_
+
+- game `planetfall` · area `engine-wide` · category `parser` · target_sha `unknown`
+- command: `set dial to 419`
+
+CORRECTED from the first version of this entry, which cited 'unlock padlock with key' as evidence and gave a ~10-20% rate. Both were wrong: that command succeeded 100% of the time it was tried, and what looked like a failure was the noGeneratedResponses sentinel being APPENDED after a successful engine response (the turn also queued a Floyd comment). Only a response consisting of the sentinel ALONE indicates a dropped command. The real defect is narrower and sharper: multi-noun / prepositional commands nondeterministically reach no engine handler and fall through to the narrator, ~20-40% of the time on affected phrasings, while ordinary single-noun and movement commands are essentially unaffected. Across 1352 HTTP-200 commands in six prod sessions: 'slide teleportation card through slot' 4/10, 'set dial to 419' 2/4, 'set laser to 1' 2/3, 'set dial to 42' 2/5, 'put shiny in panel' 2/3, 'press 3' 3, 'take fused with pliers' 2, 'put good in cube' 2. All are walkthrough steps; CI is green because UnitTests/IntentMappings/base-mappings.json resolves the intent directly and never exercises the live parser (same blind spot as #526 and #423). Graded HIGH rather than LOW: at run begQ turn 377 a dropped 'set laser to 1' left the laser on its prior setting and the next shot destroyed the microrelay, making the game unwinnable with no indication to the player that the dial command had not landed. Separately and NOT part of this defect: Floyd conversation commands ('floyd, go north') return the sentinel deterministically under quiet because they need the generation client - working as designed.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
@@ -672,13 +679,6 @@ look in/look inside bottle returns the label both before and after drinking; 'i'
 - command: `god mode take teleportation; god mode go booth 1; push beige button; drop brush; slide teleportation card through slot; push brown button; look`
 
 Brush dropped in Booth 2 stays there after teleporting to Booth 1 (actions@loc shows only the slot). Booth 3 is in Lawanda vs Booths 1/2 in Kalamontee, so items can be stranded across the shuttle. Also noted in issue: stray backslash-n mid-sentence in BoothOne.cs:25 and BoothTwo.cs:20 renders as a line break on prod.
-
-## AB-105 [LOW] Prod AI intent parser intermittently drops valid commands (~10-20%), returning the no-effect sentinel  · _open_
-
-- game `planetfall` · area `engine-wide` · category `parser` · target_sha `unknown`
-- command: `unlock padlock with key`
-
-Throughout the 2.0.6 verification, unambiguous commands intermittently failed to parse and fell through to the narrator (the 'This action or command has no effect on the game.' sentinel in quiet mode), then succeeded verbatim on retry. Observed on 'unlock padlock with key' (1 of 6 trials), 'set dial to 419' (2 of 5), 'set dial to 42' (2 of 5), 'press black button', 'slide teleportation card through slot', 'take laser', 'set laser to 1'. Not release-specific and not a game-logic bug, but it desynced four walkthrough spine replays during this run and, in one case, let a full-power laser shot destroy the microrelay because the preceding 'set laser to 1' was dropped. Separately, Floyd conversation commands ('floyd, go north') only work with the narrator enabled - they need the generation client - so they always return the sentinel under quiet.
 
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
