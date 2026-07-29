@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-28T00:47:22Z · 101 finding(s)_
+_Generated 2026-07-29T18:07:22Z · 105 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -408,6 +408,20 @@ At TurnWhenFeinsteinBlowsUp+1 the game narrates both emergency bulkheads crashin
 
 On death the engine prints the death text + score + Gishen IV line, then immediately calls RestartAfterDeath, wiping Repository and Context and returning the new game's opening room in the SAME response. No prompt, no pause; the next command is processed as an ordinary command in the new game. Original ZIL FINISH blocks on a READ and branches RESTART/RESTORE/QUIT. Observed on 3 unrelated deaths, so it is the general death path. Complements open issue #206 (win side), whose premise that 'death already ends a run' is disproved.
 
+## AB-103 [MEDIUM] take <noun> with no matching item in the room silently takes an item out of your own pocket  · _open_
+
+- game `planetfall` · area `Kitchen` · category `take-drop-scope` · target_sha `unknown`
+- command: `take lower card`
+
+PR #508 (2.0.6) guards the SINGLE-candidate branch of TakeOrDropInteractionProcessor with ItemThePlayerActuallyNamed, but the ZERO-candidate fallback (GameEngine/Item/ItemProcessor/TakeOrDropInteractionProcessor.cs:159-163) still does a bare Repository.GetItemInScope(action.Noun, context) and takes whatever it returns. The ID card's bare noun 'card' (Planetfall/Item/Feinstein/IdCard.cs:7) matches any '<x> card' phrase, so in the Kitchen with no card on the floor (Floyd's RNG-gated reveal had not fired), 'take lower card' answered a bare 'Taken.' and pulled the ID card out of the worn uniform pocket. Score unchanged, no message identifying what was taken. Same defect family as issue #502; not a regression - the fallback predates #508.
+
+## AB-104 [MEDIUM] take <noun> in a multi-item room takes every item in the room, not the one named  · _open_
+
+- game `planetfall` · area `Infirmary` · category `take-drop-scope` · target_sha `unknown`
+- command: `take medicine`
+
+The multi-candidate branch of TakeOrDropInteractionProcessor (items.Length > 1) is also unguarded by PR #508's ItemThePlayerActuallyNamed. In the Infirmary, 'take medicine' picked up the medicine bottle, the red spool and the medical robot breastplate - three objects the player never named - while the medicine itself stayed inside the bottle. PR #508 states the intended post-fix behavior is that 'the take now follows the noun and picks up the medicine'; in the single-candidate case it correctly refuses to take the room's lone item, but it does not pick up the medicine either.
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -659,6 +673,13 @@ look in/look inside bottle returns the label both before and after drinking; 'i'
 
 Brush dropped in Booth 2 stays there after teleporting to Booth 1 (actions@loc shows only the slot). Booth 3 is in Lawanda vs Booths 1/2 in Kalamontee, so items can be stranded across the shuttle. Also noted in issue: stray backslash-n mid-sentence in BoothOne.cs:25 and BoothTwo.cs:20 renders as a line break on prod.
 
+## AB-105 [LOW] Prod AI intent parser intermittently drops valid commands (~10-20%), returning the no-effect sentinel  · _open_
+
+- game `planetfall` · area `engine-wide` · category `parser` · target_sha `unknown`
+- command: `unlock padlock with key`
+
+Throughout the 2.0.6 verification, unambiguous commands intermittently failed to parse and fell through to the narrator (the 'This action or command has no effect on the game.' sentinel in quiet mode), then succeeded verbatim on retry. Observed on 'unlock padlock with key' (1 of 6 trials), 'set dial to 419' (2 of 5), 'set dial to 42' (2 of 5), 'press black button', 'slide teleportation card through slot', 'take laser', 'set laser to 1'. Not release-specific and not a game-logic bug, but it desynced four walkthrough spine replays during this run and, in one case, let a full-power laser shot destroy the microrelay because the preceding 'set laser to 1' was dropped. Separately, Floyd conversation commands ('floyd, go north') only work with the narrator enabled - they need the generation client - so they always return the sentinel under quiet.
+
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
 - game `planetfall` · area `Gangway / session-state durability (prod)` · category `other` · target_sha `unknown`
@@ -680,3 +701,9 @@ GodModeProcessor.Go just sets context.CurrentLocation; it never calls BeforeEnte
 ## AB-031 [INFO] 1.6.4 verified: #285 egg force-open with weapon (prod) + #281 Stream rooms (white-box)  · _filed#285_
 
 - game `zork` · area `ZorkOne/Reservoir+egg` · category `regression-verify` · target_sha `unknown`
+
+## AB-102 [INFO] 2.0.6 prod smoke test: 12 of 13 gameplay items verified, no regressions  · _open_
+
+- game `planetfall` · area `release 2.0.6` · category `release-verification` · target_sha `unknown`
+
+Verified live in prod after deploy run 30472333699 (release/completed/success/2.0.6). PASS: #487 dark-room grue text unchanged (Zork Attic); #506 Rec Area dial clause dropped when the conference door is open (combination 419) + 'That's what the dial is set to now!' no-op branch; #507 all six sanfacs get both navigation synonyms and fixtures/toilet scenery (A and E checked); #508 take/drop no longer silently acts on an unnamed item (Zork: 'drop xyzzy' with only the leaflet held, 'take xyzzy' at West of House; Planetfall: 'take medicine' no longer grabs the room's lone item); #509 kitchen dispenser examine/look-in reports the canteen in the niche; #510 elevator lobby door wording agrees with examine and passability in every reachable state, call button recalls the car; #511 possession gates are container-aware (pocketed steel key unlocks the padlock; pocketed kitchen card slides, with the implicit take); #515 'The card clicks neatly into the socket.' printed exactly once, score 48; #516 medicine bottle look-in/examine lists contents, label preserved on read/examine-label; #518 Lab Office describes 'An open door to the west' once opened; #524 Helipad answers vehicle/rotor blades/fence/staircase and 'enter vehicle' boards; #525 booth contents and Floyd travel with the player, 'press three' works in Booth 2, stray line breaks gone; #530 Reactor Elevator states its door once and 'exit door' resolves. PARTIAL: #526 SPECK object is ported and resolves under speck/impurity/blue boulder (the reported failure is gone) but the two-shot solve text was not observed. NOT GAMEPLAY-TESTABLE: #496 #497 #498 #499 #507-refactor-only-parts #527.

@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-07-28T00:47:50Z · target_sha `unknown`_
+_Generated 2026-07-29T18:07:23Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -15,43 +15,43 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Betty Control East | 0/16 | clean | `-` | - |  ⬅ untouched
 | Betty Control West | 0/16 | clean | `-` | - |  ⬅ untouched
 | Booth 1 | 5/16 | clean | `b8dc239` | - |
-| Booth 2 | 5/16 | low | `b8dc239` | - |
-| Booth 3 | 4/16 | low | `68f90e8` | - |
+| Booth 2 | 6/16 | low | `unknown` | - |
+| Booth 3 | 4/16 | low | `unknown` | - |
 | Brig | 6/16 | high | `e795f32` | - |
 | Computer Room | 6/16 | low | `unknown` | - |
 | Conference Room | 4/16 | clean | `b8dc239` | - |
 | Corridor Junction | 4/16 | low | `unknown` | - |
-| Course Control | 5/16 | low | `68f90e8` | - |
+| Course Control | 5/16 | low | `unknown` | - |
 | Courtyard | 3/16 | clean | `b8dc239` | - |
 | Crag | 3/16 | clean | `unknown` | - |
 | Deck Eight | 3/16 | low | `b8dc239` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
 | Dorm Corridor | 2/16 | clean | `e795f32` | - |
-| Elevator Lobby | 3/16 | low | `b8dc239` | - |
-| Escalator | 1/16 | clean | `68f90e8` | - |
+| Elevator Lobby | 4/16 | low | `unknown` | - |
+| Escalator | 1/16 | clean | `unknown` | - |
 | Escape Pod | 5/16 | low | `unknown` | - |
 | Fork | 3/16 | clean | `unknown` | - |
 | Gangway | 4/16 | low | `unknown` | - |
 | In Bed | 4/16 | clean | `68f90e8` | - |
-| Infirmary | 6/16 | clean | `b8dc239` | - |
+| Infirmary | 6/16 | medium | `b8dc239` | AB-104 |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
-| Kitchen | 7/16 | medium | `b8dc239` | AB-063 |
-| Lawanda Platform | 2/16 | clean | `e795f32` | - |
-| Library | 5/16 | low | `189edc2` | AB-060 |
-| Library Lobby | 3/16 | low | `68f90e8` | - |
+| Kitchen | 7/16 | medium | `b8dc239` | AB-063, AB-103 |
+| Lawanda Platform | 2/16 | low | `e795f32` | - |
+| Library | 5/16 | low | `unknown` | AB-060 |
+| Library Lobby | 3/16 | low | `unknown` | - |
 | Lower Elevator | 5/16 | low | `unknown` | - |
 | Machine Shop | 6/16 | high | `68f90e8` | AB-061 |
-| Mess Corridor | 5/16 | low | `b8dc239` | - |
+| Mess Corridor | 5/16 | low | `unknown` | - |
 | Mess Hall | 6/16 | low | `unknown` | AB-072 |
 | Middle of Strip | 1/16 | clean | `unknown` | - |
 | Miniaturization Booth | 6/16 | low | `unknown` | - |
 | Physical Plant | 6/16 | low | `unknown` | - |
 | Plain Hall | 3/16 | clean | `b8dc239` | - |
-| Planetary Defense | 6/16 | medium | `189edc2` | - |
+| Planetary Defense | 6/16 | medium | `unknown` | - |
 | ProjCon Office | 3/16 | clean | `e795f32` | - |
 | Project Corridor | 2/16 | clean | `unknown` | - |
-| Project Corridor East | 1/16 | low | `68f90e8` | - |
+| Project Corridor East | 2/16 | low | `unknown` | - |
 | Project Corridor West | 1/16 | clean | `unknown` | - |
 | Reactor Lobby | 6/16 | low | `e795f32` | - |
 | Rec Area | 5/16 | low | `b8dc239` | - |
@@ -64,9 +64,9 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Station 384 | 3/16 | clean | `unknown` | - |
 | Storage West | 3/16 | low | `unknown` | - |
 | Strip Near Relay | 7/16 | low | `unknown` | - |
-| Strip Near Station | 2/16 | clean | `unknown` | - |
+| Strip Near Station | 2/16 | low | `unknown` | - |
 | Systems Corridor | 1/16 | clean | `unknown` | - |
-| Systems Corridor East | 1/16 | clean | `68f90e8` | - |
+| Systems Corridor East | 1/16 | clean | `unknown` | - |
 | Systems Corridor West | 3/16 | clean | `unknown` | - |
 | Underwater | 3/16 | clean | `unknown` | - |
 | Upper Elevator | 6/16 | low | `b8dc239` | - |
@@ -97,7 +97,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Altar | 1/16 | clean | `unknown` | - |
 | Aragain Falls | 0/16 | clean | `-` | - |  ⬅ untouched
 | Atlantis Room | 0/16 | clean | `-` | - |  ⬅ untouched
-| Attic | 2/16 | low | `unknown` | - |
+| Attic | 3/16 | low | `unknown` | - |
 | Bat Room | 6/16 | medium | `unknown` | AB-042, AB-043 |
 | Behind House | 3/16 | low | `unknown` | - |
 | Canyon Bottom | 1/16 | clean | `unknown` | - |
