@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-08-20T15:55:04Z · 106 finding(s)_
+_Generated 2026-08-20T16:15:22Z · 107 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -435,6 +435,13 @@ PR #508 (2.0.6) guards the SINGLE-candidate branch of TakeOrDropInteractionProce
 - command: `take medicine`
 
 The multi-candidate branch of TakeOrDropInteractionProcessor (items.Length > 1) is also unguarded by PR #508's ItemThePlayerActuallyNamed. In the Infirmary, 'take medicine' picked up the medicine bottle, the red spool and the medical robot breastplate - three objects the player never named - while the medicine itself stayed inside the bottle. PR #508 states the intended post-fix behavior is that 'the take now follows the noun and picks up the medicine'; in the single-candidate case it correctly refuses to take the room's lone item, but it does not pick up the medicine either.
+
+## AB-107 [MEDIUM] Floyd returns from wandering silently when return-message generation fails - no canned fallback  · _filed#549_
+
+- game `planetfall` · area `Infirmary (Floyd grief-wander return)` · category `npc-conversation` · target_sha `85925e6`
+- command: `enter Infirmary with Floyd; wait (Lazarus scene fires, Floyd runs out); wait x10 (no return message); look (robot listed); floyd, hello (answers)`
+
+After the Lazarus scene's scripted grief-wander, Floyd rematerialized with no return message: 10 consecutive waits printed only 'Time passes...', yet look then listed the robot, god mode where floyd reported the player's room, and he answered conversation normally. Root cause: HandleWanderingCountdown commits the state mutation (ItemPlacedHere, IsOffWandering=false) BEFORE awaiting GenerateReturnMessage, which is a raw LLM call with no try/catch or empty-check and no canned fallback - unlike OnBeingTalkedTo which already has the catch-with-fallback pattern. Same-session evidence of transient generation failures (502; floyd,go-north no-effect during replay, fine on retry) makes this a real failure mode, not hypothetical.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
