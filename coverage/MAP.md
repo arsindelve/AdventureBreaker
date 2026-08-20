@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-08-20T15:55:14Z · target_sha `unknown`_
+_Generated 2026-08-20T16:17:57Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -33,7 +33,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Fork | 3/16 | clean | `unknown` | - |
 | Gangway | 4/16 | low | `unknown` | - |
 | In Bed | 4/16 | clean | `68f90e8` | - |
-| Infirmary | 6/16 | medium | `b8dc239` | AB-104 |
+| Infirmary | 8/16 | medium | `unknown` | AB-104 |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 7/16 | medium | `b8dc239` | AB-063, AB-103 |
@@ -67,7 +67,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Strip Near Station | 2/16 | low | `unknown` | - |
 | Systems Corridor | 1/16 | clean | `unknown` | - |
 | Systems Corridor East | 1/16 | clean | `unknown` | - |
-| Systems Corridor West | 3/16 | clean | `unknown` | - |
+| Systems Corridor West | 3/16 | medium | `unknown` | - |
 | Underwater | 3/16 | clean | `unknown` | - |
 | Upper Elevator | 6/16 | low | `b8dc239` | - |
 | Waiting Area | 5/16 | low | `unknown` | - |
@@ -94,59 +94,59 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 
 | Area | Covered | Worst | Last sha | Findings |
 |---|---|---|---|---|
-| Altar | 1/16 | clean | `unknown` | - |
+| Altar | 1/16 | clean | `6d85ba6` | - |
 | Aragain Falls | 0/16 | clean | `-` | - |  ⬅ untouched
 | Atlantis Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Attic | 3/16 | low | `unknown` | - |
 | Bat Room | 6/16 | medium | `unknown` | AB-042, AB-043 |
-| Behind House | 3/16 | low | `unknown` | - |
-| Canyon Bottom | 1/16 | clean | `unknown` | - |
+| Behind House | 4/16 | low | `6d85ba6` | - |
+| Canyon Bottom | 1/16 | clean | `6d85ba6` | - |
 | Canyon View | 5/16 | low | `unknown` | - |
 | Cave | 1/16 | clean | `unknown` | - |
-| Cellar | 3/16 | low | `68f90e8` | - |
-| Chasm | 1/16 | clean | `unknown` | - |
-| Clearing | 6/16 | low | `unknown` | - |
+| Cellar | 4/16 | low | `6d85ba6` | - |
+| Chasm | 1/16 | clean | `6d85ba6` | - |
+| Clearing | 6/16 | low | `6d85ba6` | - |
 | Cold Passage | 1/16 | clean | `unknown` | - |
-| Dam | 3/16 | low | `unknown` | - |
+| Dam | 3/16 | low | `6d85ba6` | - |
 | Dam Base | 5/16 | low | `unknown` | - |
-| Dam Lobby | 2/16 | clean | `unknown` | - |
-| Damp Cave | 1/16 | low | `unknown` | - |
-| Deep Canyon | 1/16 | low | `unknown` | - |
-| Dome Room | 2/16 | clean | `unknown` | - |
-| East of Chasm | 1/16 | clean | `unknown` | - |
-| East-West Passage | 1/16 | low | `unknown` | - |
-| Egyptian Room | 2/16 | clean | `unknown` | - |
-| End of Rainbow | 3/16 | low | `unknown` | - |
-| Engravings Cave | 1/16 | clean | `unknown` | - |
-| Entrance to Hades | 5/16 | low | `e795f32` | - |
-| Gallery | 2/16 | clean | `unknown` | - |
-| Kitchen | 6/16 | low | `68f90e8` | - |
+| Dam Lobby | 2/16 | clean | `6d85ba6` | - |
+| Damp Cave | 1/16 | low | `6d85ba6` | - |
+| Deep Canyon | 1/16 | low | `6d85ba6` | - |
+| Dome Room | 2/16 | clean | `6d85ba6` | - |
+| East of Chasm | 1/16 | clean | `6d85ba6` | - |
+| East-West Passage | 1/16 | low | `6d85ba6` | - |
+| Egyptian Room | 2/16 | clean | `6d85ba6` | - |
+| End of Rainbow | 3/16 | low | `6d85ba6` | - |
+| Engravings Cave | 1/16 | clean | `6d85ba6` | - |
+| Entrance to Hades | 5/16 | low | `6d85ba6` | - |
+| Gallery | 2/16 | clean | `6d85ba6` | - |
+| Kitchen | 7/16 | low | `6d85ba6` | - |
 | Land of the Dead | 0/16 | clean | `-` | - |  ⬅ untouched
-| Living Room | 6/16 | low | `68f90e8` | - |
+| Living Room | 6/16 | low | `6d85ba6` | - |
 | Loud Room | 1/16 | clean | `unknown` | - |
 | Maintenance Room | 4/16 | clean | `unknown` | - |
 | Mirror Room | 2/16 | low | `unknown` | - |
 | Narrow Passage | 1/16 | low | `unknown` | - |
-| North of House | 4/16 | low | `unknown` | - |
+| North of House | 4/16 | low | `6d85ba6` | - |
 | North-South Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | On The Rainbow | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir North | 0/16 | clean | `-` | - |  ⬅ untouched
-| Reservoir South | 1/16 | clean | `unknown` | - |
-| Rocky Ledge | 1/16 | clean | `unknown` | - |
-| Round Room | 1/16 | low | `unknown` | - |
+| Reservoir South | 1/16 | clean | `6d85ba6` | - |
+| Rocky Ledge | 1/16 | clean | `6d85ba6` | - |
+| Round Room | 1/16 | low | `6d85ba6` | - |
 | Sandy Beach | 0/16 | clean | `-` | - |  ⬅ untouched
 | Sandy Cave | 0/16 | clean | `-` | - |  ⬅ untouched
 | Shore | 0/16 | clean | `-` | - |  ⬅ untouched
-| South of House | 4/16 | low | `unknown` | - |
+| South of House | 5/16 | low | `6d85ba6` | - |
 | Studio | 2/16 | clean | `unknown` | - |
-| Temple | 1/16 | clean | `unknown` | - |
-| The Troll Room | 3/16 | medium | `unknown` | - |
-| Torch Room | 1/16 | clean | `unknown` | - |
+| Temple | 1/16 | clean | `6d85ba6` | - |
+| The Troll Room | 3/16 | medium | `6d85ba6` | - |
+| Torch Room | 1/16 | clean | `6d85ba6` | - |
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | Up A Tree | 4/16 | low | `unknown` | - |
 | West Of House | 6/16 | low | `unknown` | - |
-| White Cliffs Beach | 0/16 | clean | `-` | - |  ⬅ untouched
+| White Cliffs Beach | 3/16 | low | `6d85ba6` | - |
 | Winding Stair | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:death-resurrection | 0/16 | clean | `-` | - |  ⬅ untouched
