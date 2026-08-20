@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-07-29T21:22:48Z · 105 finding(s)_
+_Generated 2026-08-20T15:55:04Z · 106 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -99,6 +99,13 @@ PlanetfallContext.TurnTimeIncrement=54 is added unconditionally every turn. In Z
 - command: `set dial to 419`
 
 CORRECTED from the first version of this entry, which cited 'unlock padlock with key' as evidence and gave a ~10-20% rate. Both were wrong: that command succeeded 100% of the time it was tried, and what looked like a failure was the noGeneratedResponses sentinel being APPENDED after a successful engine response (the turn also queued a Floyd comment). Only a response consisting of the sentinel ALONE indicates a dropped command. The real defect is narrower and sharper: multi-noun / prepositional commands nondeterministically reach no engine handler and fall through to the narrator, ~20-40% of the time on affected phrasings, while ordinary single-noun and movement commands are essentially unaffected. Across 1352 HTTP-200 commands in six prod sessions: 'slide teleportation card through slot' 4/10, 'set dial to 419' 2/4, 'set laser to 1' 2/3, 'set dial to 42' 2/5, 'put shiny in panel' 2/3, 'press 3' 3, 'take fused with pliers' 2, 'put good in cube' 2. All are walkthrough steps; CI is green because UnitTests/IntentMappings/base-mappings.json resolves the intent directly and never exercises the live parser (same blind spot as #526 and #423). Graded HIGH rather than LOW: at run begQ turn 377 a dropped 'set laser to 1' left the laser on its prior setting and the next shot destroyed the microrelay, making the game unwinnable with no indication to the player that the dial command had not landed. Separately and NOT part of this defect: Floyd conversation commands ('floyd, go north') return the sentinel deterministically under quiet because they need the generation client - working as designed.
+
+## AB-106 [HIGH] Floyd's corpse chats and squeals after the Bio-Lab sacrifice: post-mortem paths gate on IsOn, never HasDied  · _filed#545_
+
+- game `planetfall` · area `Bio Lock East (Floyd sacrifice aftermath)` · category `character-break` · target_sha `85925e6`
+- command: `look through window (volunteer speech); open door; close door; wait; open door; close door; floyd, are you okay; take floyd`
+
+One turn after the full (correctly-played) sacrifice death scene: 'floyd, are you okay' -> cheerful chat-lambda reply ('Floyd says he is okay now that you are here') because OnBeingTalkedTo gates only on !IsOn and EndSequence deliberately leaves the corpse's IsOn true; 'take floyd' -> living-Floyd refusal ('surprised squeal and moves a respectable distance away') via CannotBeTakenDescription => IsOn ? TakeFloyd : null. Trapped-death branch: narrator answers 'floyd, are you okay' with 'off on his own little adventure' jokes one turn after 'Floyd is dead.' Control case: 'turn off floyd' on the corpse is handled perfectly ('great robot shop in the sky') -- the #493 sweep fixed the actor path and missed these interaction paths. Bonus verifications: sacrifice scene itself fully intact both branches; trapped-death message fires exactly once (AB-014 confirmed FIXED in prod); unprimed door-open death is correct designed behavior.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
