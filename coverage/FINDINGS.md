@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-08-20T16:30:38Z · 110 finding(s)_
+_Generated 2026-09-03T13:06:25Z · 111 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -449,6 +449,13 @@ After the Lazarus scene's scripted grief-wander, Floyd rematerialized with no re
 - command: `put good in cube`
 
 'put good in cube' (the exact phrasing in the Planetfall walkthrough spine step 262, and one of the commands listed in issue #538) returns the noGeneratedResponses sentinel ALONE in prod - 2/2 attempts - i.e. it reaches no engine handler and a real player gets narrator invention instead of the action. This is NOT a preposition drop, so PR #540's ParsingHelper preposition-recovery does not cover it: the qualified form 'put good bedistor in cube' works first try ('Done. The warning lights go out and another light goes on.', score 42->48), proving the 'in' path and the multi-noun routing are healthy. The cause is a noun-list asymmetry between the two sibling bedistors: Planetfall/Item/Lawanda/FusedBedistor.cs:7 includes the bare adjective 'fused' (so 'take fused with pliers' resolves, verified live), but Planetfall/Item/Kalamontee/Mech/Bedistor.cs:19 lists 'good ninety-ohm bedistor','bedistor','ninety-ohm bedistor','good bedistor','ninety-ohm','90-ohm bedistor','90-ohm' with NO bare 'good'. Suggested fix: add 'good' to Bedistor.NounsForMatching, mirroring FusedBedistor. Note the display-name trap from PR #542 does not apply - 'good' is shorter than the existing longest noun. TDD: assert 'put good in cube' completes the swap, red before / green after.
+
+## AB-111 [MEDIUM] Comm Room 'pour fluid into hole' ignores flask possession/scope (global GetItem<Flask>()) -- solves or permanently destroys the 6-point coolant puzzle with the flask rooms away  · _filed#547_
+
+- game `planetfall` · area `Comm Room (coolant send console)` · category `take-drop-scope` · target_sha `6d85ba6`
+- command: `drop flask in Tower Core; NE; pour fluid into hole -> puzzle advances black->gray, remote flask drained`
+
+CommRoom.RespondToMultiNounInteraction (Planetfall/Location/Kalamontee/Tower/CommRoom.cs:38-52) matches the verb/noun pair then reads GetItem<Flask>().LiquidColor at :48 and mutates it in PourLiquid at :56-57, with no possession/room/scope check anywhere on the path. LocationBase.GetItem<T>() (GameEngine/Location/LocationBase.cs:459-462) is a bare passthrough to the static Repository.GetItem<T>() (GameEngine/Repository.cs:49), a type-keyed singleton lookup with no location semantics. Proof the omission is unintentional: the sibling handler for the same item in the same subsystem guards possession TWICE before mutating -- MachineShop.cs:36-44 (flask.IsHereButNotInInventory(context) -> 'You don't have the flask. '; !context.IsCarrying<Flask>() -> NoNounMatchInteractionResult). SECOND DEFECT, same file, folded into the same issue at user request: CriticalDescription (CommRoom.cs:31-35) omits the funnel-hole sentence that FixedDescription (:10-13) and BrokenDescription (:25-29) both include, so after a shutdown the hole vanishes from the room description while PourLiquid still answers commands aimed at it. Why CI is green: every existing pour test in Planetfall.Tests/CommRoomAndMachineRoomTests.cs calls Take<Flask>() first (PourLiquid_Black :444, PourLiquid_Red :463, PourLiquid_Gray :482), so the not-carrying path is never exercised. FILED as arsindelve/zorkai#547. Full issue body also preserved verbatim at coverage/issues/AB-107-commroom-flask-scope.md.
 
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
