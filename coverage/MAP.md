@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-08-20T15:55:14Z · target_sha `unknown`_
+_Generated 2026-08-20T16:12:29Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -26,14 +26,14 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Crag | 3/16 | clean | `unknown` | - |
 | Deck Eight | 3/16 | low | `b8dc239` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
-| Dorm Corridor | 2/16 | clean | `e795f32` | - |
+| Dorm Corridor | 2/16 | clean | `unknown` | - |
 | Elevator Lobby | 4/16 | low | `unknown` | - |
 | Escalator | 1/16 | clean | `unknown` | - |
 | Escape Pod | 5/16 | low | `unknown` | - |
 | Fork | 3/16 | clean | `unknown` | - |
 | Gangway | 4/16 | low | `unknown` | - |
 | In Bed | 4/16 | clean | `68f90e8` | - |
-| Infirmary | 6/16 | medium | `b8dc239` | AB-104 |
+| Infirmary | 8/16 | medium | `unknown` | AB-104 |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 7/16 | medium | `b8dc239` | AB-063, AB-103 |
@@ -67,7 +67,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Strip Near Station | 2/16 | low | `unknown` | - |
 | Systems Corridor | 1/16 | clean | `unknown` | - |
 | Systems Corridor East | 1/16 | clean | `unknown` | - |
-| Systems Corridor West | 3/16 | clean | `unknown` | - |
+| Systems Corridor West | 3/16 | medium | `unknown` | - |
 | Underwater | 3/16 | clean | `unknown` | - |
 | Upper Elevator | 6/16 | low | `b8dc239` | - |
 | Waiting Area | 5/16 | low | `unknown` | - |
