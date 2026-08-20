@@ -338,11 +338,12 @@ in `../ZorkAI/.claude/CLAUDE.md` "Engine Port Anti-Patterns"; these six extend t
   the replay count by one; otherwise the opening explosion fires one command earlier
   than the spine expects and the route can desync before the escape pod.
 - **Chronometer gate (Planetfall Alfie):** the walkthrough uses a test-only `ResetTime`
-  setup before `slide shuttle access card through slot`. In prod, use
-  `quiet "god mode reset time"` at that point. It should respond
-  `God mode: chronometer reset to 2000.`; verify with `score` if needed, then run the
-  exact shuttle-card command and advance `spine_pos` past that manual step before
-  continuing. This is separate from `god mode no survival`.
+  setup before `slide shuttle access card through slot`. `spine-run` now handles this
+  automatically: it issues `quiet "god mode reset time"` (expect
+  `God mode: chronometer reset to 2000.`) and then plays the step itself — it no longer
+  skips it. (It used to skip, which silently left the shuttle unactivated and stranded
+  the rest of the replay on the Kalamontee side.) If driving manually, do the same two
+  commands in that order. This is separate from `god mode no survival`.
 - **NPCs wander (Floyd):** he periodically leaves and returns. For show/give/conversation
   tests, `wait` for "Floyd back!" or confirm he's present in `state` first.
 - **Zork I combat gates (troll/thief/cyclops): use `god mode kill <creature>`, don't
