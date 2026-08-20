@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-08-20T16:19:57Z · 110 finding(s)_
+_Generated 2026-08-20T16:30:38Z · 110 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -443,7 +443,7 @@ The multi-candidate branch of TakeOrDropInteractionProcessor (items.Length > 1) 
 
 After the Lazarus scene's scripted grief-wander, Floyd rematerialized with no return message: 10 consecutive waits printed only 'Time passes...', yet look then listed the robot, god mode where floyd reported the player's room, and he answered conversation normally. Root cause: HandleWanderingCountdown commits the state mutation (ItemPlacedHere, IsOffWandering=false) BEFORE awaiting GenerateReturnMessage, which is a raw LLM call with no try/catch or empty-check and no canned fallback - unlike OnBeingTalkedTo which already has the catch-with-fallback pattern. Same-session evidence of transient generation failures (502; floyd,go-north no-effect during replay, fine on retry) makes this a real failure mode, not hypothetical.
 
-## AB-109 [MEDIUM] put good in cube: residual of #538 that PR #540 did not close - Bedistor lacks the bare noun 'good'  · _open_
+## AB-109 [MEDIUM] put good in cube: residual of #538 that PR #540 did not close - Bedistor lacks the bare noun 'good'  · _filed#550_
 
 - game `planetfall` · area `Course Control` · category `parser-noun-gap` · target_sha `6257324`
 - command: `put good in cube`
@@ -701,7 +701,7 @@ look in/look inside bottle returns the label both before and after drinking; 'i'
 
 Brush dropped in Booth 2 stays there after teleporting to Booth 1 (actions@loc shows only the slot). Booth 3 is in Lawanda vs Booths 1/2 in Kalamontee, so items can be stranded across the shuttle. Also noted in issue: stray backslash-n mid-sentence in BoothOne.cs:25 and BoothTwo.cs:20 renders as a line break on prod.
 
-## AB-110 [LOW] PR #534's 'enter door -> Do you mean...?' row does not reproduce in prod: live parser routes bare 'enter door' to a move intent  · _open_
+## AB-110 [LOW] PR #534's 'enter door -> Do you mean...?' row does not reproduce in prod: live parser routes bare 'enter door' to a move intent  · _filed#551_
 
 - game `planetfall` · area `Elevator Lobby` · category `parser-routing` · target_sha `6257324`
 - command: `enter door`
