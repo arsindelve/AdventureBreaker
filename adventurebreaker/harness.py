@@ -212,10 +212,21 @@ def cmd_spine_run(args):
     while n < args.count and run.spine_pos < len(steps):
         s = steps[run.spine_pos]
         if not s["http_replayable"]:
-            print(f"  [{run.spine_pos}] SKIP god-mode step {s['cmd']!r}")
-            run.spine_pos += 1
-            run.save()
-            continue
+            # A "ResetTime" setup IS replayable over HTTP now ("god mode reset time", zorkai #451):
+            # issue the reset, then fall through and play the step normally. Skipping a *stateful*
+            # step is fatal - the planetfall spine's only flagged step (176, the shuttle-activation
+            # card slide) silently stranded a run on the wrong side of the map when skipped.
+            if s.get("setup") == "ResetTime":
+                setup_res = client.play(run.session_id, "god mode reset time", narrator=False)
+                _record_and_judge(run, "god mode reset time", False, setup_res)
+                print(f"  [{run.spine_pos}] setup ResetTime -> god mode reset time")
+            else:
+                print(f"  [{run.spine_pos}] SKIP god-mode step {s['cmd']!r} "
+                      f"(setup {s.get('setup')!r} not HTTP-replayable; expect divergence "
+                      f"if this step changes state)")
+                run.spine_pos += 1
+                run.save()
+                continue
         res = client.play(run.session_id, s["cmd"], narrator=narrator)
         g, hits = _record_and_judge(run, s["cmd"], narrator, res,
                                     spine_expect=s["expect"])

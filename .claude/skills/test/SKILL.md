@@ -144,13 +144,12 @@ python3 -m adventurebreaker.harness quiet "<repro>"           # narrator off (en
   ```
 - **Planetfall `ResetTime` setup:** the walkthrough spine includes a test-only
   `ResetTime` setup before `slide shuttle access card through slot` in Alfie Control
-  East. In prod, use the deployed equivalent:
-  `quiet "god mode reset time"`. It should respond
-  `God mode: chronometer reset to 2000.` and `score` should show Current Galactic
-  Standard Time `2000` before you swipe the shuttle card. Then run the exact spine
-  command `quiet "slide shuttle access card through slot"` and set `spine_pos` to the
-  next step before resuming. This is controlled setup for the chronometer gate, separate
-  from `god mode no survival`.
+  East. `spine-run` now handles this automatically — it issues
+  `god mode reset time` (expect `God mode: chronometer reset to 2000.`) and then plays
+  the card-slide step itself, instead of skipping it (the old skip silently left the
+  shuttle unactivated and stranded the rest of the replay on the Kalamontee side).
+  When driving manually, run the same two commands in that order. This is controlled
+  setup for the chronometer gate, separate from `god mode no survival`.
 - **Finding `<N>` (the step count for an area):** the walkthrough is
   `adventurebreaker/spine/<game>.json` — an ordered list of `{"cmd", "expect"}` steps;
   `spine-run --count N` replays steps `0..N-1`. Grep the spine for a landmark command or
