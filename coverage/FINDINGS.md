@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-08-20T16:15:22Z · 107 finding(s)_
+_Generated 2026-08-20T16:19:57Z · 110 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -443,6 +443,13 @@ The multi-candidate branch of TakeOrDropInteractionProcessor (items.Length > 1) 
 
 After the Lazarus scene's scripted grief-wander, Floyd rematerialized with no return message: 10 consecutive waits printed only 'Time passes...', yet look then listed the robot, god mode where floyd reported the player's room, and he answered conversation normally. Root cause: HandleWanderingCountdown commits the state mutation (ItemPlacedHere, IsOffWandering=false) BEFORE awaiting GenerateReturnMessage, which is a raw LLM call with no try/catch or empty-check and no canned fallback - unlike OnBeingTalkedTo which already has the catch-with-fallback pattern. Same-session evidence of transient generation failures (502; floyd,go-north no-effect during replay, fine on retry) makes this a real failure mode, not hypothetical.
 
+## AB-109 [MEDIUM] put good in cube: residual of #538 that PR #540 did not close - Bedistor lacks the bare noun 'good'  · _open_
+
+- game `planetfall` · area `Course Control` · category `parser-noun-gap` · target_sha `6257324`
+- command: `put good in cube`
+
+'put good in cube' (the exact phrasing in the Planetfall walkthrough spine step 262, and one of the commands listed in issue #538) returns the noGeneratedResponses sentinel ALONE in prod - 2/2 attempts - i.e. it reaches no engine handler and a real player gets narrator invention instead of the action. This is NOT a preposition drop, so PR #540's ParsingHelper preposition-recovery does not cover it: the qualified form 'put good bedistor in cube' works first try ('Done. The warning lights go out and another light goes on.', score 42->48), proving the 'in' path and the multi-noun routing are healthy. The cause is a noun-list asymmetry between the two sibling bedistors: Planetfall/Item/Lawanda/FusedBedistor.cs:7 includes the bare adjective 'fused' (so 'take fused with pliers' resolves, verified live), but Planetfall/Item/Kalamontee/Mech/Bedistor.cs:19 lists 'good ninety-ohm bedistor','bedistor','ninety-ohm bedistor','good bedistor','ninety-ohm','90-ohm bedistor','90-ohm' with NO bare 'good'. Suggested fix: add 'good' to Bedistor.NounsForMatching, mirroring FusedBedistor. Note the display-name trap from PR #542 does not apply - 'good' is shorter than the existing longest noun. TDD: assert 'put good in cube' completes the swap, red before / green after.
+
 ## AB-001 [LOW] Narrator invents a paint-splattered broom not present in the room  · _fixed#234_
 
 - game `zork` · area `Studio` · category `narrator-hallucination` · target_sha `c31e9ec`
@@ -694,6 +701,13 @@ look in/look inside bottle returns the label both before and after drinking; 'i'
 
 Brush dropped in Booth 2 stays there after teleporting to Booth 1 (actions@loc shows only the slot). Booth 3 is in Lawanda vs Booths 1/2 in Kalamontee, so items can be stranded across the shuttle. Also noted in issue: stray backslash-n mid-sentence in BoothOne.cs:25 and BoothTwo.cs:20 renders as a line break on prod.
 
+## AB-110 [LOW] PR #534's 'enter door -> Do you mean...?' row does not reproduce in prod: live parser routes bare 'enter door' to a move intent  · _open_
+
+- game `planetfall` · area `Elevator Lobby` · category `parser-routing` · target_sha `6257324`
+- command: `enter door`
+
+PR #534's player-facing table promises that in the Elevator Lobby 'enter door' (two doors in scope) answers 'Do you mean...?' instead of silently picking one. In prod it answers MoveEngine's 'You cannot go that way.' - same under quiet and narrator-ON, and 'enter the door' behaves identically. The NounDisambiguator fix itself IS deployed and working: 'examine door' and 'go through door' both return 'Do you mean the lower elevator door or the upper elevator door?', and both lobby doors carry the bare noun 'door' (UpperElevatorLobbyDoor.cs:11, LowerElevatorLobbyDoor.cs:11), so the check would fire if it were reached. The command simply never reaches EnterSubLocationEngine - the live AI parser buckets bare 'enter door' as movement. This is the TestParser fixture blind spot PR #540 documents: PR #534 added 'enter blue door'/'enter red door' to base-mappings.json but not bare 'enter door', so the unit test proves the engine wiring, not the live routing. Severity low: the harmful half of #532 is genuinely fixed (it no longer silently walks the player into the wrong elevator); the shortfall is only that it refuses rather than asking. 'enter blue door' and 'enter red door' both work correctly.
+
 ## AB-016 [INFO] UNREPRODUCED: harness session showed moves reset 11->0 (Deck Nine) after 'drop brush'  · _open_
 
 - game `planetfall` · area `Gangway / session-state durability (prod)` · category `other` · target_sha `unknown`
@@ -721,3 +735,10 @@ GodModeProcessor.Go just sets context.CurrentLocation; it never calls BeforeEnte
 - game `planetfall` · area `release 2.0.6` · category `release-verification` · target_sha `unknown`
 
 Verified live in prod after deploy run 30472333699 (release/completed/success/2.0.6). PASS: #487 dark-room grue text unchanged (Zork Attic); #506 Rec Area dial clause dropped when the conference door is open (combination 419) + 'That's what the dial is set to now!' no-op branch; #507 all six sanfacs get both navigation synonyms and fixtures/toilet scenery (A and E checked); #508 take/drop no longer silently acts on an unnamed item (Zork: 'drop xyzzy' with only the leaflet held, 'take xyzzy' at West of House; Planetfall: 'take medicine' no longer grabs the room's lone item); #509 kitchen dispenser examine/look-in reports the canteen in the niche; #510 elevator lobby door wording agrees with examine and passability in every reachable state, call button recalls the car; #511 possession gates are container-aware (pocketed steel key unlocks the padlock; pocketed kitchen card slides, with the implicit take); #515 'The card clicks neatly into the socket.' printed exactly once, score 48; #516 medicine bottle look-in/examine lists contents, label preserved on read/examine-label; #518 Lab Office describes 'An open door to the west' once opened; #524 Helipad answers vehicle/rotor blades/fence/staircase and 'enter vehicle' boards; #525 booth contents and Floyd travel with the player, 'press three' works in Booth 2, stray line breaks gone; #530 Reactor Elevator states its door once and 'exit door' resolves. PARTIAL: #526 SPECK object is ported and resolves under speck/impurity/blue boulder (the reported failure is gone) but the two-shot solve text was not observed. NOT GAMEPLAY-TESTABLE: #496 #497 #498 #499 #507-refactor-only-parts #527.
+
+## AB-108 [INFO] 2.0.8 prod smoke test: all 5 shipped items verified, no regression  · _open_
+
+- game `planetfall` · area `MECH:release-test` · category `release-verification` · target_sha `6257324`
+- command: `see detail`
+
+Release 2.0.8 (deploy run 32386193364, release/completed/success) smoke-tested live in prod. PR#542 pod names: 'open escape pod' and 'open pod bulkhead' both resolve to BulkheadDoor and return its own refusal ('Why open the door to the emergency escape pod if there's no emergency?'); 'examine escape pod' answers 'There is nothing special about the escape pod bulkhead.' 8/8, and the envelope's actions@loc reads 'escape pod bulkhead' (not the old 'narrow emergency bulkhead' display name). PR#544 bulkhead seal: at the crash-shut turn Deck Nine exits go ['Up','E','W','In'] -> ['W','In'] and both 'up' and 'east' return 'The emergency bulkhead is closed.' with the player still on Deck Nine. PR#534 elevator doors: Elevator Lobby now shows two distinct door objects, 'examine door' and 'go through door' both ask 'Do you mean the lower elevator door or the upper elevator door?', 'enter blue door'/'enter red door' walk into the correct car, and Tower Core / Waiting Area each resolve their own 'elevator door' and report the shaft state from that end (before the fix nothing resolved there). PR#540 parser: every prepositional multi-noun shape succeeded under the real prod parser - put magnet on crevice, unlock padlock with key, put flask under spout x2, slide <upper|lower|kitchen|shuttle|teleportation> access card through slot x12, pour fluid into hole, take fused with pliers, put good bedistor in cube - plus the bare-numeral 'press 2'/'press 3' teleports. PR#528 Floyd idle chatter: 340 idle turns, 18 distinct idle lines, ZERO question marks and no player-directed questions; AI lines are declarative ('Floyd wonders where the people went').
