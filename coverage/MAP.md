@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-08-20T16:19:58Z · target_sha `unknown`_
+_Generated 2026-09-02T00:04:14Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -94,15 +94,15 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 
 | Area | Covered | Worst | Last sha | Findings |
 |---|---|---|---|---|
-| Altar | 1/16 | clean | `6d85ba6` | - |
+| Altar | 2/16 | clean | `6d85ba6` | - |
 | Aragain Falls | 0/16 | clean | `-` | - |  ⬅ untouched
 | Atlantis Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Attic | 3/16 | low | `unknown` | - |
-| Bat Room | 6/16 | medium | `unknown` | AB-042, AB-043 |
+| Bat Room | 7/16 | medium | `6d85ba6` | AB-042, AB-043 |
 | Behind House | 4/16 | low | `6d85ba6` | - |
 | Canyon Bottom | 1/16 | clean | `6d85ba6` | - |
 | Canyon View | 5/16 | low | `unknown` | - |
-| Cave | 1/16 | clean | `unknown` | - |
+| Cave | 1/16 | high | `6d85ba6` | - |
 | Cellar | 4/16 | low | `6d85ba6` | - |
 | Chasm | 1/16 | clean | `6d85ba6` | - |
 | Clearing | 6/16 | low | `6d85ba6` | - |
@@ -118,29 +118,29 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Egyptian Room | 2/16 | clean | `6d85ba6` | - |
 | End of Rainbow | 3/16 | low | `6d85ba6` | - |
 | Engravings Cave | 1/16 | clean | `6d85ba6` | - |
-| Entrance to Hades | 5/16 | low | `6d85ba6` | - |
+| Entrance to Hades | 5/16 | high | `6d85ba6` | - |
 | Gallery | 2/16 | clean | `6d85ba6` | - |
 | Kitchen | 7/16 | low | `6d85ba6` | - |
 | Land of the Dead | 0/16 | clean | `-` | - |  ⬅ untouched
 | Living Room | 6/16 | low | `6d85ba6` | - |
-| Loud Room | 1/16 | clean | `unknown` | - |
+| Loud Room | 1/16 | high | `6d85ba6` | - |
 | Maintenance Room | 4/16 | clean | `unknown` | - |
-| Mirror Room | 2/16 | low | `unknown` | - |
-| Narrow Passage | 1/16 | low | `unknown` | - |
+| Mirror Room | 4/16 | high | `6d85ba6` | - |
+| Narrow Passage | 1/16 | high | `6d85ba6` | - |
 | North of House | 4/16 | low | `6d85ba6` | - |
 | North-South Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | On The Rainbow | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir | 0/16 | clean | `-` | - |  ⬅ untouched
-| Reservoir North | 0/16 | clean | `-` | - |  ⬅ untouched
+| Reservoir North | 2/16 | low | `6d85ba6` | - |
 | Reservoir South | 1/16 | clean | `6d85ba6` | - |
 | Rocky Ledge | 1/16 | clean | `6d85ba6` | - |
-| Round Room | 1/16 | low | `6d85ba6` | - |
+| Round Room | 1/16 | high | `6d85ba6` | - |
 | Sandy Beach | 0/16 | clean | `-` | - |  ⬅ untouched
 | Sandy Cave | 0/16 | clean | `-` | - |  ⬅ untouched
 | Shore | 0/16 | clean | `-` | - |  ⬅ untouched
 | South of House | 5/16 | low | `6d85ba6` | - |
 | Studio | 2/16 | clean | `unknown` | - |
-| Temple | 1/16 | clean | `6d85ba6` | - |
+| Temple | 2/16 | clean | `6d85ba6` | - |
 | The Troll Room | 3/16 | medium | `6d85ba6` | - |
 | Torch Room | 1/16 | clean | `6d85ba6` | - |
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched
