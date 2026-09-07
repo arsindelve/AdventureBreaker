@@ -11,6 +11,11 @@
   backend, follows the walkthrough "spine" to reach deep states, and probes each
   state to break the engine, parser, and especially the **AI narrator**. Goal is
   to *break things*, not to win.
+- **A third game, Stationfall, is registered but gated.** `config.py` has a
+  `stationfall` entry and `adventurebreaker/spine/stationfall.json` exists, but
+  adversarial play against it is intentionally embargoed — see **"Stationfall (gated —
+  read before touching it)"** below. Don't skip that section just because the config
+  entry exists; the config entry existing is exactly the trap.
 - **Sibling project:** [PlayZork](https://github.com/arsindelve/PlayZork) tries to
   *beat* Zork with an LLM. AdventureBreaker reuses its plumbing ideas (HTTP client,
   backend registry, reporting) but swaps the "how to win" brain for a walkthrough
@@ -63,6 +68,34 @@
    commands and how to resolve the `AB-NNN` id collisions that come from concurrent
    sessions landing findings close together.
 
+## Stationfall (gated — read before touching it)
+
+`config.py` registers a third game, `stationfall`, pointing at a live prod endpoint
+(`https://nb02cdh8eh.execute-api.us-east-1.amazonaws.com/Prod/Stationfall`), and
+`adventurebreaker/spine/stationfall.json` exists (extracted from ZorkAI's
+`Stationfall.Tests/Walkthrough/WalkthroughShipDeparture.cs` — 27 steps, just the opening).
+That plumbing is ready on purpose, but **adversarial play against it is not** — two
+independent gates, both re-checked live every session (this note can go stale):
+
+1. **Spoiler embargo.** ZorkAI's `Docs/Stationfall-Port-Plan.md` (Rule 0) says the repo
+   owner has never played Stationfall and wants to experience it fresh; nothing about it —
+   puzzles, room contents, characters, the goal, the ending, deaths, scoring triggers —
+   should surface in chat, commits, PR/issue text, or the coverage ledger. That doc also
+   says he shouldn't playtest before its **Phase 7** ("the gate for playtesting"); check
+   its Status table live — as of this writing the port is only at Phase 3/4 (6 of ~104
+   rooms, 8 of 80 reachable score, which the port plan itself calls out as safe to report —
+   the puzzle triggers behind those points are not).
+2. **Live outage.** As of 2026-09-07 the prod endpoint returned HTTP 502
+   (`{"message": "Internal server error"}`) on every GET and POST tried. A cheap
+   connectivity/deploy check is fine any time; don't follow it with gameplay commands
+   while the embargo is still up regardless of whether the 502 has cleared.
+
+`.claude/skills/_reference.md` §0 has the full detail and is what `/play`, `/test`, and
+`/find-bugs` each read before doing anything with this game — they're written to stop and
+tell the user rather than proceed if either gate is closed. If you're resuming this project
+and asked to "test Stationfall," re-read that section (and the live Port-Plan status) before
+running a single `play`/`quiet`/`spine-run` command against it.
+
 ## Coverage ledger (persistent across runs)
 
 `runs/` is gitignored and the container is ephemeral, so coverage lives in the
@@ -96,13 +129,14 @@ is novel.
 
 ```
 adventurebreaker/
-  config.py     backend registry (Zork/Planetfall × prod/local) + score facts
+  config.py     backend registry (Zork/Planetfall/Stationfall × prod/local) + score facts
   client.py     stdlib HTTP client; play/init/save/restore/list; captures status+latency+raw
   models.py     full GameResponse envelope (inventory/exits/actions/time) + Direction int map
   oracles.py    L0 contract / L1 consistency / L2 anchors (deterministic, free)
   ledger.py     Run state, transcript, Markdown+JSON findings
   harness.py    the CLI the interactive driver (you) drives
-  spine/        extracted walkthroughs: zork1.json (387 steps), planetfall.json (358)
+  spine/        extracted walkthroughs: zork1.json (387 steps), planetfall.json (358),
+                 stationfall.json (27 steps, opening only — gated, see above)
 tools/
   extract_spine.py   one-time spine extractor from ZorkAI [TestCase] fixtures
 runs/           GITIGNORED runtime output (transcripts/ledgers/checkpoints) — ephemeral!
@@ -124,7 +158,7 @@ runs/           GITIGNORED runtime output (transcripts/ledgers/checkpoints) — 
 
 ### CLI quick reference
 ```
-new --game {zork|planetfall} [--target prod|local] [--name NAME]
+new --game {zork|planetfall|stationfall} [--target prod|local] [--name NAME]
 use NAME                       # switch current run
 state                          # GET session state (structured)
 play <cmd...>                  # probe, narrator ON, auto-oracles
@@ -167,7 +201,10 @@ report
   HTTP-replayable; `spine-run` auto-skips them (`http_replayable:false`).
 - **Prod endpoints (in `config.py`):** Zork
   `https://bxqzfka0hc.execute-api.us-east-1.amazonaws.com/Prod/ZorkOne`,
-  Planetfall `https://6kvs9n5pj4.execute-api.us-east-1.amazonaws.com/Prod/Planetfall`.
+  Planetfall `https://6kvs9n5pj4.execute-api.us-east-1.amazonaws.com/Prod/Planetfall`,
+  Stationfall `https://nb02cdh8eh.execute-api.us-east-1.amazonaws.com/Prod/Stationfall`
+  (registered but **gated** — see "Stationfall" above; was returning HTTP 502 on every
+  request as of 2026-09-07).
   POST body `{input, sessionId, noGeneratedResponses}` (camelCase; ASP.NET is
   case-insensitive). `exits` come back as **integers** (Direction enum) — mapped
   in `models.py:DIRECTION_BY_INT`.

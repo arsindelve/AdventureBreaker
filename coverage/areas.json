@@ -146,5 +146,23 @@
     "MECH:death-resurrection",
     "MECH:get-post-parity",
     "MECH:multi-sentence"
+  ],
+  "stationfall": [
+    "Cargo Bay",
+    "Cargo Bay Entrance",
+    "Deck Twelve",
+    "Docking Bay #2",
+    "Forms Storage Room",
+    "Robot Pool",
+    "Spacetruck",
+    "MECH:floyd-companion",
+    "MECH:duffy-robots",
+    "MECH:forms-authorization",
+    "MECH:chronometer-course",
+    "MECH:survival-hunger-sleep",
+    "MECH:save-restore",
+    "MECH:death-resurrection",
+    "MECH:get-post-parity",
+    "MECH:multi-sentence"
   ]
 }

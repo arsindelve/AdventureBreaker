@@ -9,6 +9,8 @@ description: >-
   so use it whenever the user gives a NUMBER of bugs to hunt: "find ten bugs in planetfall",
   "find and log 5 bugs", "loop zork until you find 8 bugs", "do a bulk bug hunt", or
   `/find-bugs 10 planetfall`. For a single bug WITH per-bug confirmation, use `/play` instead.
+  Stationfall is registered but **gated** (see `/play`'s Prerequisites) — decline
+  `/find-bugs N stationfall` until the gate clears rather than looping against it.
 ---
 
 # find-bugs `<count>` `<game>` — looping adversarial bug-hunt
@@ -20,7 +22,11 @@ skill owns *the loop, the bulk overrides, and the final report*.
 
 `$ARGUMENTS` = `<count> <game> [focus areas]`
 - `<count>` — how many bugs to find (a positive integer).
-- `<game>` — `zork` or `planetfall`.
+- `<game>` — `zork` or `planetfall`. `stationfall` is registered in `config.py` but is
+  **gated** — read `.claude/skills/_reference.md` **§0 Stationfall gate** before doing
+  anything with it; if the gate is still closed, stop and tell the user instead of
+  looping (a bulk, unconfirmed hunt is exactly the wrong mode to run against an
+  embargoed, spoiler-sensitive game).
 - `[focus areas]` — optional hint list of rooms/puzzles to prioritize. If omitted, choose
   areas coverage-first from `frontier`.
 

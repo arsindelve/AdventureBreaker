@@ -34,8 +34,8 @@ class TestPackage(unittest.TestCase):
 
 
 class TestConfig(unittest.TestCase):
-    def test_resolve_both_games(self):
-        for game in ("zork", "planetfall"):
+    def test_resolve_all_games(self):
+        for game in ("zork", "planetfall", "stationfall"):
             cfg = config.resolve(game, "prod")
             self.assertTrue(cfg["url"].startswith("https://"))
             self.assertGreater(cfg["max_score"], 0)
@@ -123,7 +123,7 @@ class TestCLI(unittest.TestCase):
 
 class TestSpines(unittest.TestCase):
     def test_spine_files_are_valid(self):
-        for name in ("zork1.json", "planetfall.json"):
+        for name in ("zork1.json", "planetfall.json", "stationfall.json"):
             data = json.loads((REPO / "adventurebreaker" / "spine" / name).read_text())
             self.assertIn("steps", data)
             self.assertGreater(len(data["steps"]), 0)

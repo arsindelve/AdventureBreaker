@@ -6,6 +6,13 @@ All notable changes to this project are documented here. The format is based on
 ## [Unreleased]
 
 ### Added
+- Registered a third game, **Stationfall**, in `config.py` (prod endpoint, spine extracted
+  from ZorkAI's `Stationfall.Tests` walkthrough fixture, `coverage/areas.json` entry) so the
+  harness can target it. Adversarial play against it is intentionally gated — a spoiler
+  embargo (per ZorkAI's `Docs/Stationfall-Port-Plan.md` Rule 0, until its Phase 7) and, as of
+  this writing, a live HTTP 502 on the endpoint. `.claude/skills/play/test/find-bugs` and
+  `_reference.md` §0 all check both gates before proceeding. See the README's
+  "Testing Stationfall" section.
 - Project documentation: README rewrite framing the tool as **agentic QA**, plus
   `docs/AGENTIC-QA.md` (manifesto) and `docs/ARCHITECTURE.md` (deep-dive).
 - `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, and an MIT `LICENSE`.

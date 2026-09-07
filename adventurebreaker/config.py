@@ -29,6 +29,21 @@ GAME_BACKENDS = {
         "target_score": 80,
         "spine": "planetfall.json",
     },
+    "stationfall": {
+        "name": "Stationfall",
+        "endpoint": "/Stationfall",
+        "targets": {
+            "prod": "https://nb02cdh8eh.execute-api.us-east-1.amazonaws.com/Prod",
+            "local": "http://localhost:5000",
+        },
+        # The engine already reports scores on the full 80-point scale (see the
+        # spine's "out of 80 points" checkpoint) even though the port itself has
+        # only landed a fraction of that so far -- see the Stationfall gate note
+        # in .claude/skills/_reference.md before running adversarial probes here.
+        "max_score": 80,
+        "target_score": 80,
+        "spine": "stationfall.json",
+    },
 }
 
 

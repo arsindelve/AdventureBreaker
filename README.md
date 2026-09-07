@@ -76,6 +76,7 @@ The engine source and the original ZIL are the authority for factual disputes. V
 - **It remembers across runs.** A committed, append-only **coverage ledger** tracks what has been tested, computes the untested **frontier**, and reopens cells when the engine code advances.
 - **It produces filed, deduped, durable findings** with stable `AB-NNN` ids and issue status (`open` / `filed#NNN` / `fixed#NNN`). See [`coverage/FINDINGS.md`](coverage/FINDINGS.md).
 - **It has receipts.** Durable findings already cover Zork I and Planetfall, including narrator hallucinations, parser defects, state-parity drift, and scoring exploits. See the [results matrix](probes/RESULTS.md).
+- **Stationfall is registered, not yet in play.** A third game (`stationfall`) is wired into `config.py` and has a spine, but adversarial testing against it is intentionally embargoed — see [Testing Stationfall](#testing-stationfall) below.
 
 ---
 
@@ -92,6 +93,10 @@ python3 tools/extract_spine.py --game zork \
 python3 tools/extract_spine.py --game planetfall \
   --src /path/to/ZorkAI/Planetfall.Tests/Walkthrough/WalkthroughTestOne.cs \
   --out adventurebreaker/spine/planetfall.json
+
+python3 tools/extract_spine.py --game stationfall \
+  --src /path/to/ZorkAI/Stationfall.Tests/Walkthrough/WalkthroughShipDeparture.cs \
+  --out adventurebreaker/spine/stationfall.json   # re-run as later phases add walkthrough fixtures
 
 # start a session and drive it
 python3 -m adventurebreaker.harness new --game zork
@@ -126,20 +131,40 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full CLI reference and the day-to
 
 ```
 adventurebreaker/
-  config.py     backend registry (Zork/Planetfall x prod/local) + score facts
+  config.py     backend registry (Zork/Planetfall/Stationfall x prod/local) + score facts
   client.py     stdlib HTTP client; play/init/save/restore/list; captures status+latency+raw
   models.py     full GameResponse envelope (inventory/exits/actions/time) + Direction int map
   oracles.py    L0 contract / L1 consistency / L2 anchors
   coverage.py   persistent cross-run coverage ledger + untested-frontier computation
   ledger.py     per-run state, transcript, Markdown+JSONL findings
   harness.py    CLI the interactive agent drives
-  spine/        extracted walkthroughs: zork1.json, planetfall.json
+  spine/        extracted walkthroughs: zork1.json, planetfall.json, stationfall.json
 tools/
   extract_spine.py   one-time spine extractor from ZorkAI [TestCase] fixtures
 probes/              reusable, source-grounded probes
 coverage/            committed, cross-run coverage ledger + durable findings
 docs/                architecture, contracts, spine format, and the agentic-QA manifesto
 ```
+
+---
+
+## Testing Stationfall
+
+A third game, **Stationfall**, is registered in `config.py` (prod endpoint, spine extracted
+from ZorkAI's `Stationfall.Tests` walkthrough fixture) but adversarial testing against it is
+**intentionally gated**, for two independent reasons the `.claude/skills/play`, `test`, and
+`find-bugs` skills check on every invocation:
+
+1. **Spoiler embargo.** ZorkAI's `Docs/Stationfall-Port-Plan.md` states the repo owner has
+   never played Stationfall and wants to experience it fresh — nothing about it (room
+   contents, puzzles, solutions, the ending) should surface in chat, commits, PRs, issues, or
+   the coverage ledger. That document also says playtesting shouldn't start before its
+   **Phase 7** ("the gate for playtesting"); the port is well short of that today.
+2. **Live outage.** As of 2026-09-07 the prod endpoint returned HTTP 502 on every request.
+
+A connectivity/deploy-health check (does the endpoint respond, did a release ship) is fine at
+any time. Actual gameplay probing is not, until both gates clear — see
+`.claude/skills/_reference.md` **§0** for the full detail and how a session should re-verify it.
 
 ---
 
