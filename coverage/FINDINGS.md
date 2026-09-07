@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-09-07T19:44:48Z · 112 finding(s)_
+_Generated 2026-09-07T21:44:30Z · 113 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -106,6 +106,13 @@ CORRECTED from the first version of this entry, which cited 'unlock padlock with
 - command: `look through window (volunteer speech); open door; close door; wait; open door; close door; floyd, are you okay; take floyd`
 
 One turn after the full (correctly-played) sacrifice death scene: 'floyd, are you okay' -> cheerful chat-lambda reply ('Floyd says he is okay now that you are here') because OnBeingTalkedTo gates only on !IsOn and EndSequence deliberately leaves the corpse's IsOn true; 'take floyd' -> living-Floyd refusal ('surprised squeal and moves a respectable distance away') via CannotBeTakenDescription => IsOn ? TakeFloyd : null. Trapped-death branch: narrator answers 'floyd, are you okay' with 'off on his own little adventure' jokes one turn after 'Floyd is dead.' Control case: 'turn off floyd' on the corpse is handled perfectly ('great robot shop in the sky') -- the #493 sweep fixed the actor path and missed these interaction paths. Bonus verifications: sacrifice scene itself fully intact both branches; trapped-death message fires exactly once (AB-014 confirmed FIXED in prod); unprimed door-open death is correct designed behavior.
+
+## AB-113 [HIGH] Stationfall: canonical "class three activation form" phrasing fails to resolve at the autopilot slot  · _filed#568_
+
+- game `stationfall` · area `Spacetruck` · category `puzzle-step` · target_sha `5888e8f`
+- command: `put class three activation form in slot`
+
+FormSlotBase.ResolveForm has no NounsForMatching entry for "class three activation form" (has the full title and the shorter "class three form" but not this middle variant), so the command falls through to ContainerBase generic put logic and returns "There's no room." instead of activating the spacecraft. Workaround: "put activation form in slot" works. Blocks the canonical/walkthrough-documented solve; every subsequent wait in the launch sequence then just returns "Time passes..." instead of the scripted liftoff beats.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
