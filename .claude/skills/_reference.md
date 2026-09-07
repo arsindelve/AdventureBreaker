@@ -4,6 +4,43 @@ Hard-won, reusable knowledge both skills depend on but that you can't reconstruc
 the harness help text. Read this once before a run. (Companion to each skill's own
 Prerequisites / loop / gotchas — this is the "how to read what you see and judge it.")
 
+## 0. Stationfall gate — read this before touching `stationfall` at all
+
+`stationfall` is registered in `config.py` (spine at `adventurebreaker/spine/stationfall.json`,
+prod endpoint live) but it is **not cleared for adversarial play**. Two independent reasons,
+check both fresh every session — don't rely on this note staying accurate:
+
+1. **Spoiler embargo (the harder constraint).** `arsindelve/zorkai`'s
+   `Docs/Stationfall-Port-Plan.md` states Rule 0: the repo owner has never played Stationfall
+   and wants to experience it fresh; nothing should reveal puzzles/solutions, room contents,
+   characters, the goal, the ending, deaths, or what awards points **in anything he's likely to
+   read** — and that includes this chat, commit messages, PR/issue text, and coverage ledger
+   prose, not just zorkai's own repo. The same doc says he should not playtest before **Phase 7**
+   ("the gate for playtesting") and gives a **Status** table you must re-check live (`git -C
+   ../ZorkAI log -1 -- Docs/Stationfall-Port-Plan.md` or just re-read the file — it's updated as
+   phases land). Room/object counts, systems-landed, test counts, and the reachable score
+   ceiling are explicitly declared *safe* to report (mechanics only); the actual puzzle
+   triggers, room descriptions, and prose are not.
+2. **Live outage (as of 2026-09-07).** The prod endpoint
+   (`https://nb02cdh8eh.execute-api.us-east-1.amazonaws.com/Prod/Stationfall`) returned HTTP 502
+   `{"message": "Internal server error"}` on every GET and POST tried, repeatedly. Re-verify with
+   one `quiet "look"` (or a raw GET) before assuming it's fixed — don't assume the 502 persists
+   forever, and don't assume it's gone either.
+
+**What this means in practice:**
+- If Phase 7 hasn't landed yet (check the Status table), **do not run `/play stationfall`,
+  `/test` against Stationfall content, or `/find-bugs N stationfall`** — stop and tell the user
+  why (cite the phase gap), don't proceed on your own judgment even if asked casually.
+- A pure connectivity/deploy check (confirm the endpoint returns 200 instead of 502, confirm a
+  release deployed) is fine at any time — it reveals nothing about content. Don't follow it with
+  `spine-run`/`play`/`quiet` gameplay commands.
+- If the embargo has lifted (Phase 7 landed) and the endpoint is healthy, adversarial play is
+  back to the normal `/play` procedure — but **findings, `finding`/`cover` detail text, GitHub
+  issue bodies, and anything said in chat about Stationfall must stay mechanics-only**: severity,
+  category, `file:line`, pass/fail, room/object/test counts. Never quote room prose, puzzle
+  solutions, scoring triggers, or death text back to the user or into a commit/PR/issue — that's
+  true forever for this game, Phase 7 or not.
+
 ## 1. Reading harness signals (`play` vs `quiet`)
 
 - `play <cmd>` = narrator **ON** (what web players see). `quiet <cmd>` = narrator **OFF**
@@ -136,7 +173,9 @@ Derive spine indices live (see each skill's navigation section); these are time-
 not gospel — the spine can be re-extracted (and indices shift when it is). The
 re-extraction command + source fixtures are in the README "Usage" section:
 `python3 tools/extract_spine.py --game <g> --src ../ZorkAI/<Game>.Tests/Walkthrough/WalkthroughTestOne.cs --out adventurebreaker/spine/<g>.json`
-(zork ← `ZorkOne.Tests`, planetfall ← `Planetfall.Tests`).
+(zork ← `ZorkOne.Tests`, planetfall ← `Planetfall.Tests`, stationfall ← `Stationfall.Tests`, source
+file `Walkthrough/WalkthroughShipDeparture.cs` — the only walkthrough fixture that exists yet,
+27 steps covering just the opening; re-extract to pick up more once later phases land).
 
 **Planetfall** (`adventurebreaker/spine/planetfall.json`):
 - Magnet: take ≈42; `put magnet on crevice` (the solve) ≈54. Padlock/key: `unlock padlock
@@ -210,6 +249,12 @@ re-extraction command + source fixtures are in the README "Usage" section:
   bag of coins) — note the burned-out lantern and your own lit brass lantern both show as
   generic "lantern" in inventory, but `turn off lantern` correctly disambiguates by
   asking which one, so that's not a bug either.
+
+**Stationfall** — no landmarks recorded here on purpose. See **§0 Stationfall gate** above
+before doing anything else with this game: play is embargoed until Phase 7, so this section
+isn't pre-seeded with room/puzzle detail the way Zork/Planetfall are. Once the embargo lifts,
+derive landmarks live and keep the entries mechanics-only (no prose/solutions), same discipline
+as everywhere else in this file.
 
 ## 6. `save` / `restore` gotchas
 

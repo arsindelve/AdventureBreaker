@@ -9,6 +9,8 @@ description: >-
   confirmed bug, ask the user to confirm, file a GitHub issue against arsindelve/zorkai,
   record it in the coverage ledger, then commit + push the ledger and STOP. Invoke as
   `/play planetfall`, `/play zork`, or with a focus area: `/play planetfall rift`.
+  Stationfall is registered but **gated** — see Prerequisites; `/play stationfall`
+  should stop and explain rather than proceed until the gate clears.
 ---
 
 # play {game} — adversarial bug-hunt
@@ -20,10 +22,21 @@ contradictions, and especially **AI-narrator** slips. The walkthrough is a GPS t
 reach interesting states; the goal is to *break things*, not to win.
 
 `$ARGUMENTS` = `<game> [focus area]`, e.g. `planetfall`, `zork`, `planetfall rift`.
-`<game>` is `zork` or `planetfall`. The optional focus area names a room/puzzle to target.
+`<game>` is `zork` or `planetfall` (`stationfall` is registered in `config.py` but
+**gated** — see Prerequisites, don't skip it). The optional focus area names a
+room/puzzle to target.
 
 ## Prerequisites (check these first)
 
+- **`stationfall` is gated — check this BEFORE anything else if that's the game.**
+  Read `.claude/skills/_reference.md` **§0 Stationfall gate** in full. Short version:
+  Stationfall play is embargoed until ZorkAI's `Docs/Stationfall-Port-Plan.md` Phase 7
+  lands (spoiler policy — the repo owner wants a fresh first playthrough) and the prod
+  endpoint has to actually be up (it was returning HTTP 502 on every request as of
+  2026-09-07). Re-check both live, every session — don't trust a cached answer. If
+  either gate is still closed, **stop and tell the user why instead of proceeding**,
+  even if they invoked `/play stationfall` directly. This applies to this skill and to
+  `/test`/`/find-bugs` the same way.
 - **Working dir:** the AdventureBreaker repo (this skill's home). Run `git rev-parse`
   to confirm, and read `HANDOFF.md` at the repo root for cold-start context if you're
   new to the project.
@@ -276,7 +289,10 @@ puzzle-step, other`.
 
 **Repos:** GitHub issues → `arsindelve/zorkai`. Ledger commits → the AdventureBreaker
 repo's `main` branch, landed immediately via a short-lived branch + self-merged PR
-(`main` is branch-protected — no raw `git push` to it).
+(`main` is branch-protected — no raw `git push` to it). For Stationfall specifically
+(once the gate in §0 clears), keep every issue/PR/commit/chat mention mechanics-only —
+no room prose, puzzle solutions, scoring triggers, or death text — per the spoiler
+policy; that restriction doesn't expire when Phase 7 lands, only the play embargo does.
 
 ## Highest-yield engine anti-patterns (probe for these)
 

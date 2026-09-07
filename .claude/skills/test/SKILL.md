@@ -24,6 +24,14 @@ release.
 
 ## Prerequisites (check these first)
 
+- **Stationfall releases are gated the same way as `/play`.** Read
+  `.claude/skills/_reference.md` **§0 Stationfall gate** before verifying any
+  Stationfall content. A pure **deploy-health check** (did the release ship, does the
+  endpoint return 200 instead of 502) is fine any time — it reveals nothing. Smoke-
+  testing an actual gameplay fix (walking the spine, asserting fixed behavior) is not,
+  until ZorkAI's `Docs/Stationfall-Port-Plan.md` Phase 7 lands. If a Stationfall item
+  shows up in a release's changelog before then, classify it **➖ not gameplay-testable
+  (embargoed)** rather than testing it, and say so in the matrix.
 - **Working dir:** the AdventureBreaker repo; read `HANDOFF.md` at the repo root for
   cold-start context if you're new to the project.
 - **Sibling ZorkAI checkout at `../ZorkAI`** (engine C# + the gitignored ZIL

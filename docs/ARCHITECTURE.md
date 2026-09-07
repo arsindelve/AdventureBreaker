@@ -8,14 +8,14 @@ probe, the oracle ladder, and the persistent coverage ledger. For the *why*, rea
 
 ```
 adventurebreaker/
-  config.py     backend registry (Zork/Planetfall × prod/local) + score facts
+  config.py     backend registry (Zork/Planetfall/Stationfall × prod/local) + score facts
   client.py     stdlib HTTP client; play/init/save/restore/list; captures status+latency+raw
   models.py     full GameResponse envelope (inventory/exits/actions/time) + Direction int map
   oracles.py    L0 contract / L1 consistency / L2 anchors (deterministic, free)
   coverage.py   persistent cross-run coverage ledger + untested-frontier computation
   ledger.py     per-run state, transcript, Markdown+JSON findings
   harness.py    the CLI the interactive agent drives
-  spine/        extracted walkthroughs: zork1.json, planetfall.json
+  spine/        extracted walkthroughs: zork1.json, planetfall.json, stationfall.json
 tools/
   extract_spine.py   one-time spine extractor from ZorkAI [TestCase] fixtures
 probes/         reusable, source-grounded probes (C# seam tests + Python parity checks)
@@ -23,10 +23,12 @@ coverage/       committed, cross-run coverage ledger + durable findings
 ```
 
 ### `config.py` — backend registry
-A small, reviewed registry mapping each game (`zork`, `planetfall`) and target
+A small, reviewed registry mapping each game (`zork`, `planetfall`, `stationfall`) and target
 (`prod`, `local`) to a base URL + endpoint, plus the score facts (`max_score`) the oracles
 need. Keeping the set of reachable hosts fixed and explicit here is also a deliberate SSRF
-mitigation (see [SECURITY.md](../SECURITY.md)).
+mitigation (see [SECURITY.md](../SECURITY.md)). `stationfall` is registered but gated for
+adversarial play — see the README's "Testing Stationfall" section and
+`.claude/skills/_reference.md` §0.
 
 ### `client.py` — zero-dependency HTTP client
 `urllib`-only client that exposes the backend's operations: `init` (GET session),

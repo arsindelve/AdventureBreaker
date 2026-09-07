@@ -1,0 +1,229 @@
+{
+  "game": "stationfall",
+  "source": [
+    "/home/user/arsindelve/zorkai/Stationfall.Tests/Walkthrough/WalkthroughShipDeparture.cs"
+  ],
+  "count": 27,
+  "replayable_count": 26,
+  "steps": [
+    {
+      "cmd": "east",
+      "setup": null,
+      "expect": [
+        "Cargo Bay Entrance"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "north",
+      "setup": null,
+      "expect": [
+        "Robot Pool"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "put robot use authorization form in slot",
+      "setup": null,
+      "expect": [
+        "Authorization approved"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "type 3",
+      "setup": null,
+      "expect": [
+        "Yippee"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "south",
+      "setup": null,
+      "expect": [
+        "Cargo Bay Entrance"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "east",
+      "setup": null,
+      "expect": [
+        "Cargo Bay"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "open hatch",
+      "setup": null,
+      "expect": [
+        "open"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "enter truck",
+      "setup": null,
+      "expect": [
+        "Spacetruck"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "close hatch",
+      "setup": null,
+      "expect": [
+        "shut"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "read time",
+      "setup": null,
+      "expect": [
+        "Galactic Standard Time"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "enter pilot seat",
+      "setup": null,
+      "expect": [
+        "pilot seat",
+        "Floyd clambers into the copilot seat"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "put class three activation form in slot",
+      "setup": null,
+      "expect": [
+        "Spacecraft activated"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "type 503",
+      "setup": "PinChronometer",
+      "expect": [
+        "Course set"
+      ],
+      "http_replayable": false
+    },
+    {
+      "cmd": "wait",
+      "setup": null,
+      "expect": [
+        "Time passes"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "wait",
+      "setup": null,
+      "expect": [
+        "Time passes"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "wait",
+      "setup": null,
+      "expect": [
+        "engines begin to whine"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "wait",
+      "setup": null,
+      "expect": [
+        "roars out of the cargo bay"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "wait",
+      "setup": null,
+      "expect": [
+        "three-quarters"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "wait",
+      "setup": null,
+      "expect": [
+        "braking rockets"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "wait",
+      "setup": null,
+      "expect": [
+        "one-quarter"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "wait",
+      "setup": null,
+      "expect": [
+        "space station"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "wait",
+      "setup": null,
+      "expect": [
+        "Defaulting to bay two",
+        "Stationfall"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "get up",
+      "setup": null,
+      "expect": [
+        "stand"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "take kit",
+      "setup": null,
+      "expect": [
+        "Taken"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "open hatch",
+      "setup": null,
+      "expect": [
+        "open"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "exit",
+      "setup": null,
+      "expect": [
+        "Docking Bay #2"
+      ],
+      "http_replayable": true
+    },
+    {
+      "cmd": "score",
+      "setup": null,
+      "expect": [
+        "would be 5",
+        "out of 80 points"
+      ],
+      "http_replayable": true
+    }
+  ]
+}

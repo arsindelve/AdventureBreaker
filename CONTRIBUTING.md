@@ -31,10 +31,15 @@ AdventureBreaker drives the game with a **spine** (the walkthrough, for progress
 never derail progress. Read the [architecture deep-dive](docs/ARCHITECTURE.md) and the
 [agentic-QA manifesto](docs/AGENTIC-QA.md) before adding to the core.
 
+**Note on `stationfall`:** it's registered like the other two games but adversarial play
+against it is gated (spoiler embargo + a live outage as of this writing) — see the README's
+[Testing Stationfall](README.md#testing-stationfall) section and `.claude/skills/_reference.md`
+§0 before running anything against it.
+
 ## CLI reference
 
 ```
-new --game {zork|planetfall} [--target prod|local] [--name NAME]   # start a run
+new --game {zork|planetfall|stationfall} [--target prod|local] [--name NAME]   # start a run
 use NAME                       # switch the current run
 state                          # GET session state (structured)
 play <cmd...>                  # probe, narrator ON, auto-oracles
