@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-09-03T13:06:25Z · 111 finding(s)_
+_Generated 2026-09-07T00:20:56Z · 112 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -106,6 +106,13 @@ CORRECTED from the first version of this entry, which cited 'unlock padlock with
 - command: `look through window (volunteer speech); open door; close door; wait; open door; close door; floyd, are you okay; take floyd`
 
 One turn after the full (correctly-played) sacrifice death scene: 'floyd, are you okay' -> cheerful chat-lambda reply ('Floyd says he is okay now that you are here') because OnBeingTalkedTo gates only on !IsOn and EndSequence deliberately leaves the corpse's IsOn true; 'take floyd' -> living-Floyd refusal ('surprised squeal and moves a respectable distance away') via CannotBeTakenDescription => IsOn ? TakeFloyd : null. Trapped-death branch: narrator answers 'floyd, are you okay' with 'off on his own little adventure' jokes one turn after 'Floyd is dead.' Control case: 'turn off floyd' on the corpse is handled perfectly ('great robot shop in the sky') -- the #493 sweep fixed the actor path and missed these interaction paths. Bonus verifications: sacrifice scene itself fully intact both branches; trapped-death message fires exactly once (AB-014 confirmed FIXED in prod); unprimed door-open death is correct designed behavior.
+
+## AB-112 [HIGH] Every 'floyd, <verb>' companion command silently no-ops -- total regression of the companion-command router, not scoped to the fromitz-board puzzle  · _filed#562_
+
+- game `planetfall` · area `Repair Room + Systems Corridor West (Floyd companion-command router, global)` · category `npc-conversation` · target_sha `unknown`
+- command: `floyd, take board (Repair Room, Floyd present) -> no effect; floyd, wait / floyd, hello (Systems Corridor West, unrelated room) -> no effect`
+
+Every companion command via the 'floyd, <verb>' syntax silently no-ops on prod, regardless of verb, phrasing, or room. Confirmed regression: zorkai#360 (AB-051, closed 2026-07-02) used the identical command 'floyd, take board' at the identical location as a working repro. Also confirmed NOT scoped to the fromitz-board handler or Repair Room: 'floyd, wait'/'floyd, hello' also no-op in Systems Corridor West, a room with no fromitz-board logic, pointing at a regression in the shared companion-command intent router/parser rather than any single per-puzzle handler. Narrator ON compounds this into a hallucination: 'Floyd tilts his head and makes some mechanical whirring sounds, but doesn't seem to understand.' -- a fabricated in-fiction excuse for what is actually a total dispatch failure, giving the player no signal this is an engine bug. ../ZorkAI unavailable this session so no file:line root-cause citation was possible; issue notes #360's fix location (FloydLocationBehaviors.HandleFromitzBoardRetrieval) as the likely regression-window starting point.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
