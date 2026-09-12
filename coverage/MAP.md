@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-09-12T21:29:26Z · target_sha `3aa201c`_
+_Generated 2026-09-12T22:35:01Z · target_sha `0772234`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -27,7 +27,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Deck Eight | 3/16 | low | `b8dc239` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
 | Dorm Corridor | 2/16 | clean | `unknown` | - |
-| Elevator Lobby | 5/16 | medium | `3aa201c` | AB-108, AB-119 |
+| Elevator Lobby | 5/16 | medium | `0772234` | AB-108, AB-119, AB-122 |
 | Escalator | 1/16 | clean | `3aa201c` | - |
 | Escape Pod | 5/16 | low | `unknown` | - |
 | Fork | 3/16 | clean | `unknown` | - |
@@ -127,7 +127,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Maintenance Room | 4/16 | clean | `unknown` | - |
 | Mirror Room | 4/16 | high | `6d85ba6` | - |
 | Narrow Passage | 1/16 | high | `6d85ba6` | - |
-| North of House | 5/16 | low | `3aa201c` | - |
+| North of House | 7/16 | low | `0772234` | AB-120, AB-121 |
 | North-South Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | On The Rainbow | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir | 0/16 | clean | `-` | - |  ⬅ untouched
