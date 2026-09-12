@@ -29,6 +29,17 @@ GAME_BACKENDS = {
         "target_score": 80,
         "spine": "planetfall.json",
     },
+    "stationfall": {
+        "name": "Stationfall",
+        "endpoint": "/Stationfall",
+        "targets": {
+            "prod": "https://nb02cdh8eh.execute-api.us-east-1.amazonaws.com/Prod",
+            "local": "http://localhost:5000",
+        },
+        "max_score": 80,
+        "target_score": 80,
+        "spine": "stationfall.json",
+    },
 }
 
 
