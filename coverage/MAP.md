@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-09-12T18:15:30Z · target_sha `3aa201c`_
+_Generated 2026-09-12T21:29:26Z · target_sha `3aa201c`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -27,13 +27,13 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Deck Eight | 3/16 | low | `b8dc239` | - |
 | Deck Nine | 6/16 | medium | `unknown` | - |
 | Dorm Corridor | 2/16 | clean | `unknown` | - |
-| Elevator Lobby | 5/16 | low | `6257324` | AB-108 |
+| Elevator Lobby | 5/16 | medium | `3aa201c` | AB-108, AB-119 |
 | Escalator | 1/16 | clean | `3aa201c` | - |
 | Escape Pod | 5/16 | low | `unknown` | - |
 | Fork | 3/16 | clean | `unknown` | - |
 | Gangway | 4/16 | low | `unknown` | - |
 | In Bed | 4/16 | clean | `68f90e8` | - |
-| Infirmary | 8/16 | medium | `unknown` | AB-104 |
+| Infirmary | 9/16 | medium | `unknown` | AB-104 |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 7/16 | medium | `b8dc239` | AB-063, AB-103 |
