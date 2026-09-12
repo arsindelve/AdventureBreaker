@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-09-07T21:44:49Z · target_sha `unknown`_
+_Generated 2026-09-12T18:15:30Z · target_sha `3aa201c`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -28,7 +28,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Deck Nine | 6/16 | medium | `unknown` | - |
 | Dorm Corridor | 2/16 | clean | `unknown` | - |
 | Elevator Lobby | 5/16 | low | `6257324` | AB-108 |
-| Escalator | 1/16 | clean | `unknown` | - |
+| Escalator | 1/16 | clean | `3aa201c` | - |
 | Escape Pod | 5/16 | low | `unknown` | - |
 | Fork | 3/16 | clean | `unknown` | - |
 | Gangway | 4/16 | low | `unknown` | - |
@@ -38,8 +38,8 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Kalamontee Platform | 6/16 | low | `unknown` | - |
 | Kitchen | 7/16 | medium | `b8dc239` | AB-063, AB-103 |
 | Lawanda Platform | 2/16 | low | `e795f32` | - |
-| Library | 5/16 | low | `unknown` | AB-060 |
-| Library Lobby | 3/16 | low | `unknown` | - |
+| Library | 5/16 | low | `3aa201c` | AB-060 |
+| Library Lobby | 3/16 | low | `3aa201c` | - |
 | Lower Elevator | 6/16 | low | `6257324` | - |
 | Machine Shop | 6/16 | high | `68f90e8` | AB-061 |
 | Mess Corridor | 5/16 | low | `unknown` | - |
@@ -48,7 +48,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Miniaturization Booth | 6/16 | low | `unknown` | - |
 | Physical Plant | 6/16 | low | `unknown` | - |
 | Plain Hall | 3/16 | clean | `b8dc239` | - |
-| Planetary Defense | 6/16 | medium | `unknown` | - |
+| Planetary Defense | 6/16 | medium | `3aa201c` | - |
 | ProjCon Office | 4/16 | low | `unknown` | - |
 | Project Corridor | 2/16 | low | `unknown` | - |
 | Project Corridor East | 2/16 | low | `unknown` | - |
@@ -65,8 +65,8 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Storage West | 3/16 | low | `unknown` | - |
 | Strip Near Relay | 7/16 | low | `unknown` | - |
 | Strip Near Station | 2/16 | low | `unknown` | - |
-| Systems Corridor | 1/16 | clean | `unknown` | - |
-| Systems Corridor East | 1/16 | clean | `unknown` | - |
+| Systems Corridor | 1/16 | clean | `3aa201c` | - |
+| Systems Corridor East | 1/16 | clean | `3aa201c` | - |
 | Systems Corridor West | 4/16 | medium | `unknown` | - |
 | Underwater | 3/16 | clean | `unknown` | - |
 | Upper Elevator | 6/16 | low | `b8dc239` | - |
@@ -80,7 +80,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | MECH:elevators | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:shuttle-alfie-betty | 1/16 | low | `c31e9ec` | AB-006 |
 | MECH:reactor-fromitz | 0/16 | clean | `-` | - |  ⬅ untouched
-| MECH:planetary-defense-bedistor | 2/16 | medium | `8175684` | AB-008 |
+| MECH:planetary-defense-bedistor | 3/16 | medium | `3aa201c` | AB-008, AB-115 |
 | MECH:bio-lock | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:miniaturization | 1/16 | low | `unknown` | AB-045 |
 | MECH:survival-hunger-thirst | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -127,7 +127,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Maintenance Room | 4/16 | clean | `unknown` | - |
 | Mirror Room | 4/16 | high | `6d85ba6` | - |
 | Narrow Passage | 1/16 | high | `6d85ba6` | - |
-| North of House | 4/16 | low | `6d85ba6` | - |
+| North of House | 5/16 | low | `3aa201c` | - |
 | North-South Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | On The Rainbow | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir | 0/16 | clean | `-` | - |  ⬅ untouched
