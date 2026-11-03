@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-11-03T20:33:21Z · target_sha `unknown`_
+_Generated 2026-11-03T20:39:48Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -99,7 +99,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Atlantis Room | 0/16 | clean | `-` | - |  ⬅ untouched
 | Attic | 3/16 | low | `unknown` | - |
 | Bat Room | 7/16 | medium | `6d85ba6` | AB-042, AB-043 |
-| Behind House | 4/16 | low | `6d85ba6` | - |
+| Behind House | 6/16 | medium | `unknown` | - |
 | Canyon Bottom | 1/16 | clean | `6d85ba6` | - |
 | Canyon View | 5/16 | low | `unknown` | - |
 | Cave | 1/16 | high | `6d85ba6` | - |
@@ -122,7 +122,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Gallery | 2/16 | clean | `6d85ba6` | - |
 | Kitchen | 7/16 | low | `6d85ba6` | - |
 | Land of the Dead | 0/16 | clean | `-` | - |  ⬅ untouched
-| Living Room | 6/16 | low | `6d85ba6` | - |
+| Living Room | 6/16 | low | `unknown` | - |
 | Loud Room | 1/16 | high | `6d85ba6` | - |
 | Maintenance Room | 4/16 | clean | `unknown` | - |
 | Mirror Room | 4/16 | high | `6d85ba6` | - |
