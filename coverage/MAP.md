@@ -1,6 +1,6 @@
 # AdventureBreaker coverage map
 
-_Generated 2026-09-12T22:35:01Z · target_sha `0772234`_
+_Generated 2026-11-03T20:32:42Z · target_sha `unknown`_
 
 Per-area category coverage (covered / total categories), worst severity seen, and the revision last tested against.
 
@@ -31,7 +31,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Escalator | 1/16 | clean | `3aa201c` | - |
 | Escape Pod | 5/16 | low | `unknown` | - |
 | Fork | 3/16 | clean | `unknown` | - |
-| Gangway | 4/16 | low | `unknown` | - |
+| Gangway | 5/16 | low | `unknown` | - |
 | In Bed | 4/16 | clean | `68f90e8` | - |
 | Infirmary | 9/16 | medium | `unknown` | AB-104 |
 | Infirmary Bed | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -127,7 +127,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Maintenance Room | 4/16 | clean | `unknown` | - |
 | Mirror Room | 4/16 | high | `6d85ba6` | - |
 | Narrow Passage | 1/16 | high | `6d85ba6` | - |
-| North of House | 7/16 | low | `0772234` | AB-120, AB-121 |
+| North of House | 8/16 | medium | `unknown` | AB-120, AB-121 |
 | North-South Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | On The Rainbow | 0/16 | clean | `-` | - |  ⬅ untouched
 | Reservoir | 0/16 | clean | `-` | - |  ⬅ untouched
@@ -145,7 +145,7 @@ Per-area category coverage (covered / total categories), worst severity seen, an
 | Torch Room | 1/16 | clean | `6d85ba6` | - |
 | Twisting Passage | 0/16 | clean | `-` | - |  ⬅ untouched
 | Up A Tree | 4/16 | low | `unknown` | - |
-| West Of House | 6/16 | low | `unknown` | - |
+| West Of House | 7/16 | low | `unknown` | - |
 | White Cliffs Beach | 3/16 | low | `6d85ba6` | - |
 | Winding Stair | 0/16 | clean | `-` | - |  ⬅ untouched
 | MECH:save-restore | 0/16 | clean | `-` | - |  ⬅ untouched

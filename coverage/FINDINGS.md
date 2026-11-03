@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-09-12T22:34:57Z · 122 finding(s)_
+_Generated 2026-11-03T20:32:41Z · 123 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -113,6 +113,13 @@ One turn after the full (correctly-played) sacrifice death scene: 'floyd, are yo
 - command: `put class three activation form in slot`
 
 FormSlotBase.ResolveForm has no NounsForMatching entry for "class three activation form" (has the full title and the shorter "class three form" but not this middle variant), so the command falls through to ContainerBase generic put logic and returns "There's no room." instead of activating the spacecraft. Workaround: "put activation form in slot" works. Blocks the canonical/walkthrough-documented solve; every subsequent wait in the launch sequence then just returns "Time passes..." instead of the scripted liftoff beats.
+
+## AB-118 [HIGH] 'turn on lamp'/'lantern' hallucinates false success when player doesn't have or hasn't found it  · _filed#596_
+
+- game `zork` · area `North of House (turn on lamp)` · category `narrator-hallucination` · target_sha `0e75347`
+- command: `new --game zork; n; turn on lamp`
+
+5/5 reproduction: inventory=['leaflet'] only, no lamp anywhere in scope. 'turn on lamp' narrates a full success ('The lamp flickers to life...') every time instead of the correct deflection. Same reproduces for 'lantern' (its own synonym). Control cases through the IDENTICAL code path (GetGeneratedNounNotPresentResponse / NounNotPresentOperationRequest, temp 0.4, explicit NoInventionGuard) correctly deflect: 'turn on candle' (real item, also absent), 'turn on giraffe' (nonexistent), 'take lamp' (different verb, same noun). Root cause: the model's strong genre prior for the single most iconic Zork action ('turn on the lamp') overrides the explicit low-temperature anti-invention instruction specifically for this noun+verb combo -- not a code bug, a prompt-reliability gap. Severity high because this actively misinforms the player about game state (NoInventionGuard's own stated purpose), and the same hallucination in a genuinely dark room could give false confidence against the grue.
 
 ## AB-002 [MEDIUM] Death scatters nothing: player keeps full (lit) inventory through resurrection  · _open_
 
