@@ -1,6 +1,6 @@
 # AdventureBreaker durable findings
 
-_Generated 2026-11-03T20:32:41Z · 123 finding(s)_
+_Generated 2026-11-03T20:33:21Z · 123 finding(s)_
 
 ## AB-047 [CRITICAL] Planetfall prod: session fully resets (moves/inventory/time revert to near-initial) after ~14 consecutive wait/idle commands  · _open_
 
@@ -114,7 +114,7 @@ One turn after the full (correctly-played) sacrifice death scene: 'floyd, are yo
 
 FormSlotBase.ResolveForm has no NounsForMatching entry for "class three activation form" (has the full title and the shorter "class three form" but not this middle variant), so the command falls through to ContainerBase generic put logic and returns "There's no room." instead of activating the spacecraft. Workaround: "put activation form in slot" works. Blocks the canonical/walkthrough-documented solve; every subsequent wait in the launch sequence then just returns "Time passes..." instead of the scripted liftoff beats.
 
-## AB-118 [HIGH] 'turn on lamp'/'lantern' hallucinates false success when player doesn't have or hasn't found it  · _filed#596_
+## AB-123 [HIGH] 'turn on lamp'/'lantern' hallucinates false success when player doesn't have or hasn't found it  · _filed#596_
 
 - game `zork` · area `North of House (turn on lamp)` · category `narrator-hallucination` · target_sha `0e75347`
 - command: `new --game zork; n; turn on lamp`
